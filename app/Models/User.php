@@ -22,6 +22,11 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function allotment()
+    {
+        return $this->belongsToMany(Allotment::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
