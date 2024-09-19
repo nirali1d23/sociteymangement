@@ -15,4 +15,10 @@ class Polloptions extends Model
     {
         return $this->belongsTo(Pollquestion::class,'question_id'); 
     }
+
+    public function pollsurvey()  
+    {  
+          return $this->hasMany(Pollsurvey::class,'poll_option_id');  
+ 
+    } 
 }

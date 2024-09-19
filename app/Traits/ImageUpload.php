@@ -14,8 +14,6 @@ trait ImageUpload
         $filePath = $file->move($directory, $fileName);
         return $fileName;
     }
+        
 
-    
-
-    
 }
