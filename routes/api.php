@@ -10,6 +10,8 @@ use App\Http\Controllers\API\Admin\EventController;
 use App\Http\Controllers\API\Admin\AmenitiesController;
 use App\Http\Controllers\API\Admin\PollController;
 use App\Http\Controllers\API\Admin\BookingamenitiesController;
+use App\Http\Controllers\API\Admin\VisitorsController;
+use App\Http\Controllers\API\Admin\MaintanceBillController;
 
 
 Route::get('/user', function (Request $request) 
@@ -39,6 +41,10 @@ Route::post('/pollcreate',[PollController::class,'create']);
 Route::get('/polldisplay',[PollController::class,'display']);
 Route::get('/bookedaemnites',[BookingamenitiesController::class,'display']);
 Route::post('/changestatusbookaementies',[BookingamenitiesController::class,'changestatusbookaementies']);
+Route::get('/prebookingrequestlist',[VisitorsController::class,'prebookingrequestlist']);
+Route::get('/visitorlist',[VisitorsController::class,'visitorlist']);
+Route::post('/approvalprebooking',[VisitorsController::class,'approvalprebooking']);
+Route::post('/maintancebillcreate',[MaintanceBillController::class,'store']);
 
 
 
