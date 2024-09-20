@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\API\Admin;
 use App\Models\Event;
-
-use App\Http\Controllers\Controller;
+use Kreait\Firebase;
+use Google_Client;
+use App\Services\FirebaseService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use App\Traits\FirebaseNotificationTrait;
+use App\Http\Controllers\Controller;
 use App\Traits\ImageUpload;
 use Symfony\Component\HttpFoundation\File\File;
 
 class EventController extends Controller
 {
     use ImageUpload;
+    use FirebaseNotificationTrait;
 
     public function create(Request $request)
     {
@@ -30,6 +35,12 @@ class EventController extends Controller
         $create->image= $image;
 
         $create->save();
+
+        $fcmToken = $request->input('token');
+        $title = "Test Notification";
+        $body = "This is a test notification";
+        return $this->sendFirebaseNotification($fcmToken, $title, $body);
+
 
         
         return response( [

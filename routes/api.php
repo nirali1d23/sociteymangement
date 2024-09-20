@@ -12,8 +12,9 @@ use App\Http\Controllers\API\Admin\PollController;
 use App\Http\Controllers\API\Admin\BookingamenitiesController;
 use App\Http\Controllers\API\Admin\VisitorsController;
 use App\Http\Controllers\API\Admin\MaintanceBillController;
-
-
+use App\Http\Controllers\API\User\EventtController;
+use App\Http\Controllers\API\staff\VistiorController as visitorentry;
+use App\Http\Controllers\NotificationController;
 Route::get('/user', function (Request $request) 
 {
     return $request->user();
@@ -23,10 +24,8 @@ Route::controller(AuthController::class)->group(function ()
 {
     Route::post('login', 'login');
     Route::post('register_rtw', 'register_rtw');
-
-
-
 });
+
 Route::post('/flatcreate',[FlatController::class,'create']);
 Route::post('/houselist',[AllotmentController::class,'houselist']);
 Route::post('/alltoment',[AllotmentController::class,'store']);
@@ -45,6 +44,11 @@ Route::get('/prebookingrequestlist',[VisitorsController::class,'prebookingreques
 Route::get('/visitorlist',[VisitorsController::class,'visitorlist']);
 Route::post('/approvalprebooking',[VisitorsController::class,'approvalprebooking']);
 Route::post('/maintancebillcreate',[MaintanceBillController::class,'store']);
+Route::post('/sendnotification',[NotificationController::class,'send']);
+Route::post('/vistorentry',[visitorentry::class,'visitorentry']);
+Route::get('/visitorentrydetails',[visitorentry::class,'visitorentrydetails']);
+Route::get('/previsitorlist',[visitorentry::class,'previsitorlist']);
+Route::post('/eventfeedback',[EventtController::class,'eventfeedback']);
 
 
 

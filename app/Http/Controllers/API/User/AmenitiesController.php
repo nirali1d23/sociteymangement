@@ -10,7 +10,6 @@ class AmenitiesController extends Controller
 {
     public function requestamenitiesbooking(Request $request)
     {
-
         Bookamenities::create([
 
 
