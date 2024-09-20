@@ -5,8 +5,8 @@ use App\Models\maintance;
 use App\Models\MaintanceProcess;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 class MaintancestController extends Controller
+
 {
     public function maintancelist(Request $request)
     {
@@ -18,15 +18,26 @@ class MaintancestController extends Controller
             'statusCode' => 200
            ],200 );
     }
+
     public function updatemaintance(Request $request)
     {  
         $data = MaintanceProcess::find($id);
-        $data->status = $request->status;
-        $data->save();
-        return response([
-            'message' => 'MaintanceRequest status updated Successfully..!',
-            'data' => $data,
-            'statusCode' => 200
-           ],200 );
+        if($data!=null)
+        {
+            $data->status = $request->status;
+            $data->save();
+            return response([
+                'message' => 'MaintanceRequest status updated Successfully..!',
+                'data' => $data,
+                'statusCode' => 200
+                ],200);
+        }
+            return response([
+                'message' => 'No data found..!',
+                'statusCode' => 400
+            ],400);
+
     }
+    
 }
+

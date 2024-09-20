@@ -18,6 +18,7 @@ class AuthController extends Controller
 
                  'email' => 'required|email',
                  'password' => 'required',
+                 'user_type' => 'required',
         ]);
         $user = User::where('email',$request->email)->first();
 
@@ -28,11 +29,25 @@ class AuthController extends Controller
             if (!Hash::check( $request->password, $user->password ) ) 
             
             {
+
+
                 return response( [
                     'message' => 'Incorrect Password..!',
                     'statusCode' => 400
                 ],400 );
+                  
+               
             }
+
+
+            if($user->user_type != $request->user_type)
+                  {
+                    return response( [
+                        'message' => 'This email id not have permission',
+                        'statusCode' => 200
+                    ], 200 );
+                       
+                  }
             return response( [
                 'message' => 'You can Login',
                 'statusCode' => 200
@@ -57,7 +72,6 @@ class AuthController extends Controller
         'user_type' => 'required',
 
         ]);
-
 
        $user = User::where('email',$request->email)->first();
 
@@ -91,7 +105,7 @@ class AuthController extends Controller
         ],400 );
    }
 
-   public function import(Request $request) 
+    public function import(Request $request) 
     {
         $file = $request->file('file');
         Excel::import(new UsersImport, $file);

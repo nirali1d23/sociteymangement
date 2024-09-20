@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Bookamenities;
-
 class BookingamenitiesController extends Controller
 {
     public function display(Request $request)
@@ -37,7 +36,5 @@ class BookingamenitiesController extends Controller
 
           }
     }
-
-    
      
 }
