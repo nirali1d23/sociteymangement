@@ -24,5 +24,10 @@ class MaintancerequestController extends Controller
              'staff_id' => $request->staff_id,
               'status' => $request->status
         ]);
+
+        return response([
+            'message' => 'MaintanceRequest Assign Successfully..!',
+            'statusCode' => 200
+           ],200 );
     }
 }

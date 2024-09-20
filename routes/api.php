@@ -24,6 +24,7 @@ Route::controller(AuthController::class)->group(function ()
 {
     Route::post('login', 'login');
     Route::post('register_rtw', 'register_rtw');
+    Route::post('changepassword', 'changepassword');
 });
 
 Route::post('/flatcreate',[FlatController::class,'create']);
@@ -49,6 +50,7 @@ Route::post('/vistorentry',[visitorentry::class,'visitorentry']);
 Route::get('/visitorentrydetails',[visitorentry::class,'visitorentrydetails']);
 Route::get('/previsitorlist',[visitorentry::class,'previsitorlist']);
 Route::post('/eventfeedback',[EventtController::class,'eventfeedback']);
+
 
 
 

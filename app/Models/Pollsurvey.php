@@ -14,6 +14,7 @@ class Pollsurvey extends Model
     public function polloptions()
     {
         return $this->belongsTo(Polloptions::class,'poll_option_id'); 
+        
     }
 
 }

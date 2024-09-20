@@ -32,11 +32,18 @@ class PollController extends Controller
     }
     public function display(Request $request)
     {
-        $data = Pollquestion::with('polloption')->with('pollsurvey')->get();
+        $data = Pollquestion::with(['polloption' => function($query) {
+            $query->withCount('pollsurvey');
+        }])->get();
+        // $data = Pollquestion::with('polloption')->get();
+   
+        if($data!=null)
+        {
         return response([
             'message' => 'Poll Displayed Successfully..!',
             'data' => $data,
             'statusCode' => 200
         ],200 );
+    }
     } 
 }

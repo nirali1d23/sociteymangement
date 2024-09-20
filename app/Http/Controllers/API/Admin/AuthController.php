@@ -117,6 +117,55 @@ class AuthController extends Controller
     }
 
 
+    public function changepassword(Request $request)
+    {
+            $request->validate([
+
+            'email' => 'required|email',
+            'newpassword' => 'required',
+            'oldpassword' => 'required',
+            'user_type' => 'required',
+                    ]);
+                    
+             $user = User::where('email',$request->email)->first();
+            if($user!=null)
+            {
+                if (!Hash::check($request->oldpassword, $user->password)) 
+                {
+                    return response( [
+                        'message' => 'Incorrect Password..!',
+                        'statusCode' => 400
+                    ],400 );
+                }
+                if($user->user_type != $request->user_type)
+                        {
+                        return response( [
+                            'message' => 'This email id not have permission',
+                            'statusCode' => 200
+                        ], 200 );
+                            
+                        }
+
+                    $user->password = Hash::make($request->newpassword);
+                    $user->save();
+                    
+                return response( [
+                    'message' => 'Password changed successfully',
+                    'data' => $user,
+                    'statusCode' => 200
+                ], 200 );
+            
+
+    return response( [
+       'message' => 'Email not found',
+       'statusCode' => 404
+   ], 404 );
+
+
+
+    }
+
+
    
 
 
@@ -126,5 +175,5 @@ class AuthController extends Controller
 
     
 
-
+    }
 }   
