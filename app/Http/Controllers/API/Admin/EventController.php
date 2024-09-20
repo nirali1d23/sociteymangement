@@ -36,10 +36,10 @@ class EventController extends Controller
 
         $create->save();
 
-        $fcmToken = $request->input('token');
-        $title = "Test Notification";
-        $body = "This is a test notification";
-        return $this->sendFirebaseNotification($fcmToken, $title, $body);
+        // $fcmToken = $request->input('token');
+        // $title = "Test Notification";
+        // $body = "This is a test notification";
+        // return $this->sendFirebaseNotification($fcmToken, $title, $body);
 
 
         
