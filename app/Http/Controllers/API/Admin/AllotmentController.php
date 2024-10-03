@@ -10,7 +10,7 @@ class AllotmentController extends Controller
 {
     public function block_list(Request $request)
     { 
-         $data = Fla::all();
+         $data = Flat::all();
          if($data!=null)
          {
             return response( [
