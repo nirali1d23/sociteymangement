@@ -29,8 +29,8 @@ Route::controller(AuthController::class)->group(function ()
 
 Route::post('/flatcreate',[FlatController::class,'create']);
 Route::post('/houselist',[AllotmentController::class,'houselist']);
-Route::post('/blocklist',[AllotmentController::class,'block_list']);
-Route::post('/userlist',[AllotmentController::class,'userlist']);
+Route::get('/blocklist',[AllotmentController::class,'block_list']);
+Route::get('/userlist',[AllotmentController::class,'userlist']);
 Route::post('/alltoment',[AllotmentController::class,'store']);
 Route::post('/import',[AuthController::class,'import']);
 Route::post('/noticecreate',[NoticeController::class,'create']);
