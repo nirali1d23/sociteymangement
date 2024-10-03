@@ -142,7 +142,8 @@
             <label for="option${optionIndex}" class="col-sm-12 control-label">Option ${optionIndex}</label>
             <div class="col-sm-12">
                 <input type="text" class="form-control" name="options[]" placeholder="Enter Option ${optionIndex}" required>
-                <img src="{{asset('image/icon.jpeg')}}" height="50px" width="50px" alt="Remove" class="removefield" style="cursor: pointer; margin-left: 10px;">
+                 <br>
+				<img src="{{asset('image/button-remove-512.webp')}}" height="30px" width="30px" alt="Remove" class="removefield" style="cursor: pointer; margin-left: 10px;">
 
             </div>
         </div>`;
@@ -189,13 +190,8 @@
           success: function (data) 
           {
               $('#productForm').trigger("reset");
-
               $('#ajaxModel').modal('hide');
-
               table.draw();
-
-           
-
           },
 
           error: function (data) {

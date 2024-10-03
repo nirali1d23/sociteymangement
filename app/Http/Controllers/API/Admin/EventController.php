@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Admin;
 use App\Models\Event;
+use App\Models\User;
 use Kreait\Firebase;
 use Google_Client;
 use App\Services\FirebaseService;
@@ -16,10 +17,8 @@ class EventController extends Controller
 {
     use ImageUpload;
     use FirebaseNotificationTrait;
-
     public function create(Request $request)
     {
-        
         if ($request->hasFile('image')) 
         {
             $image_1 = $request->file('image');
@@ -33,22 +32,26 @@ class EventController extends Controller
         $create->day = $request->day;
         $create->instruction= $request->instruction;
         $create->image= $image;
-
         $create->save();
 
-        // $fcmToken = $request->input('token');
-        // $title = "Test Notification";
-        // $body = "This is a test notification";
-        // return $this->sendFirebaseNotification($fcmToken, $title, $body);
+        $data = User::all();
+        foreach($data as  $token)
+        {
+            if($token->fcm_token !=null)
+            {
 
+              $fcmToken = $token->fcm_token;
+              $title = "Test Notification";
+             $body = "This is a test notification";
+             return $this->sendFirebaseNotification($fcmToken, $title, $body);
+            }
+        }
 
-        
         return response( [
             'message' => 'Event Created Successfully..!',
             'statusCode' => 200
         ],200 );
     }
-
     public function display(Request $request)
     {
         $data = Event::get()

@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-
 use App\Http\Controllers\AdminPanel\AuthController;
 use App\Http\Controllers\AdminPanel\ResidenetController;
 use App\Http\Controllers\AdminPanel\FlatController;
@@ -15,7 +14,8 @@ use App\Http\Controllers\AdminPanel\MaintanceController;
 use App\Http\Controllers\AdminPanel\AmenitiesController;
 use App\Http\Controllers\AdminPanel\BookedamenitiesController;
 
-Route::get('/', function () {
+Route::get('/', function ()
+{
     return view('Auth.login');
 });
 Route::get('/dashboard', function () {
@@ -23,6 +23,7 @@ Route::get('/dashboard', function () {
 });
 
 Route::post('/login',[AuthController::class,'authlogin'])->name('login');
+Route::post('/singout',[AuthController::class,'singout'])->name('singout');
 Route::get('/add-residenet',[ResidenetController::class,'index'])->name('add-residenet');
 Route::post('/userstore',[ResidenetController::class,'store'])->name('userstore');
 Route::get('/products-ajax-crud/{id}/edit',[ResidenetController::class,'edit'])->name('products-ajax-crud.edit');
@@ -42,7 +43,8 @@ Route::post('/update-amenity-status', [BookedamenitiesController::class,'updates
 
 
 
-Route::get('/poll', function () {
+Route::get('/poll', function () 
+{
     return view('admin_panel.admin.poll');
 })->name('poll');
 

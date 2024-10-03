@@ -18,7 +18,6 @@ class BookedamenitiesController extends Controller
   
             $data = Bookamenities::latest()->get();
 
-  
 
             return Datatables::of($data)
 

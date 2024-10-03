@@ -13,6 +13,7 @@ class AuthController extends Controller
     //     return view('Auth.login');
     // }
 
+    
     public function authlogin(Request $request)
     {
      
@@ -30,5 +31,11 @@ class AuthController extends Controller
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
+    }
+    public function singout(Request $request)
+    {
+            Auth::logout();
+            return redirect('/');
+          
     }
 }

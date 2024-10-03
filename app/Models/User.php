@@ -21,7 +21,8 @@ class User extends Authenticatable
         'email',
         'password',
         'mobile_no',
-        'user_type'
+        'user_type',
+        'fcm_token'
     ];
 
     public function allotment()

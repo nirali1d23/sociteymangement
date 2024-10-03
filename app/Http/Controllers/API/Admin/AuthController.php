@@ -2,30 +2,29 @@
 
 namespace App\Http\Controllers\API\Admin;
 use Auth;
-
 use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Hash;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 class AuthController extends Controller
 {
-   public function login(Request $request)
-   {
+    //login
+    public function login(Request $request)
+    {
         $request->validate([
 
-                 'email' => 'required|email',
-                 'password' => 'required',
-                 'user_type' => 'required',
+                    'email' => 'required|email',
+                    'password' => 'required',
+                    'user_type' => 'required',
         ]);
         $user = User::where('email',$request->email)->first();
 
-  
 
-         if($user!=null)
-         {
+
+            if($user!=null)
+            {
             if (!Hash::check( $request->password, $user->password ) ) 
             
             {
@@ -35,45 +34,45 @@ class AuthController extends Controller
                     'message' => 'Incorrect Password..!',
                     'statusCode' => 400
                 ],400 );
-                  
-               
+                    
+                
             }
 
 
             if($user->user_type != $request->user_type)
-                  {
+                    {
                     return response( [
                         'message' => 'This email id not have permission',
                         'statusCode' => 200
                     ], 200 );
-                       
-                  }
+                        
+                    }
             return response( [
                 'message' => 'You can Login',
                 'statusCode' => 200
             ], 200 );
-    
-         }
-   
-         return response( [
+
+            }
+
+            return response( [
             'message' => 'Email not found',
             'statusCode' => 404
         ], 404 );
-    
 
 
-   }
 
+    }
    //register Resisdent ,Tenant  and worker
-   public function register_rtw(Request $request)
-   {
+    public function register_rtw(Request $request)
+    {
+
         $request->validate([
 
         'user_type' => 'required',
 
         ]);
 
-       $user = User::where('email',$request->email)->first();
+        $user = User::where('email',$request->email)->first();
 
         if($user)
         {
@@ -82,13 +81,14 @@ class AuthController extends Controller
                 'statusCode' => 400
             ],400);
         }
-      $save =   User::create([
+        $save =   User::create([
             
             'name' => $request->name,
             'email' => $request->email,
             'password'=>hash::make($request->password),
             'mobile_no' => $request->mobile_no,
-            'user_type' => $request->user_type
+            'user_type' => $request->user_type,
+            'fcm_token' => $request->fcm_token
         ]);
 
         if($save)
@@ -103,8 +103,7 @@ class AuthController extends Controller
             'message' => 'Unable to store user..!',
             'statusCode' => 400
         ],400 );
-   }
-
+    }    
     public function import(Request $request) 
     {
         $file = $request->file('file');
@@ -115,8 +114,6 @@ class AuthController extends Controller
             'statusCode' => 200
         ],200);
     }
-
-
     public function changepassword(Request $request)
     {
             $request->validate([
@@ -156,24 +153,12 @@ class AuthController extends Controller
                 ], 200 );
             
 
-    return response( [
-       'message' => 'Email not found',
-       'statusCode' => 404
-   ], 404 );
-
-
-
+                return response( [
+                    'message' => 'Email not found',
+                    'statusCode' => 404
+                ], 404 );
+                }
     }
 
-
-   
-
-
     
-
-
-
-    
-
-    }
 }   
