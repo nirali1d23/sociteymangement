@@ -29,6 +29,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Allotment::class);
     }
+    public function eventfeedback()
+    {
+        
+        return $this->hasMany(EventFeedback::class, 'event_id');
+
+       
+
+    }
 
     /**
      * The attributes that should be hidden for serialization.

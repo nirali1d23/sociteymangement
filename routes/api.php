@@ -36,6 +36,7 @@ Route::post('/import',[AuthController::class,'import']);
 Route::post('/noticecreate',[NoticeController::class,'create']);
 Route::get('/noticedisplay',[NoticeController::class,'display']);
 Route::post('/eventcreate',[EventController::class,'create']);
+Route::post('/eventfeedbacklist',[EventController::class,'eventfeedbacklist']);
 Route::get('/eventdisplay',[EventController::class,'display']);
 Route::post('/amenitiescreate',[AmenitiesController::class,'create']);
 Route::get('/amenitiesdisplay',[AmenitiesController::class,'display']);

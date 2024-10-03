@@ -9,4 +9,15 @@ class Event extends Model
 {
     use HasFactory;
     protected $guarded = []; 
+
+    public function eventfeedback()
+    {
+        
+        return $this->hasMany(EventFeedback::class, 'event_id');
+
+       
+
+    }
+
+
 }

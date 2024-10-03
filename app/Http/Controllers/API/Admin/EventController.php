@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Admin;
 use App\Models\Event;
 use App\Models\User;
+use App\Models\EventFeedback;
 use Kreait\Firebase;
 use Google_Client;
 use App\Services\FirebaseService;
@@ -65,5 +66,20 @@ class EventController extends Controller
             'data' => $data,
             'statusCode' => 200
         ],200 );
+    }
+
+    public function eventfeedbacklist(Request $request)
+    {
+        $data = EventFeedback::with(['event', 'user'])->get();
+
+        return response( [
+            'message' => 'Event Displayed Successfully..!',
+            'data' => $data,
+            'statusCode' => 200
+        ],200 );
+
+
+
+       
     }
 }
