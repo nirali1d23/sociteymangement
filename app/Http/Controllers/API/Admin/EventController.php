@@ -71,15 +71,10 @@ class EventController extends Controller
     public function eventfeedbacklist(Request $request)
     {
         $data = EventFeedback::with(['event', 'user'])->get();
-
         return response( [
             'message' => 'Event Displayed Successfully..!',
             'data' => $data,
             'statusCode' => 200
         ],200 );
-
-
-
-       
     }
 }

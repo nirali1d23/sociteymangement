@@ -11,8 +11,6 @@
 		<br>
 		<a class="btn btn-primary float-end" href="javascript:void(0)" id="createNewProduct"> Create New </a>
 		<h5 class="card-title">Bordered Table</h5>
-		
-
 	 	  <table class="table table-bordered border-primary data-table">
 		<thead>
 		  <tr>

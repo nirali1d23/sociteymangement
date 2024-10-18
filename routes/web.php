@@ -24,7 +24,7 @@ Route::get('/dashboard', function () {
 
 Route::post('/login',[AuthController::class,'authlogin'])->name('login');
 Route::post('/singout',[AuthController::class,'singout'])->name('singout');
-Route::get('/add-residenet',[ResidenetController::class,'index'])->name('add-residenet');
+Route::get('/add-residene',[ResidenetController::class,'index'])->name('add-residenet');
 Route::post('/userstore',[ResidenetController::class,'store'])->name('userstore');
 Route::get('/products-ajax-crud/{id}/edit',[ResidenetController::class,'edit'])->name('products-ajax-crud.edit');
 Route::delete('/userdelete/{id}',[ResidenetController::class,'delete'])->name('userdelete');
@@ -40,8 +40,6 @@ Route::get('/amenities',[AmenitiesController::class,'index'])->name('amenities')
 Route::post('/amenitiesstore',[AmenitiesController::class,'store'])->name('amenitiesstore');
 Route::get('/bookamenities',[BookedamenitiesController::class,'index'])->name('bookamenities');
 Route::post('/update-amenity-status', [BookedamenitiesController::class,'updatestatus'])->name('updateAmenityStatus');
-
-
 
 Route::get('/poll', function () 
 {

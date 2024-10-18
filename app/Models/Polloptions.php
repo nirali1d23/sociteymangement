@@ -21,4 +21,5 @@ class Polloptions extends Model
           return $this->hasMany(Pollsurvey::class,'poll_option_id');  
  
     } 
+   
 }

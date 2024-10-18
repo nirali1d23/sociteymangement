@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Admin;
 use App\Models\Maintancebill;
+use App\Models\Maintancebilllist;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,13 @@ class MaintanceBillController extends Controller
             'statusCode' => 200
         ],200 );
     }
+
+    public function maintancebilldisplay(Request $request)
+    {
+        
+    }
+
+    
 
    
 }

@@ -46,4 +46,53 @@ class PollController extends Controller
         ],200 );
     }
     } 
+
+    public function polldetails(Request $request)
+    {
+        $pollQuestionId = $request->pollQuestionId; 
+         $data = Pollquestion::with(['polloption' => function ($query) {
+            $query->withCount(['pollsurvey as survey_count' => function ($q) {
+                $q->select(\DB::raw('count(*)'));
+            }])->with(['pollsurvey' => function ($q) {
+                $q->with('user:id,name');
+            }]);
+        }])->find($pollQuestionId);
+    
+        if ($data) {
+            return response([
+                'message' => 'Poll Displayed Successfully..!',
+                'data' => $data,
+                'statusCode' => 200
+            ], 200);
+        } else {
+            return response([
+                'message' => 'Poll Question Not Found',
+                'statusCode' => 404
+            ], 404);
+        }
+
+        $pollQuestionId = $request->pollQuestionId;
+    //     $data = Pollquestion::with(['polloption' => function($query) use ($pollQuestionId) {
+    //         $query->whereHas('pollsurvey', function($q) use ($pollQuestionId) {
+    //             $q->where('question_id', $pollQuestionId);
+    //         })->with(['pollsurvey' => function($q) {
+    //             $q->with('user:id,name'); // Assuming the User model has an 'id' and 'name' field
+    //         }]);
+    //     }])->find($pollQuestionId); // Fetch only the given poll question
+    
+    // if ($data) {
+    //     return response([
+    //         'message' => 'Poll Displayed Successfully..!',
+    //         'data' => $data,
+    //         'statusCode' => 200
+    //     ], 200);
+    // } else {
+    //     return response([
+    //         'message' => 'Poll Question Not Found',
+    //         'statusCode' => 404
+    //     ], 404);
+    // }
+
+    
+    }
 }

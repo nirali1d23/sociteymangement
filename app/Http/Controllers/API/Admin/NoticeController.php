@@ -68,6 +68,36 @@ class NoticeController extends Controller
 
     }
 
+    public function noticeupdate(Request $request)
+    {
+        $notice_id = $request->notice_id;
+
+        $data = Notice::find($notice_id);
+
+        if($data)  
+        {
+            $data->title = $request->title;
+            $data->description = $request->description;
+            $data->start_date = $request->start_date;
+            $data->time = $request->time;
+
+            $data->save();
+
+            return response( [
+                'message' => 'Notice Updated Successfully..!',
+                'statusCode' => 200
+            ],200 );
+    
+
+
+        }
+
+        return response( [
+            'message' => 'Notice Not Found..!',
+            'statusCode' => 400
+        ],404);
+    }
+
     
 
 

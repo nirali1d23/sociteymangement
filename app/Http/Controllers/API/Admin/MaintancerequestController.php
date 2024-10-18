@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Admin;
 use App\Models\maintance;
+use App\Models\User;
 use App\Models\MaintanceProcess;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,15 +19,28 @@ class MaintancerequestController extends Controller
     }
     public function assigntostaff(Request $request)
     {
-        MaintanceProcess::create([
-   
-             'maintance_request_id' => $request->maintance_id,
-             'staff_id' => $request->staff_id,
-              'status' => $request->status
-        ]);
+        MaintanceProcess::updateOrCreate(
+            [
+            'maintance_request_id' => $request->maintance_id,
+                'staff_id' => $request->staff_id
+            ],
+            [
+                'status' => $request->status
+            ]
+        );
+    
+        return response([
+            'message' => 'MaintanceRequest Assigned Successfully..!',
+            'statusCode' => 200
+        ], 200);
+    }
+    public function stafflist()
+    {
+        $data = User::where('user_type' , '2')->get();
 
         return response([
-            'message' => 'MaintanceRequest Assign Successfully..!',
+            'message' => 'staff list displayed Successfully..!',
+            'data' => $data,
             'statusCode' => 200
            ],200 );
     }

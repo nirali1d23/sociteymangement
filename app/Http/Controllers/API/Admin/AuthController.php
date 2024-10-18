@@ -160,5 +160,33 @@ class AuthController extends Controller
                 }
     }
 
+    public function securitypin(Request $request)
+    {
+       $securitypin =  $request->securitypin;
+
+       $data = User::find($request->user_id);
+
+       if($data)
+    
+        {
+             $data->securitypin = $securitypin;
+             $data->save();
+
+             return response( [
+                'message' => 'securitypin changed successfully',
+                'data' => $data,
+                'statusCode' => 200
+            ], 200 );
+        
+
+        }
+
+        
+        return response( [
+            'message' => 'User not found',
+            'statusCode' => 404
+        ], 404 );
+    }
+
     
 }   
