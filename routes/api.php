@@ -27,6 +27,7 @@ Route::controller(AuthController::class)->group(function ()
     Route::post('register_rtw', 'register_rtw');
     Route::post('changepassword', 'changepassword');
     Route::post('securitypin', 'securitypin');
+    Route::post('checksecuritypin', 'checksecuritypin');
 });
 
 Route::post('/flatcreate',[FlatController::class,'create']);

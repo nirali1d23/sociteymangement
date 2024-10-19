@@ -159,7 +159,6 @@ class AuthController extends Controller
                 ], 404 );
                 }
     }
-
     public function securitypin(Request $request)
     {
        $securitypin =  $request->securitypin;
@@ -188,5 +187,41 @@ class AuthController extends Controller
         ], 404 );
     }
 
+    public function checksecuritypin(Request $request)
+    {
+        $securitypin =  $request->securitypin;
+
+       $data = User::find($request->user_id);
+
+       if($data)
+       {
+
+          if($data->securitypin == $securitypin)
+          {
+
+            return response( [
+                'message' => 'Your pin is correct',
+                'data' => $data,
+                'statusCode' => 200
+            ], 200 );
+        
+             
+          }
+
+          return response( [
+            'message' => 'Pin is Incorrect',
+            'statusCode' => 404
+        ], 404 );
+
+
+          
+       }
+       return response( [
+        'message' => 'User not found',
+        'statusCode' => 404
+    ], 404 );
+
+    
+    }
     
 }   
