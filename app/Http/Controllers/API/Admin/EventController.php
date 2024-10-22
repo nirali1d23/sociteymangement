@@ -77,4 +77,86 @@ class EventController extends Controller
             'statusCode' => 200
         ],200 );
     }
+
+    public function edit(Request $request)
+    {
+
+          $data = Event::find($request->id);
+          if($data)
+          {
+            if ($request->hasFile('image')) 
+            {
+                $image_1 = $request->file('image');
+                $image = $this->uploadImage($image_1, 'image');
+                 $data->image = $image;
+            }
+
+            if($request->has('event_name'))
+            {
+                $data->event_name = $request->event_name;
+
+            }
+            if($request->has('date'))
+            {
+                $data->date = $request->date;
+
+            }
+            if($request->has('area'))
+            {
+                $data->area = $request->area;
+
+            }
+            if($request->has('time'))
+            {
+                $data->time = $request->time;
+
+            }
+            if($request->has('day'))
+            {
+                $data->day = $request->day;
+
+            }
+            if($request->has('instruction'))
+            {
+                $data->instruction = $request->instruction;
+
+            }
+
+            $data->save();
+            return response( [
+                'message' => 'Event Updated Successfully..!',
+                'statusCode' => 200
+            ],200 );
+
+          }
+
+          return response( [
+            'message' => 'Event Not Found..!',
+            'statusCode' => 400
+        ],400 );
+         
+        
+    }
+    public function delete(Request $request)
+    {
+        $data = Event::find($request->id);
+
+         if($data)
+         {
+             $data->delete();
+
+             return response( [
+                'message' => 'Event Deleted Successfully..!',
+                'statusCode' => 200
+            ],200 );
+
+         }
+
+         return response( [
+            'message' => 'Event Not Found..!',
+            'statusCode' => 400
+        ],400 );
+
+
+    }
 }

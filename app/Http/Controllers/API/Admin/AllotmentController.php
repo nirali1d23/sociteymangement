@@ -21,7 +21,7 @@ class AllotmentController extends Controller
          }
 
     }
-     public function houselist(Request $request)
+    public function houselist(Request $request)
      {
           $flat_no = Flat::find($request->flat_id);
           $houses = $flat_no->houses;
@@ -31,8 +31,8 @@ class AllotmentController extends Controller
             'statusCode' => 200
         ],200);
      }
-     public function store(Request $request)
-     {
+    public function store(Request $request)
+    {
          $allotment = new  Allotment;
          $allotment->user_id = $request->user_id; 
          $allotment->flat_id = $request->flat_id; 
@@ -45,11 +45,10 @@ class AllotmentController extends Controller
         ],200);
 
 
-     }
+    }
 
-     public function userlist(Request $request)
-    
-      {
+    public function userlist(Request $request)
+    {
          $data = User::where('user_type','2')->get();
          if($data!=null)
          {
@@ -61,5 +60,5 @@ class AllotmentController extends Controller
          }
 
 
-      }
+    }
 }

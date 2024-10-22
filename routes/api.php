@@ -40,6 +40,8 @@ Route::post('/noticecreate',[NoticeController::class,'create']);
 Route::get('/noticedisplay',[NoticeController::class,'display']);
 Route::post('/noticeupdate',[NoticeController::class,'noticeupdate']);
 Route::post('/eventcreate',[EventController::class,'create']);
+Route::post('/eventedit',[EventController::class,'edit']);
+Route::post('/eventdelete',[EventController::class,'delete']);
 Route::post('/eventfeedbacklist',[EventController::class,'eventfeedbacklist']);
 Route::get('/eventdisplay',[EventController::class,'display']);
 Route::post('/amenitiescreate',[AmenitiesController::class,'create']);
@@ -53,6 +55,8 @@ Route::get('/prebookingrequestlist',[VisitorsController::class,'prebookingreques
 Route::get('/visitorlist',[VisitorsController::class,'visitorlist']);
 Route::post('/approvalprebooking',[VisitorsController::class,'approvalprebooking']);
 Route::post('/maintancebillcreate',[MaintanceBillController::class,'store']);
+Route::post('/maintancebilldisplay',[MaintanceBillController::class,'maintancebilldisplay']);
+Route::post('/paymaintance',[MaintanceBillController::class,'paymaintance']);
 Route::post('/sendnotification',[NotificationController::class,'send']);
 Route::post('/vistorentry',[visitorentry::class,'visitorentry']);
 Route::get('/visitorentrydetails',[visitorentry::class,'visitorentrydetails']);
