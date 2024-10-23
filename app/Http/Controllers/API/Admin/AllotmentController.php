@@ -49,7 +49,7 @@ class AllotmentController extends Controller
 
     public function userlist(Request $request)
     {
-         $data = User::where('user_type','2')->get();
+         $data = User::where('user_type','3')->get();
          if($data!=null)
          {
             return response( [
