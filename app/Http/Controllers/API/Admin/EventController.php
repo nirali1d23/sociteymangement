@@ -35,18 +35,18 @@ class EventController extends Controller
         $create->image= $image;
         $create->save();
 
-        $data = User::all();
-        foreach($data as  $token)
-        {
-            if($token->fcm_token !=null)
-            {
+        // $data = User::all();
+        // foreach($data as  $token)
+        // {
+        //     if($token->fcm_token !=null)
+        //     {
 
-              $fcmToken = $token->fcm_token;
-              $title = "Test Notification";
-             $body = "This is a test notification";
-             return $this->sendFirebaseNotification($fcmToken, $title, $body);
-            }
-        }
+        //       $fcmToken = $token->fcm_token;
+        //       $title = "Test Notification";
+        //      $body = "This is a test notification";
+        //      return $this->sendFirebaseNotification($fcmToken, $title, $body);
+        //     }
+        // }
 
         return response( [
             'message' => 'Event Created Successfully..!',
