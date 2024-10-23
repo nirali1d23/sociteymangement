@@ -93,7 +93,7 @@ return response([
     }
     public function stafflist()
     {
-        $data = User::where('user_type' , '2')->get();
+        $data = User::where('user_type' , '3')->get();
 
         return response([
             'message' => 'staff list displayed Successfully..!',
