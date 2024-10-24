@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\File\File;
 class NoticeController extends Controller
 {
     use ImageUpload;
-
     public function create(Request $request)
     {
 
@@ -42,7 +41,6 @@ class NoticeController extends Controller
         ],200 );
 
     }
-
     public function display(Request $request)
     {
         // $data = Notice::orderBy('created_at', 'desc')->get();
@@ -67,7 +65,6 @@ class NoticeController extends Controller
         ], 200);
 
     }
-
     public function noticeupdate(Request $request)
     {
         $notice_id = $request->notice_id;
@@ -97,7 +94,6 @@ class NoticeController extends Controller
             'statusCode' => 400
         ],404);
     }
-
     public function schedulenoticedisplay(Request $request)
     {
         $data = Notice::whereNotNull('start_date')->orderBy('created_at', 'desc')->get()->map(function($item) {
@@ -113,10 +109,5 @@ class NoticeController extends Controller
         ], 200);
 
     }
-
-    
-
-
-    
     
 }
