@@ -67,7 +67,7 @@ Route::post('/eventfeedback',[EventtController::class,'eventfeedback']);
 Route::get('/displaymaintancerequest',[MaintancerequestController::class,'displaymaintancerequest']);
 Route::post('/assigntostaff',[MaintancerequestController::class,'assigntostaff']);
 Route::get('/stafflist',[MaintancerequestController::class,'stafflist']);
-Route::get('/maintancestatus',[MaintancerequestController::class,'maintancestatus']);
+Route::post('/maintancestatus',[MaintancerequestController::class,'maintancestatus']);
 
 
 
