@@ -17,6 +17,6 @@ class MaintanceProcess extends Model
 
     public function maintenance()
     {
-        return $this->belongsTo(Maintenance::class, 'maintance_request_id');
+        return $this->belongsTo(maintance::class, 'maintance_request_id');
     }
 }
