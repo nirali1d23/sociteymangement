@@ -20,7 +20,7 @@ class MaintancerequestController extends Controller
         ->get();
     $result = $data->map(function ($item) 
     {
-    if ($item->status == 1 && isset($item->maintance_process)) 
+    if ($item->status == 1 && isset($item->maintenance_process)) 
 {
  
     return [
