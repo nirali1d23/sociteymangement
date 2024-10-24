@@ -18,11 +18,13 @@ class MaintancerequestController extends Controller
         ->get();
     
     $result = $data->map(function ($item) {
-        if ($item->status == 1 && isset($item->maintenance_process)) {
+        if ($item->status == 1 && isset($item->maintenance_process)) 
+        {
             return [
                 'maintenance_id' => $item->id,
                 'maintenance_details' => $item->description,
                 'status' =>  $item->maintenance_process->status,
+                'image' =>    url('images/' . $item->maintenance_process->image),
                 'staff_id' => $item->maintenance_process->staff->id ?? null,
                 'staff_name' => $item->maintenance_process->staff->name ?? 'No staff assigned'
             ];
