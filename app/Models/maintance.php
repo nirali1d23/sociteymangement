@@ -15,4 +15,9 @@ class maintance extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function maintenance_process()
+    {
+        return $this->hasOne(MaintanceProcess::class);
+    }
 }

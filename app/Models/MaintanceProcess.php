@@ -8,4 +8,15 @@ class MaintanceProcess extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+
+    public function staff()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function maintance()
+    {
+        return $this->belongsTo(maintance::class);
+    }
 }
