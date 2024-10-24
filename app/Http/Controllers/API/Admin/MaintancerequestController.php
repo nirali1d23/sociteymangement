@@ -10,7 +10,6 @@ class MaintancerequestController extends Controller
 {
     public function displaymaintancerequest(Request $request)
     {
-        dd("function");
         $data = maintance::when(request('status') == 1, function ($query) {
             $query->with(['maintenance_process' => function ($query) {
                 $query->with('staff:id,name'); 
