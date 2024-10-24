@@ -18,6 +18,6 @@ class maintance extends Model
 
     public function maintenance_process()
     {
-        return $this->hasOne(MaintanceProcess::class);
+        return $this->hasOne(MaintenanceProcess::class, 'maintance_request_id');
     }
 }
