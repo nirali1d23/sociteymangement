@@ -28,6 +28,7 @@ Route::controller(AuthController::class)->group(function ()
     Route::post('changepassword', 'changepassword');
     Route::post('securitypin', 'securitypin');
     Route::post('checksecuritypin', 'checksecuritypin');
+    Route::post('edituser', 'edituser');
 });
 
 Route::post('/flatcreate',[FlatController::class,'create']);
@@ -38,6 +39,7 @@ Route::post('/alltoment',[AllotmentController::class,'store']);
 Route::post('/import',[AuthController::class,'import']);
 Route::post('/noticecreate',[NoticeController::class,'create']);
 Route::get('/noticedisplay',[NoticeController::class,'display']);
+Route::get('/schedulenoticedisplay',[NoticeController::class,'schedulenoticedisplay']);
 Route::post('/noticeupdate',[NoticeController::class,'noticeupdate']);
 Route::post('/eventcreate',[EventController::class,'create']);
 Route::post('/eventedit',[EventController::class,'edit']);

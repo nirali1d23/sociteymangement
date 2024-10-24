@@ -55,17 +55,31 @@ class EventController extends Controller
     }
     public function display(Request $request)
     {
-        $data = Event::get()
-        ->map(function($item) {
-            
+         
+        $query = Event::query();
+
+        // Apply name filter if provided
+        if ($request->has('event_name') && !empty($request->event_name)) {
+            $query->where('event_name', 'like', '%' . $request->event_name . '%');
+        }
+    
+        // Apply date filter if provided
+        if ($request->has('date') && !empty($request->date)) {
+            $query->whereDate('date', $request->date);
+        }
+    
+        // Get the filtered data and map the image URLs
+        $data = $query->get()->map(function($item) {
             $item->image = url('images/' . $item->image);
             return $item;
         });
-        return response( [
+    
+        // Return the response with the filtered data
+        return response([
             'message' => 'Event Displayed Successfully..!',
             'data' => $data,
             'statusCode' => 200
-        ],200 );
+        ], 200);
     }
 
     public function eventfeedbacklist(Request $request)

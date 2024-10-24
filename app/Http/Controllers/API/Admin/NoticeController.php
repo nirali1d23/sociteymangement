@@ -98,6 +98,22 @@ class NoticeController extends Controller
         ],404);
     }
 
+    public function schedulenoticedisplay(Request $request)
+    {
+        $data = Notice::whereNotNull('start_date')->orderBy('created_at', 'desc')->get()->map(function($item) {
+           
+            $item->image = url('images/' . $item->image);
+            return $item;
+        });
+
+        return response([
+            'message' => 'Notice Displayed Successfully..!',
+            'data' => $data,
+            'statusCode' => 200
+        ], 200);
+
+    }
+
     
 
 

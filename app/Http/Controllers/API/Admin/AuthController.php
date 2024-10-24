@@ -223,5 +223,43 @@ class AuthController extends Controller
 
     
     }
+
+    public function edituser(Request $request)
+    {
+        $request->validate([
+
+            'id' => 'required',
+    
+            ]);
+
+       $user = User::find($request->id);
+
+        if($user)
+         {
+              if($request->has('name'))
+              {
+                 $user->name = $request->name;
+              }
+              if($request->has('mobile_no'))
+              {
+                 $user->mobile_no = $request->mobile_no;
+              }
+              $user->save();
+
+
+              return response( [
+                'message' => 'User data is updated successfully',
+                'data' => $user,
+                'statusCode' => 200
+            ], 200 );
+
+
+         }
+
+         return response( [
+            'message' => 'User not found',
+            'statusCode' => 404
+        ], 404 );
+    }
     
 }   
