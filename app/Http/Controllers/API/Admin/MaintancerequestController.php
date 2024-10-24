@@ -22,6 +22,7 @@ class MaintancerequestController extends Controller
             return [
                 'maintenance_id' => $item->id,
                 'maintenance_details' => $item->description,
+                'status' =>  $item->maintenance_process->status,
                 'staff_id' => $item->maintenance_process->staff->id ?? null,
                 'staff_name' => $item->maintenance_process->staff->name ?? 'No staff assigned'
             ];
