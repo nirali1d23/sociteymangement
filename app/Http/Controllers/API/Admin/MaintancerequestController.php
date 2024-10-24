@@ -17,7 +17,7 @@ class MaintancerequestController extends Controller
         })
         ->get();
     
-    $result = $data->map(function ($item) {
+        $result = $data->map(function ($item) {
         if ($item->status == 1 && isset($item->maintenance_process)) 
         {
             return [
@@ -89,5 +89,31 @@ class MaintancerequestController extends Controller
             'data' => $data,
             'statusCode' => 200
            ],200 );
+    }
+
+    public function maintancestatus(Request $request)
+    {
+        $data = MaintanceProcess::find($request->id);
+
+        if($data)
+        {
+            
+            return response([
+                'message' => 'status  displayed Successfully..!',
+                'data' => $data,
+                'statusCode' => 200
+               ],200 );
+
+        }
+
+
+        return response([
+            'message' => 'Data Not Fond..!',
+            'data' => $data,
+            'statusCode' => 404
+           ],404 );
+
+
+
     }
 }
