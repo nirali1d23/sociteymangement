@@ -10,43 +10,29 @@ class MaintancerequestController extends Controller
 {
     public function displaymaintancerequest(Request $request)
     {
-      
-    $data = Maintance::when(request('status') == 1, function ($query) {
-      
-        $query->with(['maintance_process' => function ($query) {
-            $query->with('staff:id,name'); 
-        }]);
-    })
+        $data = Maintenance::when(request('status') == 1, function ($query) {
+            $query->with(['maintenance_process' => function ($query) {
+                $query->with('staff:id,name'); 
+            }]);
+        })
         ->get();
-    $result = $data->map(function ($item) 
-    {
-    if ($item->status == 1 && isset($item->maintenance_process)) 
-{
- 
-    return [
-        'maintenance_id' => $item->id,
-        'maintenance_details' => $item->description,
-        'staff_id' => $item->maintance_process->staff->id ?? null,
-        'staff_name' => $item->maintance_process->staff->name ?? 'No staff assigned'
-    ];
-} else 
-{
-   
-    return [
-        'maintenance_id' => $item->id,
-        'maintenance_details' => $item->description,
-        'status' => $item->status
-    ];
-}
-});
-
-// Return the response
-return response([
-'message' => 'Maintenance Requests Displayed Successfully..!',
-'data' => $result,
-'statusCode' => 200
-], 200);
-
+    
+    $result = $data->map(function ($item) {
+        if ($item->status == 1 && isset($item->maintenance_process)) {
+            return [
+                'maintenance_id' => $item->id,
+                'maintenance_details' => $item->description,
+                'staff_id' => $item->maintenance_process->staff->id ?? null,
+                'staff_name' => $item->maintenance_process->staff->name ?? 'No staff assigned'
+            ];
+        } else {
+            return [
+                'maintenance_id' => $item->id,
+                'maintenance_details' => $item->description,
+                'status' => $item->status
+            ];
+        }
+    });
     
     
     
