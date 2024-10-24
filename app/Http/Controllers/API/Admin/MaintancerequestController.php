@@ -24,7 +24,7 @@ class MaintancerequestController extends Controller
                 'maintenance_id' => $item->id,
                 'maintenance_details' => $item->description,
                 'status' =>  $item->maintenance_process->status,
-                'image' =>    url('images/' . $item->maintenance_process->image),
+                'image' =>    url('images/' . $item->image),
                 'staff_id' => $item->maintenance_process->staff->id ?? null,
                 'staff_name' => $item->maintenance_process->staff->name ?? 'No staff assigned'
             ];
