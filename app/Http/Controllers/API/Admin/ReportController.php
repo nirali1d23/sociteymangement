@@ -33,7 +33,7 @@ class ReportController extends Controller
             case 'ammenties': 
            
                 $ammenties = Bookamenities::whereBetween('date', [$startDate, $endDate])->get();
-                $responseData[] = $ammenties->map(function ($item) {
+                $responseData = $ammenties->map(function ($item) {
                     return [
                         'id' => $item->id,
                         'date' => $item->date,
