@@ -35,39 +35,20 @@ class MaintancerequestController extends Controller
                 'status' => $item->status
             ];
         }
-    });
-    
-    
-    
-    
-     return response([
-            'message' => 'staff list displayed Successfully..!',
-            'data' => $result,
-            'statusCode' => 200
-           ],200 );
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        });
+        
+        return response([
+                'message' => 'staff list displayed Successfully..!',
+                'data' => $result,
+                'statusCode' => 200
+            ],200 );
     
     }
     public function assigntostaff(Request $request)
     {
         MaintanceProcess::updateOrCreate(
             [
-            'maintance_request_id' => $request->maintance_id,
+                'maintance_request_id' => $request->maintance_id,
                 'staff_id' => $request->staff_id
             ],
             [
@@ -83,14 +64,12 @@ class MaintancerequestController extends Controller
     public function stafflist()
     {
         $data = User::where('user_type' , '3')->get();
-
         return response([
             'message' => 'staff list displayed Successfully..!',
             'data' => $data,
             'statusCode' => 200
            ],200 );
     }
-
     public function maintancestatus(Request $request)
     {
         $data = MaintanceProcess::find($request->id);

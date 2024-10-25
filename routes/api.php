@@ -13,7 +13,9 @@ use App\Http\Controllers\API\Admin\MaintancerequestController;
 use App\Http\Controllers\API\Admin\BookingamenitiesController;
 use App\Http\Controllers\API\Admin\VisitorsController;
 use App\Http\Controllers\API\Admin\MaintanceBillController;
+use App\Http\Controllers\API\Admin\ReportController;
 use App\Http\Controllers\API\User\EventtController;
+use App\Http\Controllers\API\User\PollController as pollcon;
 use App\Http\Controllers\API\staff\VistiorController as visitorentry;
 use App\Http\Controllers\NotificationController;
 Route::get('/user', function (Request $request) 
@@ -68,6 +70,11 @@ Route::get('/displaymaintancerequest',[MaintancerequestController::class,'displa
 Route::post('/assigntostaff',[MaintancerequestController::class,'assigntostaff']);
 Route::get('/stafflist',[MaintancerequestController::class,'stafflist']);
 Route::post('/maintancestatus',[MaintancerequestController::class,'maintancestatus']);
+Route::post('/submitpoll',[pollcon::class,'submitpoll']);
+Route::post('/report',[ReportController::class,'report']);
+
+
+
 
 
 
