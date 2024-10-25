@@ -49,7 +49,7 @@ class ReportController extends Controller
 
 
                 $data = Maintancebilllist::whereBetween('date', [$startDate, $endDate])->get();
-                $responseData[] = $data->map(function ($item) {
+                $responseData = $data->map(function ($item) {
                     return [
                         'id' => $item->id,
                         'date' => $item->date,
@@ -65,7 +65,7 @@ class ReportController extends Controller
             case 'visitor':
                 
                 $data = Visitor::whereBetween('date', [$startDate, $endDate])->get();
-                $responseData[] = $data->map(function ($item) {
+                $responseData = $data->map(function ($item) {
                     return [
                         'id' => $item->id,
                         'date' => $item->date,
