@@ -72,17 +72,21 @@ class MaintancerequestController extends Controller
     }
     public function maintancestatus(Request $request)
     {
-        $data = MaintanceProcess::find($request->id);
 
-        if($data)
-        {
-            
+
+      
+        $data = MaintanceProcess::with('staff')->find($request->id);
+
+        if ($data) {
             return response([
-                'message' => 'status  displayed Successfully..!',
-                'data' => $data,
+                'message' => 'Status displayed successfully..! ',
+                'data' => [
+                    'id' => $data->id,
+                    'status' => $data->status, // Include other fields as needed
+                    'staff_name' => $data->staff ? $data->staff->name : 'No staff assigned', // Assuming 'name' is the column in User model
+                ],
                 'statusCode' => 200
-               ],200 );
-
+            ], 200);
         }
 
 
