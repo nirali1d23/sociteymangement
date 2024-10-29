@@ -46,12 +46,35 @@ class VistiorController extends Controller
     public function pendingvistorlist(Request $request)
     {
         $data = Visitor::where('flat_no',$request->flat_no)->where('status',0)->get();
-
         return response( [
             'message' => 'Visitor list displayed Successfully..!',
              'data' =>$data,
             'statusCode' => 200
         ],200 );
 
+    }
+
+    public function approvevistior(Request $request)
+    {
+        $data = Visitor::find($request->id);
+
+        if($data)
+        {
+            $data->status = $request->status;
+            $data->save();
+
+            return response( [
+                'message' => 'Visitor Status changed Successfully..!',
+                 'data' =>$data,
+                'statusCode' => 200
+            ],200 );
+
+        }
+
+        return response( [
+            'message' => 'No Visitor found..!',
+             'data' =>$data,
+            'statusCode' => 400
+        ],400 );
     }
 }
