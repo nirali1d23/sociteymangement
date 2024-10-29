@@ -131,7 +131,8 @@ Route::controller(MaintancerequestController::class)->group(function () {
 
 // Report Routes
 Route::post('/report', [ReportController::class, 'report']);
-Route::get('/popuplist', [ReportController::class, 'popuplist']);
+Route::get('/popuplist', [ReportController::class, 'popuplistadmin']);
+Route::get('/popupliststaff', [ReportController::class, 'popupliststaff']);
 
 
 // Route::post('/flatcreate',[FlatController::class,'create']);

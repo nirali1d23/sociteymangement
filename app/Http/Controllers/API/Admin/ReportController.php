@@ -78,13 +78,12 @@ class ReportController extends Controller
         ], 200);
     }
 
-    public function popuplist(Request $request)
+    public function popuplistadmin(Request $request)
     {
       
          $data = preapproval::where('status',0)->first();
          $data2 = Bookamenities::where('status',0)->first();
          $data3 = maintance::where('status',0)->first();
-
 
          $allData = [
             'preapproval' => $data,
@@ -107,5 +106,20 @@ class ReportController extends Controller
             'statusCode' => 400
         ],400 );
          
+    }
+
+    public function popupliststaff(Request $request)
+    {
+       $data =  MaintanceProcess::where('staff_id', $request->staff_id)->where('status',1)->first();
+
+        if($data)
+        {
+            return response([
+                'message' => 'data Displayed Successfully..!',
+                'data' => $data,
+                'statusCode' => 200
+            ],200 );
+        
+        }
     }
 }
