@@ -16,6 +16,7 @@ use App\Http\Controllers\API\Admin\MaintanceBillController;
 use App\Http\Controllers\API\Admin\ReportController;
 use App\Http\Controllers\API\User\EventtController;
 use App\Http\Controllers\API\User\PollController as pollcon;
+use App\Http\Controllers\API\User\VistiorController as vistiorcon;
 use App\Http\Controllers\API\staff\VistiorController as visitorentry;
 use App\Http\Controllers\NotificationController;
 Route::get('/user', function (Request $request) 
@@ -85,6 +86,8 @@ Route::controller(BookingamenitiesController::class)->group(function () {
     Route::post('/changestatusbookaementies', 'changestatusbookaementies');
 });
 
+
+
 // Visitor Routes
 Route::controller(VisitorsController::class)->group(function () {
     Route::get('/prebookingrequestlist', 'prebookingrequestlist');
@@ -107,6 +110,10 @@ Route::controller(visitorentry::class)->group(function () {
     Route::post('/vistorentry', 'visitorentry');
     Route::get('/visitorentrydetails', 'visitorentrydetails');
     Route::get('/previsitorlist', 'previsitorlist');
+});
+Route::controller(vistiorcon::class)->group(function () {
+    Route::post('/prebookvistior', 'prebookvistior');
+   
 });
 
 // Event Feedback Routes

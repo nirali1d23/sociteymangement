@@ -9,7 +9,7 @@ class BookingamenitiesController extends Controller
 {
     public function display(Request $request)
     {
-
+        
          $data = Bookamenities::with('amenity')->orderBy('created_at', 'desc')->get();
 
          return response( [
