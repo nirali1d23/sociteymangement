@@ -11,6 +11,7 @@ use App\Models\Bookamenities;
 use App\Models\Maintancebilllist;
 use App\Models\Visitor;
 use App\Models\preapproval;
+use App\Models\maintance;
 class ReportController extends Controller
 {
     public function report(Request $request)
@@ -80,17 +81,25 @@ class ReportController extends Controller
     public function popuplist(Request $request)
     {
       
-         $data = preapproval::where('status',0)->get();
+         $data = preapproval::where('status',0)->first();
+         $data2 = Bookamenities::where('status',0)->first();
+         $data3 = maintance::where('status',0)->first();
+
+
+         $allData = [
+            'preapproval' => $data,
+            'book_amenities' => $data2,
+            'maintenance' => $data3
+        ];
          
-         if($data)
-         {
+        
             return response([
                 'message' => 'data Displayed Successfully..!',
-                'data' => $data,
+                'data' => $allData,
                 'statusCode' => 200
             ],200 );
         
-         }
+         
 
          return response([
             'message' => 'No Data found..!',
