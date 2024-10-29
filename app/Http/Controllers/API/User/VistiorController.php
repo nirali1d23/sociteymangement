@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\preapproval;
+use App\Models\Visitor;
 
 class VistiorController extends Controller
 {
@@ -24,5 +25,21 @@ class VistiorController extends Controller
              'data' =>$data,
             'statusCode' => 200
         ],200 );
+    }
+
+    public function visitorlist(Request $request)
+    { 
+        
+
+         $data = Visitor::where('flat_no',$request->flat_no)->get();
+
+
+         return response( [
+            'message' => 'Visitor list displayed Successfully..!',
+             'data' =>$data,
+            'statusCode' => 200
+        ],200 );
+          
+
     }
 }
