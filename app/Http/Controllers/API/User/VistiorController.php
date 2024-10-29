@@ -10,7 +10,7 @@ class VistiorController extends Controller
 {
     public function prebookvistior(Request $request)
     {
-        preapproval::create([
+      $data =   preapproval::create([
              'visitor_name' => $request->visitor_name,
              'date' => $request->date,
              'flat_no' => $request->flat_no,
@@ -21,7 +21,7 @@ class VistiorController extends Controller
 
         return response( [
             'message' => 'Prebook request created  Successfully..!',
-            
+             'data' =>$data,
             'statusCode' => 200
         ],200 );
     }
