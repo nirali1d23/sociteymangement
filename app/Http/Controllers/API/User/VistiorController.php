@@ -31,7 +31,7 @@ class VistiorController extends Controller
     { 
         
 
-         $data = Visitor::where('flat_no',$request->flat_no)->get();
+         $data = Visitor::where('flat_no',$request->flat_no)->where('status',1)->get();
 
 
          return response( [
@@ -40,6 +40,18 @@ class VistiorController extends Controller
             'statusCode' => 200
         ],200 );
           
+
+    }
+
+    public function pendingvistorlist(Request $request)
+    {
+        $data = Visitor::where('flat_no',$request->flat_no)->where('status',0)->get();
+
+        return response( [
+            'message' => 'Visitor list displayed Successfully..!',
+             'data' =>$data,
+            'statusCode' => 200
+        ],200 );
 
     }
 }
