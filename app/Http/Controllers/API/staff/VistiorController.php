@@ -16,6 +16,7 @@ class VistiorController extends Controller
          'check_in' => $request->check_in,
          'flat_no'=>$request->flat_no,
          'purpose' => $request->purpose,
+         'status' => 0
 
         ]);
 
