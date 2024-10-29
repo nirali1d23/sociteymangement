@@ -122,5 +122,10 @@ class ReportController extends Controller
             ],200 );
         
         }
+
+        return response([
+            'message' => 'No Data Found..!',
+            'statusCode' => 400
+        ],400 );
     }
 }
