@@ -9,7 +9,7 @@ class VistiorController extends Controller
 {
     public function visitorentry(Request $request)
     {
-        Visitor::create([
+       $data =  Visitor::create([
 
          'visitor_name' => $request->visitor_name,
          'date' => $request->visitor_date,
@@ -21,6 +21,7 @@ class VistiorController extends Controller
 
         return response( [
             'message' => 'Visitor Created Successfully',
+            'data' => $data,
             'statusCode' => 200
         ],200);
 
