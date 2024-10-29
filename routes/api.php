@@ -116,7 +116,6 @@ Route::controller(vistiorcon::class)->group(function () {
     Route::post('/uservisitorlist', 'visitorlist');
     Route::post('/pendingvistorlist', 'pendingvistorlist');
     Route::post('/approvevistiorr', 'approvevistior');
-   
 });
 
 // Event Feedback Routes
@@ -132,6 +131,7 @@ Route::controller(MaintancerequestController::class)->group(function () {
 
 // Report Routes
 Route::post('/report', [ReportController::class, 'report']);
+Route::get('/popuplist', [ReportController::class, 'popuplist']);
 
 
 // Route::post('/flatcreate',[FlatController::class,'create']);

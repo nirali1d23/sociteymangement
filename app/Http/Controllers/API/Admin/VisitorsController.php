@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\API\Admin;
 
+namespace App\Http\Controllers\API\Admin;
 use App\Models\preapproval;
 use App\Models\Visitor;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -24,7 +23,6 @@ class VisitorsController extends Controller
          ],200);
         
     }
-
     public function visitorlist(Request $request)
     {
      
@@ -40,7 +38,6 @@ class VisitorsController extends Controller
 
           
     }
-
     public function approvalprebooking(Request $request)
     {
         $booking = preapproval::find($request->booking_id);
@@ -60,6 +57,8 @@ class VisitorsController extends Controller
 
         }
     }
+
+
 
 
 }
