@@ -15,7 +15,7 @@ class VistiorController extends Controller
              'date' => $request->date,
              'flat_no' => $request->flat_no,
              'contact_number' => $request->contact_number,
-             'vehicle_number' => $request->vehicle_numberc,
+             'vehicle_number' => $request->vehicle_number,
              'purpose' => $request->purpose,
         ]);
 
