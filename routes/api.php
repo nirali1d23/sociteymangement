@@ -115,6 +115,7 @@ Route::controller(vistiorcon::class)->group(function () {
     Route::post('/prebookvistior', 'prebookvistior');
     Route::post('/uservisitorlist', 'visitorlist');
     Route::post('/pendingvistorlist', 'pendingvistorlist');
+    Route::post('/approvevistiorr', 'approvevistior');
    
 });
 
