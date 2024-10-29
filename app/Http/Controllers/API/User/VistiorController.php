@@ -26,11 +26,8 @@ class VistiorController extends Controller
             'statusCode' => 200
         ],200 );
     }
-
     public function visitorlist(Request $request)
     { 
-        
-
          $data = Visitor::where('flat_no',$request->flat_no)->where('status',1)->get();
 
 
@@ -42,7 +39,6 @@ class VistiorController extends Controller
           
 
     }
-
     public function pendingvistorlist(Request $request)
     {
         $data = Visitor::where('flat_no',$request->flat_no)->where('status',0)->get();
@@ -53,13 +49,12 @@ class VistiorController extends Controller
         ],200 );
 
     }
-
     public function approvevistior(Request $request)
     {
         $data = Visitor::find($request->id);
-
         if($data)
         {
+
             $data->status = $request->status;
             $data->save();
 
@@ -77,4 +72,5 @@ class VistiorController extends Controller
             'statusCode' => 400
         ],400 );
     }
+
 }

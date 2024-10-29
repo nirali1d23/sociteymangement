@@ -17,6 +17,7 @@ use App\Http\Controllers\API\Admin\ReportController;
 use App\Http\Controllers\API\User\EventtController;
 use App\Http\Controllers\API\User\PollController as pollcon;
 use App\Http\Controllers\API\User\VistiorController as vistiorcon;
+use App\Http\Controllers\API\User\AmenitiesController as amenticon;
 use App\Http\Controllers\API\staff\VistiorController as visitorentry;
 use App\Http\Controllers\NotificationController;
 Route::get('/user', function (Request $request) 
@@ -133,6 +134,7 @@ Route::controller(MaintancerequestController::class)->group(function () {
 Route::post('/report', [ReportController::class, 'report']);
 Route::get('/popuplist', [ReportController::class, 'popuplistadmin']);
 Route::get('/popupliststaff', [ReportController::class, 'popupliststaff']);
+Route::post('/requestamenitiesbooking', [amenticon::class, 'requestamenitiesbooking']);
 
 
 // Route::post('/flatcreate',[FlatController::class,'create']);
