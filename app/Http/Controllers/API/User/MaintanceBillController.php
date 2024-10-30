@@ -13,7 +13,8 @@ class MaintanceBillController extends Controller
         $data =Maintancebill::all();
 
         return response([
-            'message' => 'Maintance bill list displayed Successfully..!',    
+            'message' => 'Maintance bill list displayed Successfully..!',  
+            'data' => $data,  
             'statusCode' => 200
          ],200);
 
