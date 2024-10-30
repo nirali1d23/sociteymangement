@@ -8,6 +8,7 @@ use App\Models\maintance;
 use App\Traits\ImageUpload;
 class MaintanceController extends Controller
 {
+    use ImageUpload;
     public function requestmaitnace(Request $request)
     {
         $request->validate([
@@ -23,7 +24,6 @@ class MaintanceController extends Controller
         {
             $image_1 = $request->file('image');
             $image = $this->uploadImage($image_1, 'image'); 
-            dd($image);
         }
 
          $data = new maintance;
