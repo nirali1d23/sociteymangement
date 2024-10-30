@@ -30,7 +30,7 @@ class MaintanceController extends Controller
 
          $data->user_id = $request->user_id;
          $data->description = $request->description;
-         $data->image = $request->image;
+         $data->image =  $image;
          $data->status = 0;
 
          $data->save();
