@@ -9,6 +9,6 @@ class NoticeComment extends Model
 {
     use HasFactory;
 
-    protected $table = 'notice_comment';
+    protected $table = 'notice_comments';
     protected $guarded = [];
 }
