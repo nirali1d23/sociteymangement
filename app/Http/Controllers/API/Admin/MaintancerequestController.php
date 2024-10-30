@@ -17,7 +17,8 @@ class MaintancerequestController extends Controller
         })
         ->get();
     
-        $result = $data->map(function ($item) {
+        $result = $data->map(function ($item) 
+        {
         if ($item->status == 1 && isset($item->maintenance_process)) 
         {
             return [
@@ -28,7 +29,9 @@ class MaintancerequestController extends Controller
                 'staff_id' => $item->maintenance_process->staff->id ?? null,
                 'staff_name' => $item->maintenance_process->staff->name ?? 'No staff assigned'
             ];
-        } else {
+        } 
+        else 
+        {
             return [
                 'maintenance_id' => $item->id,
                 'maintenance_details' => $item->description,
@@ -73,8 +76,6 @@ class MaintancerequestController extends Controller
     public function maintancestatus(Request $request)
     {
 
-
-      
         $data = MaintanceProcess::with('staff')->find($request->id);
 
         if ($data) {

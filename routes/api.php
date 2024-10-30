@@ -15,6 +15,7 @@ use App\Http\Controllers\API\Admin\VisitorsController;
 use App\Http\Controllers\API\Admin\MaintanceBillController;
 use App\Http\Controllers\API\Admin\ReportController;
 use App\Http\Controllers\API\User\EventtController;
+use App\Http\Controllers\API\User\MaintanceController as maintancon;
 use App\Http\Controllers\API\User\PollController as pollcon;
 use App\Http\Controllers\API\User\VistiorController as vistiorcon;
 use App\Http\Controllers\API\User\AmenitiesController as amenticon;
@@ -117,6 +118,11 @@ Route::controller(vistiorcon::class)->group(function () {
     Route::post('/uservisitorlist', 'visitorlist');
     Route::post('/pendingvistorlist', 'pendingvistorlist');
     Route::post('/approvevistiorr', 'approvevistior');
+});
+
+Route::controller(maintancon::class)->group(function () {
+    Route::post('/requestmaitnace', 'requestmaitnace');
+ 
 });
 
 // Event Feedback Routes
