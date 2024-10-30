@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 class MaintanceBillController extends Controller
 {
-    
     public function store(Request $request)
     {
         $store =  new Maintancebill;

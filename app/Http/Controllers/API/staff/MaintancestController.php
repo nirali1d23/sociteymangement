@@ -6,7 +6,6 @@ use App\Models\MaintanceProcess;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 class MaintancestController extends Controller
-
 {
     public function maintancelist(Request $request)
     {

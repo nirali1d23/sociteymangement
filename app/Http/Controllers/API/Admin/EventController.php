@@ -13,7 +13,6 @@ use App\Traits\FirebaseNotificationTrait;
 use App\Http\Controllers\Controller;
 use App\Traits\ImageUpload;
 use Symfony\Component\HttpFoundation\File\File;
-
 class EventController extends Controller
 {
     use ImageUpload;
@@ -81,7 +80,6 @@ class EventController extends Controller
             'statusCode' => 200
         ], 200);
     }
-
     public function eventfeedbacklist(Request $request)
     {
         $data = EventFeedback::with(['event', 'user'])->get();
@@ -91,7 +89,6 @@ class EventController extends Controller
             'statusCode' => 200
         ],200 );
     }
-
     public function edit(Request $request)
     {
 

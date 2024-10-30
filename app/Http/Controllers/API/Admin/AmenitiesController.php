@@ -12,9 +12,6 @@ class AmenitiesController extends Controller
     use ImageUpload;
     public function create(Request $request)
     {
-
-        
-
         if ($request->hasFile('image')) 
         {
             $image_1 = $request->file('image');
@@ -33,7 +30,6 @@ class AmenitiesController extends Controller
         ], 200 );
 
     }
-
     public function display(Request $request)
     {
         $data = Amenities::get()->map(function($item)
@@ -50,7 +46,6 @@ class AmenitiesController extends Controller
         
         ],200);
     }
-
     public function edit(Request $request)
     {
 
@@ -85,10 +80,8 @@ class AmenitiesController extends Controller
 
         
     }
-
     public function delete(Request $request)
-
-     {
+    {
         $store =  Amenities::find($request->id);
 
         if($store)
@@ -107,6 +100,6 @@ class AmenitiesController extends Controller
             'message' => 'Amenities Not found..!',
             'statusCode' => 400
         ], 400 );
-     }
+    }
 }
 

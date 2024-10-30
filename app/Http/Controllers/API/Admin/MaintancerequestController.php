@@ -75,10 +75,9 @@ class MaintancerequestController extends Controller
     }
     public function maintancestatus(Request $request)
     {
-
         $data = MaintanceProcess::with('staff')->find($request->id);
-
-        if ($data) {
+        if ($data) 
+        {
             return response([
                 'message' => 'Status displayed successfully..! ',
                 'data' => [
@@ -89,8 +88,6 @@ class MaintancerequestController extends Controller
                 'statusCode' => 200
             ], 200);
         }
-
-
         return response([
             'message' => 'Data Not Fond..!',
             'data' => $data,

@@ -78,7 +78,6 @@ class ReportController extends Controller
             'statusCode' => 200
         ], 200);
     }
-
     public function popuplistadmin(Request $request)
     {
       
@@ -108,7 +107,6 @@ class ReportController extends Controller
         ],400 );
          
     }
-
     public function popupliststaff(Request $request)
     {
        $data =  MaintanceProcess::where('staff_id', $request->staff_id)->where('status',1)->first();

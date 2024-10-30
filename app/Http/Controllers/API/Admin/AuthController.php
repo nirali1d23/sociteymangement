@@ -216,10 +216,10 @@ class AuthController extends Controller
 
           
        }
-       return response( [
-        'message' => 'User not found',
-        'statusCode' => 404
-    ], 404 );
+            return response( [
+                'message' => 'User not found',
+                'statusCode' => 404
+                ], 404 );
 
     
     }
@@ -261,5 +261,4 @@ class AuthController extends Controller
             'statusCode' => 404
         ], 404 );
     }
-    
 }   

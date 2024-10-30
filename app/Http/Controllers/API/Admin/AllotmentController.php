@@ -22,7 +22,7 @@ class AllotmentController extends Controller
 
     }
     public function houselist(Request $request)
-     {
+    {
           $flat_no = Flat::find($request->flat_id);
           $houses = $flat_no->houses;
           return response( [
@@ -30,7 +30,7 @@ class AllotmentController extends Controller
             'data' => $houses,
             'statusCode' => 200
         ],200);
-     }
+    }
     public function store(Request $request)
     {
          $allotment = new  Allotment;
@@ -46,7 +46,6 @@ class AllotmentController extends Controller
 
 
     }
-
     public function userlist(Request $request)
     {
          $data = User::where('user_type','2')->get();
