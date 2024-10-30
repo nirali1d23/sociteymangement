@@ -37,7 +37,6 @@ class AllotmentController extends Controller
          $allotment->user_id = $request->user_id; 
          $allotment->flat_id = $request->flat_id; 
          $allotment->save();
-
          return response( [
             'message' => 'User alloteted  Successfully',
      

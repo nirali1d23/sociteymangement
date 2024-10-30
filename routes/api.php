@@ -18,6 +18,7 @@ use App\Http\Controllers\API\User\EventtController;
 use App\Http\Controllers\API\User\MaintanceController as maintancon;
 use App\Http\Controllers\API\User\PollController as pollcon;
 use App\Http\Controllers\API\User\VistiorController as vistiorcon;
+use App\Http\Controllers\API\User\NoticeController as noticecon;
 use App\Http\Controllers\API\User\AmenitiesController as amenticon;
 use App\Http\Controllers\API\staff\VistiorController as visitorentry;
 use App\Http\Controllers\NotificationController;
@@ -123,7 +124,14 @@ Route::controller(vistiorcon::class)->group(function () {
 Route::controller(maintancon::class)->group(function () {
     Route::post('/requestmaitnace', 'requestmaitnace');
  
+
 });
+
+Route::controller(noticecon::class)->group(function () {
+    Route::post('/notice_comment', 'notice_comment');
+ 
+});
+
 
 // Event Feedback Routes
 Route::post('/eventfeedback', [EventtController::class, 'eventfeedback']);

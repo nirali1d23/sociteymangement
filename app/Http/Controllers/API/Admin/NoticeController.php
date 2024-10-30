@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\API\Admin;
 use App\Models\Notice;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\ImageUpload;
 use Symfony\Component\HttpFoundation\File\File;
-
 class NoticeController extends Controller
 {
     use ImageUpload;
@@ -43,6 +41,7 @@ class NoticeController extends Controller
     }
     public function display(Request $request)
     {
+        
         // $data = Notice::orderBy('created_at', 'desc')->get();
 
 
