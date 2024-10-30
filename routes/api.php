@@ -20,7 +20,9 @@ use App\Http\Controllers\API\User\PollController as pollcon;
 use App\Http\Controllers\API\User\VistiorController as vistiorcon;
 use App\Http\Controllers\API\User\NoticeController as noticecon;
 use App\Http\Controllers\API\User\AmenitiesController as amenticon;
+use App\Http\Controllers\API\User\MaintanceBillController as mainbill;
 use App\Http\Controllers\API\staff\VistiorController as visitorentry;
+
 use App\Http\Controllers\NotificationController;
 Route::get('/user', function (Request $request) 
 {
@@ -107,6 +109,7 @@ Route::controller(MaintanceBillController::class)->group(function () {
 
 // Notification Routes
 Route::post('/sendnotification', [NotificationController::class, 'send']);
+Route::get('/maintancebilllist', [mainbill::class, 'maintancebilllist']);
 
 // Visitor Entry Routes
 Route::controller(visitorentry::class)->group(function () {
