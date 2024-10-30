@@ -23,6 +23,7 @@ class MaintanceController extends Controller
         {
             $image_1 = $request->file('image');
             $image = $this->uploadImage($image_1, 'image'); 
+            dd($image);
         }
 
          $data = new maintance;
