@@ -9,8 +9,12 @@ class MaintancestController extends Controller
 {
     public function maintancelist(Request $request)
     {
-        $data = maintance::with('maintenance_process')->get();
-
+        
+        $data = maintance::with('maintenance_process')->get()->map(function($item)
+        {
+             $item->image = url('images/' . $item->image);
+             return $item;
+        });
         return response([
             'message' => 'MaintanceRequest Displayed Successfully....!',
             'data' => $data,
