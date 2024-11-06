@@ -9,7 +9,8 @@ class MaintancestController extends Controller
 {
     public function maintancelist(Request $request)
     {
-        $data = maintance::with(maintenance_process)->all();
+        $data = Maintenance::with('maintenance_process')->get();
+
         return response([
             'message' => 'MaintanceRequest Displayed Successfully..!',
             'data' => $data,
