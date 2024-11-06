@@ -20,7 +20,7 @@ class MaintancestController extends Controller
 
     public function updatemaintance(Request $request)
     {  
-        $data = MaintanceProcess::find($id);
+        $data = MaintanceProcess::find($request->id);
         if($data!=null)
         {
             $data->status = $request->status;
