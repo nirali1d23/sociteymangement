@@ -22,14 +22,14 @@ use App\Http\Controllers\API\User\NoticeController as noticecon;
 use App\Http\Controllers\API\User\AmenitiesController as amenticon;
 use App\Http\Controllers\API\User\MaintanceBillController as mainbill;
 use App\Http\Controllers\API\staff\VistiorController as visitorentry;
-
+use App\Http\Controllers\API\staff\MaintancestController as maincon;
 use App\Http\Controllers\NotificationController;
 Route::get('/user', function (Request $request) 
 {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::controller(AuthController::class)->group(function () 
+Route::controller(AuthController::class)->group(function() 
 {   
     Route::post('login', 'login');
     Route::post('register_rtw', 'register_rtw');
@@ -126,6 +126,13 @@ Route::controller(vistiorcon::class)->group(function () {
 
 Route::controller(maintancon::class)->group(function () {
     Route::post('/requestmaitnace', 'requestmaitnace');
+ 
+
+});
+
+Route::controller(maincon::class)->group(function () {
+    Route::post('/updatemaintance', 'updatemaintance');
+    Route::get('/maintancelist', 'maintancelist');
  
 
 });

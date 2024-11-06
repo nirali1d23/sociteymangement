@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\maintance;
 use App\Traits\ImageUpload;
-class MaintanceController extends Controller
+class MaintanceController extends Controller 
 {
     use ImageUpload;
     public function requestmaitnace(Request $request)
