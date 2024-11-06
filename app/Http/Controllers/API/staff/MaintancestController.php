@@ -9,8 +9,7 @@ class MaintancestController extends Controller
 {
     public function maintancelist(Request $request)
     {
-        $data = maintance::all();
-
+        $data = maintance::with(maintenance_process)->all();
         return response([
             'message' => 'MaintanceRequest Displayed Successfully..!',
             'data' => $data,
@@ -21,7 +20,6 @@ class MaintancestController extends Controller
     public function updatemaintance(Request $request)
     {  
         $data = MaintanceProcess::where('maintance_request_id',$request->id)->first();
-   
         if($data!=null)
         {
             $data->status = $request->status;
@@ -36,7 +34,6 @@ class MaintancestController extends Controller
                 'message' => 'No data found..!',
                 'statusCode' => 400
             ],400);
-
     }
 
     
