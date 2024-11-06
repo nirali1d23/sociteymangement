@@ -21,7 +21,7 @@ class MaintancestController extends Controller
     public function updatemaintance(Request $request)
     {  
         $data = MaintanceProcess::where('maintance_request_id',$request->id)->first();
-        dd($data);
+   
         if($data!=null)
         {
             $data->status = $request->status;
