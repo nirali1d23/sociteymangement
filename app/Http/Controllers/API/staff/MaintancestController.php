@@ -16,12 +16,11 @@ class MaintancestController extends Controller
           
 ]);
 
-        $data = MaintanceProcess::where('staff_id',$request->staff_id)->where('status',0)->with('maintenance')->get();
-        // $data = maintance::with('maintenance_process')->get()->map(function($item)
-        // {
-        //      $item->image = url('images/' . $item->image);
-        //      return $item;
-        // });
+        $data = aintanceProcess::where('staff_id',$request->staff_id)->where('status',0)->with('maintenance')->get()->map(function($item)
+        {
+             $item->image = url('images/' . $item->image);
+             return $item;
+        });
         return response([
             'message' => 'MaintanceRequest Displayed Successfully....!',
             'data' => $data,
