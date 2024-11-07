@@ -9,12 +9,19 @@ class MaintancestController extends Controller
 {
     public function maintancelist(Request $request)
     {
-        
-        $data = maintance::with('maintenance_process')->get()->map(function($item)
-        {
-             $item->image = url('images/' . $item->image);
-             return $item;
-        });
+
+        $request->validate([
+
+            'staff_id' => 'required',
+          
+]);
+
+        $data = MaintanceProcess::where('staff_id',$request->staff_id)->where('status',0)->with('maintance')->get();
+        // $data = maintance::with('maintenance_process')->get()->map(function($item)
+        // {
+        //      $item->image = url('images/' . $item->image);
+        //      return $item;
+        // });
         return response([
             'message' => 'MaintanceRequest Displayed Successfully....!',
             'data' => $data,

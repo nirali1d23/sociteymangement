@@ -7,7 +7,6 @@ use App\Services\FirebaseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Traits\FirebaseNotificationTrait;
-
 class NotificationController extends Controller
 {
     use FirebaseNotificationTrait;
@@ -16,11 +15,6 @@ class NotificationController extends Controller
         $fcmToken = $request->input('token');
         $title = "Test Notification";
         $body = "This is a test notification";
-        
         return $this->sendFirebaseNotification($fcmToken, $title, $body);
     }
-
-    
-
-
 }
