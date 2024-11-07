@@ -16,7 +16,7 @@ class MaintancestController extends Controller
           
 ]);
 
-        $data = aintanceProcess::where('staff_id',$request->staff_id)->where('status',0)->with('maintenance')->get()->map(function($item)
+        $data = MaintanceProcess::where('staff_id',$request->staff_id)->where('status',0)->with('maintenance')->get()->map(function($item)
         {
              $item->image = url('images/' . $item->image);
              return $item;
