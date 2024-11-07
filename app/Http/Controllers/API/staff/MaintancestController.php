@@ -15,18 +15,30 @@ class MaintancestController extends Controller
             'staff_id' => 'required',
           
 ]);
+$data = MaintanceProcess::where('staff_id', $request->staff_id)
+            ->where('status', 0)
+            ->with('maintenance')
+            ->get()
+            ->map(function ($item) {
+                // Assuming images are stored in the 'public/images' directory
+                $imageUrl = $item->maintenance && $item->maintenance->image 
+                            ? url('images/' . $item->maintenance->image) 
+                            : null;
+                
+                // Append the image URL
+                if ($item->maintenance) {
+                    $item->maintenance->image = $imageUrl;
+                }
+                
+                return $item;
+            });
 
-        $data = MaintanceProcess::where('staff_id',$request->staff_id)->where('status',0)->with('maintenance')->get();
-        // $data = maintance::with('maintenance_process')->get()->map(function($item)
-        // {
-        //      $item->image = url('images/' . $item->image);
-        //      return $item;
-        // });
-        return response([
-            'message' => 'MaintanceRequest Displayed Successfully....!',
-            'data' => $data,
-            'statusCode' => 200
-           ],200 );
+return response([
+    'message' => 'MaintanceRequest Displayed Successfully....!',
+    'data' => $data,
+    'statusCode' => 200
+], 200);
+
     }
 
     public function updatemaintance(Request $request)
