@@ -244,6 +244,10 @@ class AuthController extends Controller
               {
                  $user->mobile_no = $request->mobile_no;
               }
+              if($request->has('email'))
+              {
+                 $user->email = $request->email;
+              }
               $user->save();
 
 

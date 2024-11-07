@@ -10,7 +10,7 @@ class AmenitiesController extends Controller
 {
     public function requestamenitiesbooking(Request $request)
     {
-        Bookamenities::create([
+      $data =   Bookamenities::create([
             'user_id' => $request->user_id,
             'amenities_id' => $request->amenities_id,
             'date' => $request->date,
@@ -19,7 +19,8 @@ class AmenitiesController extends Controller
         ]);
 
         return response([
-            'message' => 'Amenities Booked Successfully..!',    
+            'message' => 'Amenities Booked Successfully..!',
+            'data' => $data,    
             'statusCode' => 200
          ],200);
              

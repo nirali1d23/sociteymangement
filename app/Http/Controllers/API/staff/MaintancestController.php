@@ -19,13 +19,13 @@ $data = MaintanceProcess::where('staff_id', $request->staff_id)
             ->where('status', 0)
             ->with('maintenance')
             ->get()
-            ->map(function ($item) {
-                // Assuming images are stored in the 'public/images' directory
+            ->map(function ($item) 
+            {
+               
                 $imageUrl = $item->maintenance && $item->maintenance->image 
                             ? url('images/' . $item->maintenance->image) 
                             : null;
                 
-                // Append the image URL
                 if ($item->maintenance) {
                     $item->maintenance->image = $imageUrl;
                 }
