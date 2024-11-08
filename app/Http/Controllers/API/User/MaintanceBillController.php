@@ -10,14 +10,14 @@ class MaintanceBillController extends Controller
 {
     public function maintancebilllist(Request $request)
     {
-        $flat_id = $request->flat_id; // Assuming 'user_id' is coming from the request
+        $flat_id = $request->flat_id;
 
         $data = Maintancebill::with(['maintancebilllists' => function ($query) use ($flat_id) {
                 $query->where('flat_id', $flat_id);
             }])
             ->get()
             ->map(function ($bill) {
-                // Check if filtered maintancebilllists is not empty
+             
                 $bill->payment_status = $bill->maintancebilllists->isNotEmpty() ? 1 : 0;
                 return $bill;
             });
