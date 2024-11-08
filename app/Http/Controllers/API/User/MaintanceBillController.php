@@ -10,13 +10,18 @@ class MaintanceBillController extends Controller
 {
     public function maintancebilllist(Request $request)
     {
-        $data = Maintancebill::with('maintancebilllists')
-        ->get()
-        ->map(function ($bill) {
-          
-            $bill->payment_status = $bill->maintancebilllists->isNotEmpty() ? 1 : 0;
-            return $bill;
-        });
+        $userId = $request->user_id; // Assuming 'user_id' is coming from the request
+
+        $data = Maintancebill::with(['maintancebilllists' => function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])
+            ->get()
+            ->map(function ($bill) {
+                // Check if filtered maintancebilllists is not empty
+                $bill->payment_status = $bill->maintancebilllists->isNotEmpty() ? 1 : 0;
+                return $bill;
+            });
+        
             return response([
             'message' => 'Maintance bill list displayed Successfully..!',  
             'data' => $data,  

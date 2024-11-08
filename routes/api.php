@@ -109,7 +109,7 @@ Route::controller(MaintanceBillController::class)->group(function () {
 
 // Notification Routes
 Route::post('/sendnotification', [NotificationController::class, 'send']);
-Route::get('/maintancebilllist', [mainbill::class, 'maintancebilllist']);
+Route::post('/maintancebilllist', [mainbill::class, 'maintancebilllist']);
 
 // Visitor Entry Routes
 Route::controller(visitorentry::class)->group(function () {
