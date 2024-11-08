@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Admin;
 use App\Models\Polloptions;
 use App\Models\Pollquestion;
 use App\Models\Pollsurvey;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -48,18 +49,25 @@ class PollController extends Controller
     } 
     public function polldetails(Request $request)
     {
-        $pollQuestionId = $request->pollQuestionId; 
-         $data = Pollquestion::with(['polloption' => function ($query) {
+        $pollQuestionId = $request->pollQuestionId;
+
+        $data = Pollquestion::with(['polloption' => function ($query) {
             $query->withCount(['pollsurvey as survey_count' => function ($q) {
                 $q->select(\DB::raw('count(*)'));
             }])->with(['pollsurvey' => function ($q) {
                 $q->with('user:id,name');
             }]);
-        }])->find($pollQuestionId);
+        }])
+        ->withCount(['polloption as total_votes' => function ($query) {
+            $query->join('pollsurveys', 'polloptions.id', '=', 'pollsurveys.polloption_id')
+                ->select(\DB::raw('count(pollsurveys.id)'));
+        }])
+        ->find($pollQuestionId);
+
     
         if ($data) {
             return response([
-                'message' => 'Poll Displayed Successfully..!',
+                'message' => 'Poll Displayed Successfully....!',
                 'data' => $data,
                 'statusCode' => 200
             ], 200);
@@ -70,7 +78,7 @@ class PollController extends Controller
             ], 404);
         }
 
-        $pollQuestionId = $request->pollQuestionId;
+        // $pollQuestionId = $request->pollQuestionId;
             //     $data = Pollquestion::with(['polloption' => function($query) use ($pollQuestionId) {
             //         $query->whereHas('pollsurvey', function($q) use ($pollQuestionId) {
             //             $q->where('question_id', $pollQuestionId);
