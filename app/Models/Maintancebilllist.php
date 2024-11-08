@@ -14,5 +14,12 @@ class Maintancebilllist extends Model
     public function flat()
     {
         return $this->belongsTo(House::class, 'flat_id');
+
     }
+    // In Maintancebilllist.php
+public function maintancebill()
+{
+    return $this->belongsTo(Maintancebill::class, 'maintance_bill_id');
+}
+
 }
