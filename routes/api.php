@@ -159,6 +159,7 @@ Route::post('/report', [ReportController::class, 'report']);
 Route::get('/popuplist', [ReportController::class, 'popuplistadmin']);
 Route::get('/popupliststaff', [ReportController::class, 'popupliststaff']);
 Route::post('/requestamenitiesbooking', [amenticon::class, 'requestamenitiesbooking']);
+Route::post('/cancelbooking', [amenticon::class, 'cancelbooking']);
 Route::post('/submitpoll',[pollcon::class,'submitpoll']);
 
 
