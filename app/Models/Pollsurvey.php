@@ -16,6 +16,10 @@ class Pollsurvey extends Model
         return $this->belongsTo(Polloptions::class,'poll_option_id'); 
         
     }
+    public function pollquestion()
+{
+    return $this->belongsTo(Pollquestion::class, 'poll_question_id'); // adjust foreign key if necessary
+}
 
     public function user()
 {
