@@ -227,13 +227,9 @@ class AuthController extends Controller
     public function edituser(Request $request)
     {
         $request->validate([
-
-            'id' => 'required',
-    
+            'id' => 'required',         
             ]);
-
        $user = User::find($request->id);
-
         if($user)
          {
               if($request->has('name'))
@@ -249,17 +245,12 @@ class AuthController extends Controller
                  $user->email = $request->email;
               }
               $user->save();
-
-
               return response( [
                 'message' => 'User data is updated successfully',
                 'data' => $user,
                 'statusCode' => 200
             ], 200 );
-
-
          }
-
          return response( [
             'message' => 'User not found',
             'statusCode' => 404
