@@ -10,10 +10,10 @@ class MaintanceBillController extends Controller
 {
     public function maintancebilllist(Request $request)
     {
-        $userId = $request->user_id; // Assuming 'user_id' is coming from the request
+        $flat_id = $request->flat_id; // Assuming 'user_id' is coming from the request
 
         $data = Maintancebill::with(['maintancebilllists' => function ($query) use ($userId) {
-                $query->where('user_id', $userId);
+                $query->where('flat_id', $flat_id);
             }])
             ->get()
             ->map(function ($bill) {
