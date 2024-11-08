@@ -48,14 +48,30 @@ class PollController extends Controller
     } 
     public function polldetails(Request $request)
     {
-        $pollQuestionId = $request->pollQuestionId; 
-         $data = Pollquestion::with(['polloption' => function ($query) {
+        // $pollQuestionId = $request->pollQuestionId; 
+        //  $data = Pollquestion::with(['polloption' => function ($query) {
+        //     $query->withCount(['pollsurvey as survey_count' => function ($q) {
+        //         $q->select(\DB::raw('count(*)'));
+        //     }])->with(['pollsurvey' => function ($q) {
+        //         $q->with('user:id,name');
+        //     }]);
+        // }])->find($pollQuestionId);
+    
+        $pollQuestionId = $request->pollQuestionId;
+
+        $data = Pollquestion::with(['polloption' => function ($query) {
             $query->withCount(['pollsurvey as survey_count' => function ($q) {
                 $q->select(\DB::raw('count(*)'));
             }])->with(['pollsurvey' => function ($q) {
                 $q->with('user:id,name');
             }]);
-        }])->find($pollQuestionId);
+        }])
+        ->withCount(['pollsurvey as total_votes' => function ($query) use ($pollQuestionId) {
+            $query->where('poll_question_id', $pollQuestionId);
+        }])
+        ->find($pollQuestionId);
+        
+
     
         if ($data) {
             return response([
