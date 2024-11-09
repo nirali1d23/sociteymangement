@@ -23,8 +23,11 @@ trait FirebaseNotificationTrait
         $token = $client->getAccessToken();
         return $token['access_token'];
     }
+
+    
     public function sendFirebaseNotification($fcmToken, $title, $body)
     {
+
         $message = [
             "message" => [
                 "token" => $fcmToken,
@@ -37,7 +40,7 @@ trait FirebaseNotificationTrait
         ];
 
        
-        $apiurl = 'https://fcm.googleapis.com/v1/projects/word-wizard-17983/messages:send';
+        $apiurl = 'https://fcm.googleapis.com/v1/projects/society-management-2de9d/messages:send';
         
       
         $headers = [
@@ -47,13 +50,19 @@ trait FirebaseNotificationTrait
 
     
         $response = Http::withHeaders($headers)->post($apiurl, $message);
+       
 
-        return $response;
+  
 
-        // if ($response->failed()) {
-        //     return response()->json(['error' => 'Notification failed to send.', 'details' => $response->json()], $response->status());
-        // } else {
-        //     return response()->json(['success' => 'Notification sent successfully', 'status' => 200]);
-        // }
+        if ($response->failed()) {
+            return response()->json(['error' => 'Notification failed to send.', 'details' => $response->json()], $response->status());
+        } else {
+            return response()->json(['success' => 'Notification sent successfully', 'status' => 200]);
+        }
+    }
+
+    public function sendnotificationuser($fcmToken,$title,$body)
+    {
+
     }
 }
