@@ -9,7 +9,7 @@ trait FirebaseNotificationTrait
     public function getGoogleAccessToken()
     {
         // Path to your Firebase service account JSON file
-        $credentialsFilePath = public_path('word-wizard-17983-firebase-adminsdk-xxnt0-e9f45c1840.json');
+        $credentialsFilePath = public_path('society-management-2de9d-firebase-adminsdk-c2g7j-756228fb96.json');
         
         // Initialize the Google Client
         $client = new Google_Client();
