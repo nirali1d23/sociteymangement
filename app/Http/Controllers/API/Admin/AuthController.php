@@ -32,7 +32,7 @@ class AuthController extends Controller
 
                 return response( [
                     'message' => 'Incorrect Password..!',
-                    'data' =>$user,
+                 
                     'statusCode' => 400
                 ],400 );
                     
@@ -50,6 +50,7 @@ class AuthController extends Controller
                     }
             return response( [
                 'message' => 'You can Login',
+                 'data' =>$user,
                 'statusCode' => 200
             ], 200 );
 
