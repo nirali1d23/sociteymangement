@@ -23,8 +23,6 @@ trait FirebaseNotificationTrait
         $token = $client->getAccessToken();
         return $token['access_token'];
     }
-
-    
     public function sendFirebaseNotification($fcmToken, $title, $body)
     {
 
@@ -65,4 +63,6 @@ trait FirebaseNotificationTrait
     {
 
     }
+
+    
 }
