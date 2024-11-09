@@ -39,7 +39,6 @@ class AuthController extends Controller
                 
             }
 
-
             if($user->user_type != $request->user_type)
                     {
                     return response( [

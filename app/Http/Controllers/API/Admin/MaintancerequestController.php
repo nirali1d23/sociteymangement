@@ -89,10 +89,12 @@ class MaintancerequestController extends Controller
             ], 200);
         }
         return response([
-            'message' => 'Data Not Fond..!',
-            'data' => $data,
+            'message' => 'Data Not Found..!',
+            'data' => [
+                'status' => 0 // Setting status to 0 when no data is found
+            ],
             'statusCode' => 404
-           ],404 );
+        ], 404);
 
 
 
