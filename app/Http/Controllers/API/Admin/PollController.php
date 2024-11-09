@@ -32,19 +32,45 @@ class PollController extends Controller
     }
     public function display(Request $request)
     {
+        // $data = Pollquestion::with(['polloption' => function($query) {
+        //     $query->withCount('pollsurvey');
+        // }])->get();
+      
+   
+        // if($data!=null)
+        // {
+        // return response([
+        //     'message' => 'Poll Displayed Successfully..!',
+        //     'data' => $data,
+        //     'statusCode' => 200
+        // ],200 );
+        // }
         $data = Pollquestion::with(['polloption' => function($query) {
             $query->withCount('pollsurvey');
-        }])->get();
-        // $data = Pollquestion::with('polloption')->get();
-   
-        if($data!=null)
-        {
+        }])->get()->map(function($question) {
+            // Calculate the total score by summing the pollsurvey counts of each option
+            $totalScore = $question->polloption->sum('pollsurvey_count');
+            
+            // Add the totalScore to each question
+            $question->total_score = $totalScore;
+            
+            return $question;
+        });
+    
+    if ($data->isNotEmpty()) {
         return response([
             'message' => 'Poll Displayed Successfully..!',
             'data' => $data,
             'statusCode' => 200
-        ],200 );
-        }
+        ], 200);
+    } else {
+        return response([
+            'message' => 'No Polls Found',
+            'data' => [],
+            'statusCode' => 404
+        ], 404);
+    }
+    
     } 
     public function polldetails(Request $request)
     {
