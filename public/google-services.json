@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "347136823507",
+    "project_id": "society-management-2de9d",
+    "storage_bucket": "society-management-2de9d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347136823507:android:138d113e64f527958d4426",
+        "android_client_info": {
+          "package_name": "com.example.society_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0AX8yeP2P2UYCsUjQAIt2MALykmXLlu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

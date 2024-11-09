@@ -126,9 +126,8 @@ Route::controller(vistiorcon::class)->group(function () {
 
 Route::controller(maintancon::class)->group(function () {
     Route::post('/requestmaitnace', 'requestmaitnace');
- 
-
 });
+
 
 Route::controller(maincon::class)->group(function () {
     Route::post('/updatemaintance', 'updatemaintance');

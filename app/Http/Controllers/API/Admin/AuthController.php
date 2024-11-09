@@ -32,6 +32,7 @@ class AuthController extends Controller
 
                 return response( [
                     'message' => 'Incorrect Password..!',
+                    'data' =>$user,
                     'statusCode' => 400
                 ],400 );
                     

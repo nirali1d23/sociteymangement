@@ -73,4 +73,6 @@ class VistiorController extends Controller
         ],400 );
     }
 
+    
+
 }
