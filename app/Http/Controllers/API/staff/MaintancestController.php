@@ -23,7 +23,7 @@ $data = MaintanceProcess::where('staff_id', $request->staff_id)
             {
                
                 $imageUrl = $item->maintenance && $item->maintenance->image 
-                            ? url('images/' . $item->maintenance->image) 
+                            ? url('image/' . $item->maintenance->image) 
                             : null;
                 
                 if ($item->maintenance) {
