@@ -16,7 +16,7 @@ class MaintancestController extends Controller
           
 ]);
 $data = MaintanceProcess::where('staff_id', $request->staff_id)
-            ->where('status', 0)
+            ->where('status', 1)
             ->with('maintenance')
             ->get()
             ->map(function ($item) 
