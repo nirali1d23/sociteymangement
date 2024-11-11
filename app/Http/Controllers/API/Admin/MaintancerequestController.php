@@ -49,6 +49,15 @@ class MaintancerequestController extends Controller
     }
     public function assigntostaff(Request $request)
     {
+
+      $d =   maintance ::find($request->maintance_id)->first();
+
+      if($d)
+      {
+        $d->status = 1;
+        $d->save();
+    
+    }
         MaintanceProcess::updateOrCreate(
             [
                 'maintance_request_id' => $request->maintance_id,
