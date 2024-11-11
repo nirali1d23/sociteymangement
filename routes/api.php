@@ -131,7 +131,7 @@ Route::controller(maintancon::class)->group(function () {
 
 Route::controller(maincon::class)->group(function () {
     Route::post('/updatemaintance', 'updatemaintance');
-    Route::get('/maintancelist', 'maintancelist');
+    Route::post('/maintancelist', 'maintancelist');
  
 
 });
