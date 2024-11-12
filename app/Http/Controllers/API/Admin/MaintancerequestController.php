@@ -11,7 +11,6 @@ class MaintancerequestController extends Controller
     public function displaymaintancerequest(Request $request)
     {
 
-        
         $data = maintance::when(request('status') == 1, function ($query) {
             $query->with(['maintenance_process' => function ($query) {
                 $query->with('staff:id,name'); 
@@ -20,14 +19,16 @@ class MaintancerequestController extends Controller
         ->get();
     
         $result = $data->map(function ($item) 
+        
         {
+
         if ($item->status == 1 && isset($item->maintenance_process)) 
         {
             return [
                 'maintenance_id' => $item->id,
                 'maintenance_details' => $item->description,
                 'status' =>  $item->maintenance_process->status,
-                'image' =>    url('images/' . $item->image),
+                'image' =>    url('image/' . $item->image),
                 'staff_id' => $item->maintenance_process->staff->id ?? null,
                 'staff_name' => $item->maintenance_process->staff->name ?? 'No staff assigned'
             ];
