@@ -7,9 +7,11 @@ use App\Models\MaintanceProcess;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 class MaintancerequestController extends Controller
-{
+{   
     public function displaymaintancerequest(Request $request)
     {
+
+          dd("funciton called");
         $data = maintance::when(request('status') == 1, function ($query) {
             $query->with(['maintenance_process' => function ($query) {
                 $query->with('staff:id,name'); 
