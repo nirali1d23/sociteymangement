@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Admin;
 use App\Models\Amenities;
+use App\Models\Bookamenities;
 use App\Traits\ImageUpload;
 use Symfony\Component\HttpFoundation\File\File;
 use App\Http\Controllers\Controller;
@@ -87,6 +88,15 @@ class AmenitiesController extends Controller
         if($store)
         {
              $store->delete();
+
+             $booking = Bookamenities::where('amenities_id',$request->id)->get();
+
+               if($booking)
+               {
+                   $booking->delete();
+               }
+
+
 
              return response( [
                 'message' => 'Amenities Deleted Successfully..!',

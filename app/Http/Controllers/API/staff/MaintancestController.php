@@ -14,8 +14,8 @@ class MaintancestController extends Controller
 
             'staff_id' => 'required',
           
-]);
-$data = MaintanceProcess::where('staff_id', $request->staff_id)
+        ]);
+        $data = MaintanceProcess::where('staff_id', $request->staff_id)
             // ->where('status', 1)
             ->with('maintenance')
             ->get()
@@ -33,14 +33,12 @@ $data = MaintanceProcess::where('staff_id', $request->staff_id)
                 return $item;
             });
 
-return response([
-    'message' => 'MaintanceRequest Displayed Successfully....!',
-    'data' => $data,
-    'statusCode' => 200
-], 200);
+        return response([
+            'message' => 'MaintanceRequest Displayed Successfully....!',
+            'data' => $data,
+            'statusCode' => 200], 200);
 
     }
-
     public function updatemaintance(Request $request)
     {  
         $data = MaintanceProcess::where('maintance_request_id',$request->id)->first();
