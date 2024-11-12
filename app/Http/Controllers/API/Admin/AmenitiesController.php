@@ -89,11 +89,13 @@ class AmenitiesController extends Controller
         {
              $store->delete();
 
-             $booking = Bookamenities::where('amenities_id',$request->id)->get();
+             $bookings = Bookamenities::where('amenities_id',$request->id)->get();
 
-               if($booking)
+               if($bookings)
                {
-                   $booking->delete();
+                foreach ($bookings as $booking) {
+                    $booking->delete();
+                }
                }
 
 
