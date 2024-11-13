@@ -3,7 +3,6 @@ namespace App\Http\Controllers\API\User;
 use App\Models\Bookamenities;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 class AmenitiesController extends Controller
 {
     public function requestamenitiesbooking(Request $request)
@@ -20,7 +19,6 @@ class AmenitiesController extends Controller
             'data' => $data,    
             'statusCode' => 200],200);
     }
-
     public function cancelbooking(Request $request)
     {
        $data =  Bookamenities::find($request->id);

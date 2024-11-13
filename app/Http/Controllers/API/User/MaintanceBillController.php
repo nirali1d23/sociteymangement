@@ -28,6 +28,4 @@ class MaintanceBillController extends Controller
             'statusCode' => 200
          ],200);
     }
-
-
 }

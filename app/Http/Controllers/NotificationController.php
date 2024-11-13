@@ -17,4 +17,5 @@ class NotificationController extends Controller
         $body = "This is a test notification";
         return $this->sendFirebaseNotification($fcmToken, $title, $body);
     }
+
 }   

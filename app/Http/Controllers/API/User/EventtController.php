@@ -5,7 +5,6 @@ use App\Models\Event;
 use App\Models\EventFeedback;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 class EventtController extends Controller
 {
     public function eventdisplay(Request $request)
