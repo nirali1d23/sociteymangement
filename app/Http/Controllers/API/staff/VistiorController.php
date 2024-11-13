@@ -57,7 +57,25 @@ class VistiorController extends Controller
 
           if($previstor)
           {
-              
+                $previstor->vehicle_number = $request->vehicle_number;
+                $previstor->purpose	 = $request->purpose;
+                $previstor->entry_time	 = $request->entry_time	;
+                $previstor->exit_time = $request->exit_time	;
+
+                $previstor->save();
+
+                return response( [
+                    'message' => 'PreVisitor Updated Successfully',
+                    'data' => $previstor,
+                    'statusCode' => 200
+                        ],200);
+
           }
+
+          return response( [
+            'message' => 'PreVisitor Not Found',
+            'data' => $data,
+            'statusCode' => 404
+                ],404);
     }
 }
