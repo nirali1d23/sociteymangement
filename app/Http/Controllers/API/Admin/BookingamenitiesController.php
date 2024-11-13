@@ -20,12 +20,10 @@ class BookingamenitiesController extends Controller
     public function changestatusbookaementies(Request $request)
     {
           $data = Bookamenities::find($request->bookaemnitites_id);
-
           if($data!=null)
           {
             $data->status = $request->status;
             $data->save();
-
             return response( [
                 'message' => 'status updated Successfully..!',
                 'data' => $data,

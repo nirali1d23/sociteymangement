@@ -90,16 +90,13 @@ class AmenitiesController extends Controller
              $store->delete();
 
              $bookings = Bookamenities::where('amenities_id',$request->id)->get();
-
                if($bookings)
                {
-                foreach ($bookings as $booking) {
-                    $booking->delete();
-                }
+                    foreach ($bookings as $booking) 
+                    {
+                        $booking->delete();
+                    }
                }
-
-
-
              return response( [
                 'message' => 'Amenities Deleted Successfully..!',
                 'statusCode' => 200
