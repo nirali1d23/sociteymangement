@@ -5,12 +5,12 @@ use App\Models\Notice;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\ImageUpload;
-use App\Traits\sendFirebaseNotification;
+use App\Traits\FirebaseNotificationTrait;
 use Symfony\Component\HttpFoundation\File\File;
 class NoticeController extends Controller
 {
     use ImageUpload;
-    use sendFirebaseNotification;
+    use FirebaseNotificationTrait;
     public function create(Request $request)
     {
 
