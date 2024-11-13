@@ -5,10 +5,12 @@ use App\Models\Notice;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\ImageUpload;
+use App\Traits\sendFirebaseNotification;
 use Symfony\Component\HttpFoundation\File\File;
 class NoticeController extends Controller
 {
     use ImageUpload;
+    use sendFirebaseNotification;
     public function create(Request $request)
     {
 
@@ -32,6 +34,21 @@ class NoticeController extends Controller
         $notice->time = $request->time;
 
         $notice->save();
+
+
+         $user = User::where('user_type',9)->get();
+           foreach($user as $userdata)
+           {
+            $fcmToken = $userdata->fcm_token;
+              if($fcmToken)
+              {
+            $title = "New Notice Is created";
+            $body = "This is a test notification";
+            return $this->sendFirebaseNotification($fcmToken, $title, $body);
+              }
+           }
+       
+
 
         return response( [
             'message' => 'Notice Created Successfully..!',

@@ -124,24 +124,18 @@ Route::controller(vistiorcon::class)->group(function () {
     Route::post('/pendingvistorlist', 'pendingvistorlist');
     Route::post('/approvevistiorr', 'approvevistior');
 });
-
 Route::controller(maintancon::class)->group(function () {
     Route::post('/requestmaitnace', 'requestmaitnace');
 });
-
-
 Route::controller(maincon::class)->group(function () {
     Route::post('/updatemaintance', 'updatemaintance');
     Route::post('/maintancelist', 'maintancelist');
- 
-
 });
 
 Route::controller(noticecon::class)->group(function () {
     Route::post('/notice_comment', 'notice_comment');
  
 });
-
 
 // Event Feedback Routes
 Route::post('/eventfeedback', [EventtController::class, 'eventfeedback']);
