@@ -32,6 +32,8 @@ class ReportController extends Controller
                     return [
                         'id' => $item->id,
                         'date' => $item->date,
+                        'time' => $item->time,
+                        'description' => $item->description ?? 'N/A',
                         'user_id' => $item->user_id,
                         'user_name' => $item->user->name ?? 'N/A', 
                         'amenities_id' => $item->amenities_id,

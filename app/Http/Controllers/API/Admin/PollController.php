@@ -6,7 +6,6 @@ use App\Models\Pollquestion;
 use App\Models\Pollsurvey;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 class PollController extends Controller
 {
     public function create(Request $request)
@@ -32,19 +31,7 @@ class PollController extends Controller
     }
     public function display(Request $request)
     {
-        // $data = Pollquestion::with(['polloption' => function($query) {
-        //     $query->withCount('pollsurvey');
-        // }])->get();
       
-   
-        // if($data!=null)
-        // {
-        // return response([
-        //     'message' => 'Poll Displayed Successfully..!',
-        //     'data' => $data,
-        //     'statusCode' => 200
-        // ],200 );
-        // }
         $data = Pollquestion::with(['polloption' => function($query) {
             $query->withCount('pollsurvey');
         }])->get()->map(function($question) {
@@ -57,19 +44,19 @@ class PollController extends Controller
             return $question;
         });
     
-    if ($data->isNotEmpty()) {
-        return response([
-            'message' => 'Poll Displayed Successfully..!',
-            'data' => $data,
-            'statusCode' => 200
-        ], 200);
-    } else {
-        return response([
-            'message' => 'No Polls Found',
-            'data' => [],
-            'statusCode' => 404
-        ], 404);
-    }
+            if ($data->isNotEmpty()) {
+                return response([
+                    'message' => 'Poll Displayed Successfully..!',
+                    'data' => $data,
+                    'statusCode' => 200
+                ], 200);
+            } else {
+                return response([
+                    'message' => 'No Polls Found',
+                    'data' => [],
+                    'statusCode' => 404
+                ], 404);
+            }
     
     } 
     public function polldetails(Request $request)

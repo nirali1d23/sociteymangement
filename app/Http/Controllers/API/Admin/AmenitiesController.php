@@ -7,7 +7,6 @@ use App\Traits\ImageUpload;
 use Symfony\Component\HttpFoundation\File\File;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 class AmenitiesController extends Controller
 {
     use ImageUpload;
@@ -38,13 +37,10 @@ class AmenitiesController extends Controller
              $item->image = url('images/' . $item->image);
              return $item;
         });
-
         return response([
-        
            'message' => 'Amenities Displayed Successfully..!',
            'data' => $data,
            'statusCode' => 200
-        
         ],200);
     }
     public function edit(Request $request)

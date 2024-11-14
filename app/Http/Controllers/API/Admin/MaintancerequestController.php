@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\API\Admin;
 use App\Models\maintance;
 use App\Models\User;
@@ -56,11 +55,11 @@ class MaintancerequestController extends Controller
       $d =   maintance ::find($request->maintance_id)->first();
 
       if($d)
-      {
+         {
         $d->status = 1;
         $d->save();
     
-    }
+            }
         MaintanceProcess::updateOrCreate(
             [
                 'maintance_request_id' => $request->maintance_id,
