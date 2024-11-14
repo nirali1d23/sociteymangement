@@ -20,6 +20,9 @@ class VistiorController extends Controller
 
         ]);
 
+
+      
+
         return response( [
             'message' => 'Visitor Created Successfully',
             'data' => $data,
