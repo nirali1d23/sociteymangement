@@ -40,7 +40,7 @@ trait FirebaseNotificationTrait
 
        
    
-        $apiurl = 'https://fcm.googleapis.com/v1/projects/opal-empire-ea1b3/messages:send';
+        $apiurl = 'https://fcm.googleapis.com/v1/projects/society-management-2de9d/messages:send';
         
       
         $headers = [
