@@ -17,7 +17,6 @@ class NoticeController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-
             'title' => 'required',
             'description' => 'required',
            ]);

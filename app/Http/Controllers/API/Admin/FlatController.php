@@ -9,9 +9,7 @@ use Illuminate\Http\Request;
 class FlatController extends Controller
 {
     public function create(Request $request)
-    {
-
-        
+    {  
         if ($request->has('block')) 
         {
             $data = []; 
@@ -49,6 +47,7 @@ class FlatController extends Controller
 
         }
 
+        
         // $flat = new Flat;
         // $flat->block_number = $request->block_number;
         // $flat->residencey_name = $request->residencey_name;

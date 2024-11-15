@@ -9,7 +9,8 @@ trait FirebaseNotificationTrait
     public function getGoogleAccessToken()
     {
         // Path to your Firebase service account JSON file
-        $credentialsFilePath = public_path('society-management-2de9d-firebase-adminsdk-c2g7j-756228fb96.json');
+        // $credentialsFilePath = public_path('society-management-2de9d-firebase-adminsdk-c2g7j-756228fb96.json');
+        $credentialsFilePath = public_path('firebase.json');
         
         // Initialize the Google Client
         $client = new Google_Client();
@@ -38,7 +39,8 @@ trait FirebaseNotificationTrait
         ];
 
        
-        $apiurl = 'https://fcm.googleapis.com/v1/projects/society-management-2de9d/messages:send';
+        // $apiurl = 'https://fcm.googleapis.com/v1/projects/society-management-2de9d/messages:send';
+        $apiurl = 'https://fcm.googleapis.com/v1/projects/opal-empire-ea1b3/messages:send';
         
       
         $headers = [
