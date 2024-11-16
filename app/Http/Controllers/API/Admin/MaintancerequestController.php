@@ -11,7 +11,7 @@ class MaintancerequestController extends Controller
 {   
     use FirebaseNotificationTrait;
 
-    
+
     public function displaymaintancerequest(Request $request)
     {
 
@@ -81,7 +81,9 @@ class MaintancerequestController extends Controller
         {
         $title = "Test Notification";
         $body = "This is a test notification";
-        return $this->sendFirebaseNotification($fcmToken, $title, $body);
+         
+    
+        $this->sendFirebaseNotification($fcmToken, $title, $body);
         }
 
 
