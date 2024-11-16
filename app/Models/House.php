@@ -16,5 +16,7 @@ class House extends Model
         return $this->belongsTo(Flat::class);
     }
 
+    
+
 
 }

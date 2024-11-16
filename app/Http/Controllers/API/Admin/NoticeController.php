@@ -35,17 +35,17 @@ class NoticeController extends Controller
         $notice->save();
 
 
-        //  $user = User::where('user_type',9)->get();
-        //    foreach($user as $userdata)
-        //    {
-        //     $fcmToken = $userdata->fcm_token;
-        //       if($fcmToken)
-        //       {
-        //     $title = "New Notice Is created";
-        //     $body = "This is a test notification";
-        //     return $this->sendFirebaseNotification($fcmToken, $title, $body);
-        //       }
-        //    }
+         $user = User::where('user_type',9)->get();
+           foreach($user as $userdata)
+           {
+            $fcmToken = $userdata->fcm_token;
+              if($fcmToken)
+              {
+            $title = "🌟 Exciting News! A New Notice Has Arrived!";
+            $body = "Hey there! We've got something new for you. Check out the latest notice and stay informed. Don't miss it!";
+             $this->sendFirebaseNotification($fcmToken, $title, $body);
+              }
+           }
        
 
 

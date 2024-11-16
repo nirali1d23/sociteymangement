@@ -15,6 +15,7 @@ class VistiorController extends Controller
              'visitor_name' => $request->visitor_name,
              'date' => $request->date,
              'flat_no' => $request->flat_no,
+             'user_id' => $request->user_id,
              'contact_number' => $request->contact_number,
              'vehicle_number' => $request->vehicle_number,
              'purpose' => $request->purpose,
