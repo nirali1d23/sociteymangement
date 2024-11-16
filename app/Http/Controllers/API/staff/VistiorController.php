@@ -10,7 +10,6 @@ class VistiorController extends Controller
     public function visitorentry(Request $request)
     {
        $data =  Visitor::create([
-
          'visitor_name' => $request->visitor_name,
          'date' => $request->visitor_date,
          'check_in' => $request->check_in,
@@ -19,35 +18,24 @@ class VistiorController extends Controller
          'status' => 0
 
         ]);
-
-
-      
-
         return response( [
             'message' => 'Visitor Created Successfully',
             'data' => $data,
             'statusCode' => 200
         ],200);
-
-
     }
     public function visitorentrydetails(Request $request)
     {
-
         $data = Visitor::all();
-
         return response( [
             'message' => 'Visitor Created Successfully',
             'data' => $data,
             'statusCode' => 200
         ],200);
-
-           
     }
     public function previsitorlist(Request $request)
     {
        $data =  preapproval::all();
-
        return response( [
         'message' => 'PreVisitor Displayed Successfully',
         'data' => $data,

@@ -1,12 +1,17 @@
 <?php
 namespace App\Http\Controllers\API\Admin;
 use App\Models\maintance;
+use App\Traits\FirebaseNotificationTrait;
+
 use App\Models\User;
 use App\Models\MaintanceProcess;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 class MaintancerequestController extends Controller
 {   
+    use FirebaseNotificationTrait;
+
+    
     public function displaymaintancerequest(Request $request)
     {
 
@@ -51,9 +56,8 @@ class MaintancerequestController extends Controller
     }
     public function assigntostaff(Request $request)
     {
-
       $d =   maintance ::find($request->maintance_id)->first();
-
+     
       if($d)
          {
         $d->status = 1;
@@ -70,6 +74,17 @@ class MaintancerequestController extends Controller
             ]
         );
     
+
+        $user = User::where('id',$request->staff_id)->where('user_type','3')->first();
+        $fcmToken = $user->fcm_token;
+        if($fcmToken)
+        {
+        $title = "Test Notification";
+        $body = "This is a test notification";
+        return $this->sendFirebaseNotification($fcmToken, $title, $body);
+        }
+
+
         return response([
             'message' => 'MaintanceRequest Assigned Successfully..!',
             'statusCode' => 200

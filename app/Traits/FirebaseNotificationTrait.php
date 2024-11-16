@@ -60,7 +60,6 @@ trait FirebaseNotificationTrait
             return response()->json(['success' => 'Notification sent successfully', 'status' => 200]);
         }
     }
-
     public function sendnotificationuser($fcmToken,$title,$body)
     {
 
