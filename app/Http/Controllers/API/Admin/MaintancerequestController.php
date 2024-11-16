@@ -73,13 +73,11 @@ class MaintancerequestController extends Controller
                 'status' => $request->status
             ]
         );
-    
-
         $user = User::where('id',$request->staff_id)->where('user_type','3')->first();
         $fcmToken = $user->fcm_token;
         if($fcmToken)
         {
-        $title = "Test Notification";
+        $title = "New Task Assign To You ✔";
         $body = "This is a test notification";
          
     
