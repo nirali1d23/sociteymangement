@@ -22,8 +22,30 @@ class BookingamenitiesController extends Controller
           $data = Bookamenities::find($request->bookaemnitites_id);
           if($data!=null)
           {
+
             $data->status = $request->status;
             $data->save();
+
+            $user = User::where('id',$data->user_id)->first();
+            $fcmToken = $user->fcm_token;
+            if($fcmToken)
+            {
+              
+                if($request->status == '1')
+                {
+
+                 $title = " Your Booking Amenities Request is Approved! 🎉";
+                 $body = "Great news! Your request for amenity booking has been approved by our admin team. We hope you enjoy the added comfort and convenience!";
+                }
+
+                 else
+                 {
+                    $title = " Update on Your Booking Amenities Request ❗";
+                     $body = "Unfortunately, your request for amenity Booking could not be approved. Please contact our support team for further details or assistance. We're here to help!";
+                 }
+        
+            $this->sendFirebaseNotification($fcmToken, $title, $body);
+            }
             return response( [
                 'message' => 'status updated Successfully..!',
                 'data' => $data,
