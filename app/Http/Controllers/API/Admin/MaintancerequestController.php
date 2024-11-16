@@ -77,7 +77,7 @@ class MaintancerequestController extends Controller
         $fcmToken = $user->fcm_token;
         if($fcmToken)
         {
-        $title = "New Task Assign To You ✔";
+        $title = "New Task Assign To You ✅";
         $body = "This is a test notification";
          
     
