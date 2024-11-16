@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Bookamenities;
 use App\Models\User;
+use App\Traits\FirebaseNotificationTrait;
+
 class BookingamenitiesController extends Controller
 {
+    use FirebaseNotificationTrait;
+
     public function display(Request $request)
     {
          $data = Bookamenities::with('amenity')->orderBy('created_at', 'desc')->get();
