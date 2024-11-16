@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Bookamenities;
+use App\Models\User;
 class BookingamenitiesController extends Controller
 {
     public function display(Request $request)
