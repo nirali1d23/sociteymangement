@@ -9,4 +9,9 @@ class Notice extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function notice_commnet()
+    {
+        return $this->hasMany(NoticeComment::class, 'notice_id');
+    }
 }

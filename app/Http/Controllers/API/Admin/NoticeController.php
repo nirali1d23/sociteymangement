@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\ImageUpload;
+use App\Models\NoticeComment;
+
 use App\Traits\FirebaseNotificationTrait;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -121,5 +123,9 @@ class NoticeController extends Controller
             'statusCode' => 200
         ], 200);
     }
-    
+    public function commentlist(Request $request)
+   {
+         $data = NoticeComment::with('user')->with('notice')->get();
+         
+   }
 }

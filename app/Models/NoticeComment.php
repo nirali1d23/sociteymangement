@@ -11,4 +11,15 @@ class NoticeComment extends Model
 
     protected $table = 'notice_comments';
     protected $guarded = [];
+
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function notice()
+    {
+        return $this->belongsTo(Notice::class, 'notice_id');
+    }
 }
