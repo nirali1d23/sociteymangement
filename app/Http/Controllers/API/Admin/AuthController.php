@@ -47,6 +47,9 @@ class AuthController extends Controller
                     ], 200 );
                         
                     }
+
+                    $user->fcm_token = $request->fcm_token;
+                    $user->save();
             return response( [
                 'message' => 'You can Login',
                  'data' =>$user,
