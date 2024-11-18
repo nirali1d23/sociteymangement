@@ -77,8 +77,9 @@ class MaintancerequestController extends Controller
         $fcmToken = $user->fcm_token;
         if($fcmToken)
         {
-        $title = "New Task Assign To You 😑";
-        $body = "This is a test notification";
+            $title = "Exciting New Task Just for You! 🎉";
+            $body = "Hey there! You've been assigned a new task that's perfect for you. Let's make it amazing together! 💪✨";
+            
          
     
         $this->sendFirebaseNotification($fcmToken, $title, $body);
