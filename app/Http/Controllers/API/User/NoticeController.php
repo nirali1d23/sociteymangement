@@ -28,7 +28,14 @@ class NoticeController extends Controller
                 $fcmToken = $token->fcm_token;
                 $title = "💬 New Comment on Your Notice!";
                 $body = "📢 Someone has commented on your notice. Kindly review the comment and take appropriate action if needed. Thank you! 🏢";
-                 $this->sendFirebaseNotification($fcmToken, $title, $body);
+      
+                $data = [
+                    "notice_id" => $request->notice_id,
+                    "comment_id" => $request->comment,
+                    "user_name" => $request->user_id,
+                ];
+                
+                $this->sendFirebaseNotification($fcmToken, $title, $body,$data);
             }
         
 
