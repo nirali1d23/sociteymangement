@@ -126,6 +126,12 @@ class NoticeController extends Controller
     public function commentlist(Request $request)
    {
          $data = NoticeComment::with('user')->with('notice')->get();
-         
+
+         return response([
+            'message' => 'Notice Comment displayed Successfully..!',
+            'data' => $data,
+            'statusCode' => 200
+           ],200 );
+
    }
 }
