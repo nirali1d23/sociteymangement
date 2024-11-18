@@ -3,6 +3,7 @@ namespace App\Http\Controllers\API\Admin;
 use App\Models\Maintancebill;
 use App\Models\Maintancebilllist;
 use App\Models\Flat;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\FirebaseNotificationTrait;
