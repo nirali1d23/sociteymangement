@@ -59,4 +59,19 @@ class AllotmentController extends Controller
 
 
     }
+
+    public function delteuser(Request $request)
+    {
+
+        $request->validate([
+            'user_id' => 'required',
+           ]);
+
+
+           $data = User::find($request->user_id);
+
+
+          
+
+    }
 }

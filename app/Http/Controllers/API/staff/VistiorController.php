@@ -56,6 +56,17 @@ class VistiorController extends Controller
 
                 $previstor->save();
 
+                $new =  new Visitor;
+                $new->visitor_name = $previstor->visitor_name;	
+                $new->date = date('Y-m-d');	
+                $new->check_in = $request->entry_time;	
+                $new->flat_no = $previstor->flat_no;	
+                $new->status = 1;
+                $new->purpose = $previstor->purpose;
+                
+                $new->save();
+                
+
                 return response( [
                     'message' => 'PreVisitor Updated Successfully',
                     'data' => $previstor,

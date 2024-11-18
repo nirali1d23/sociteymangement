@@ -8,12 +8,9 @@ use App\Models\Visitor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\FirebaseNotificationTrait;
-
-
 class VisitorsController extends Controller
 {
     use FirebaseNotificationTrait;
-
     public function prebookingrequestlist(Request $request)
     {
 
@@ -43,15 +40,12 @@ class VisitorsController extends Controller
     public function approvalprebooking(Request $request)
     {
         $booking = preapproval::find($request->booking_id);
-
         if($booking!=null)
         {
              $booking->status =  $request->status;
              $booking->save();
-
             $user = User::find($booking->user_id);
-
-      
+     
              $fcmToken = $user->fcm_token;
              if($fcmToken)
              {
@@ -59,7 +53,7 @@ class VisitorsController extends Controller
                  if($request->status == '1')
                  {
  
-                  $title = "Your Pre-Visitor Booking is Confirmed! ✅";
+                  $title = "Your Pre-Visitor Booking is Confirmed!✅";
                   $body = "Good news! Your pre-visitor booking for  visitor has been approved by our admin team. We're excited to welcome your visitor!";
                  }
  
@@ -84,8 +78,4 @@ class VisitorsController extends Controller
 
         }
     }
-
-
-
-
 }
