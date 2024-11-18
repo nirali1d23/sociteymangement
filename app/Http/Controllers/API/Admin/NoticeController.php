@@ -35,7 +35,7 @@ class NoticeController extends Controller
         $notice->save();
 
 
-         $user = User::where('user_type',9)->get();
+         $user = User::all();
            foreach($user as $userdata)
            {
             $fcmToken = $userdata->fcm_token;
