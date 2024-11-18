@@ -24,8 +24,9 @@ trait FirebaseNotificationTrait
         $token = $client->getAccessToken();
         return $token['access_token'];
     }
-    public function sendFirebaseNotification($fcmToken, $title, $body)
+    public function sendFirebaseNotification($fcmToken, $title, $body, $data = [])
     {
+        $stringifiedData = array_map('strval', $data);
         $message = 
         [
             "message" => [
@@ -34,7 +35,7 @@ trait FirebaseNotificationTrait
                     'title' => $title,
                     'body' => $body,
                 ],  
-                // "data" => $data,    
+                "data" => $stringifiedData 
             ],
         ];
         $apiurl = 'https://fcm.googleapis.com/v1/projects/society-management-2de9d/messages:send'; 

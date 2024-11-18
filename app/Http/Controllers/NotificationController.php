@@ -15,7 +15,12 @@ class NotificationController extends Controller
         $fcmToken = $request->input('token');
         $title = "Test Notification";
         $body = "This is a test notification";
-        return $this->sendFirebaseNotification($fcmToken, $title, $body);
+        $data = [
+            "notice_id" =>324,
+            "comment_id" => 32,
+            "user_name" => 23432,
+        ];
+        return $this->sendFirebaseNotification($fcmToken, $title, $body,$data);
     }
 
 }   
