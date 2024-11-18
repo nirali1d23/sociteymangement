@@ -11,6 +11,15 @@ class VistiorController extends Controller
 {
     public function prebookvistior(Request $request)
     {
+        $request->validate([
+            'visitor_name' => 'required',
+            'date' => 'required',
+            'flat_no' => 'required',
+            'user_id' => 'required',
+            'contact_number' => 'required',
+            'vehicle_number' => 'required',
+            'purpose' => 'required',
+            ]);
       $data =   preapproval::create([
              'visitor_name' => $request->visitor_name,
              'date' => $request->date,
@@ -20,7 +29,6 @@ class VistiorController extends Controller
              'vehicle_number' => $request->vehicle_number,
              'purpose' => $request->purpose,
         ]);
-
         return response( [
             'message' => 'Prebook request created  Successfully..!',
              'data' =>$data,
@@ -48,23 +56,19 @@ class VistiorController extends Controller
              'data' =>$data,
             'statusCode' => 200
         ],200 );
-
     }
     public function approvevistior(Request $request)
     {
         $data = Visitor::find($request->id);
         if($data)
         {
-
             $data->status = $request->status;
             $data->save();
-
             return response( [
                 'message' => 'Visitor Status changed Successfully..!',
                  'data' =>$data,
                 'statusCode' => 200
             ],200 );
-
         }
 
         return response( [
@@ -73,10 +77,4 @@ class VistiorController extends Controller
             'statusCode' => 400
         ],400 );
     }
-
-
-    
-
-    
-
 }

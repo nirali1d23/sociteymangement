@@ -26,44 +26,73 @@ trait FirebaseNotificationTrait
     }
     public function sendFirebaseNotification($fcmToken, $title, $body)
     {
-
-        $message = [
+        $message = 
+        [
             "message" => [
                 "token" => $fcmToken,
                 'notification' => [
                     'title' => $title,
                     'body' => $body,
-                ],
-                
+                ],      
             ],
         ];
-
-       
-   
-        $apiurl = 'https://fcm.googleapis.com/v1/projects/society-management-2de9d/messages:send';
-        
-      
+        $apiurl = 'https://fcm.googleapis.com/v1/projects/society-management-2de9d/messages:send'; 
         $headers = [
             'Authorization' => 'Bearer ' . $this->getGoogleAccessToken(),
             'Content-Type' => 'application/json',
         ];
-
-    
         $response = Http::withHeaders($headers)->post($apiurl, $message);
-       
-
-  
-
-        if ($response->failed()) {
+        if ($response->failed()) 
+        {
             return response()->json(['error' => 'Notification failed to send.', 'details' => $response->json()], $response->status());
-        } else {
+        } else 
+        {
             return response()->json(['success' => 'Notification sent successfully', 'status' => 200]);
         }
     }
-    public function sendnotificationuser($fcmToken,$title,$body)
+    public function getGoogleAccessToken2()
     {
-
+        // Path to your Firebase service account JSON file
+        $credentialsFilePath = public_path('society-management-2de9d-firebase-adminsdk-c2g7j-756228fb96.json');
+       
+        
+        // Initialize the Google Client
+        $client = new Google_Client();
+        $client->setAuthConfig($credentialsFilePath);
+        $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
+        
+        // Fetch access token with assertion
+        $client->fetchAccessTokenWithAssertion();
+        
+        // Get the token and return it
+        $token = $client->getAccessToken();
+        return $token['access_token'];
     }
-
+    public function sendFirebaseStaffNotification($fcmToken, $title, $body)
+    {
+        $message = 
+        [
+            "message" => [
+                "token" => $fcmToken,
+                'notification' => [
+                    'title' => $title,
+                    'body' => $body,
+                ],      
+            ],
+        ];
+        $apiurl = 'https://fcm.googleapis.com/v1/projects/society-management-2de9d/messages:send'; 
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->getGoogleAccessToken2(),
+            'Content-Type' => 'application/json',
+        ];
+        $response = Http::withHeaders($headers)->post($apiurl, $message);
+        if ($response->failed()) 
+        {
+            return response()->json(['error' => 'Notification failed to send.', 'details' => $response->json()], $response->status());
+        } else 
+        {
+            return response()->json(['success' => 'Notification sent successfully', 'status' => 200]);
+        }
+    }
     
 }

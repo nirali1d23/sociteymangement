@@ -5,8 +5,12 @@ use App\Models\Maintancebilllist;
 use App\Models\Flat;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Traits\FirebaseNotificationTrait;
+
 class MaintanceBillController extends Controller
 {
+    use FirebaseNotificationTrait;
+
     public function store(Request $request)
     {
         $store =  new Maintancebill;
@@ -15,6 +19,18 @@ class MaintanceBillController extends Controller
         $store->member_type = $request->member_type;
         $store->billing_period = $request->billing_period;
         $store->save();
+
+        $data = User::all();
+        foreach($data as  $token)
+        {
+            if($token->fcm_token !=null)
+            {
+                $fcmToken = $token->fcm_token;
+                $title = "📋 New Maintenance Bill Generated!";
+                $body = "💡 Your latest maintenance bill is ready. Kindly review the details and make your payment promptly. Thank you! 🏡";
+                return $this->sendFirebaseNotification($fcmToken, $title, $body);
+            }
+        }
 
         return response( [
             'message' => 'Maintance  Bill created  Successfully..!',

@@ -33,20 +33,17 @@ class EventController extends Controller
         $create->instruction= $request->instruction;
         $create->image= $image;
         $create->save();
-
-        // $data = User::all();
-        // foreach($data as  $token)
-        // {
-        //     if($token->fcm_token !=null)
-        //     {
-
-        //       $fcmToken = $token->fcm_token;
-        //       $title = "Test Notification";
-        //      $body = "This is a test notification";
-        //      return $this->sendFirebaseNotification($fcmToken, $title, $body);
-        //     }
-        // }
-
+        $data = User::all();
+        foreach($data as  $token)
+        {
+            if($token->fcm_token !=null)
+            {
+                $fcmToken = $token->fcm_token;
+                $title = "🎉 New Event Alert!";
+                $body = "✨ Don't miss out! Join us for an unforgettable experience. Stay tuned for more details! 🌟";   
+                 $this->sendFirebaseNotification($fcmToken, $title, $body);
+            }
+        }
         return response( [
             'message' => 'Event Created Successfully..!',
             'statusCode' => 200
@@ -54,24 +51,18 @@ class EventController extends Controller
     }
     public function display(Request $request)
     {
-         
         $query = Event::query();
-
-        // Apply name filter if provided
         if ($request->has('event_name') && !empty($request->event_name)) {
             $query->where('event_name', 'like', '%' . $request->event_name . '%');
         }
-    
-        // Apply date filter if provided
         if ($request->has('date') && !empty($request->date)) {
             $query->whereDate('date', $request->date);
         }
-    
-        // Get the filtered data and map the image URLs
-        $data = $query->get()->map(function($item) {
+        $data = $query->get()->map(function($item) 
+          {
             $item->image = url('images/' . $item->image);
             return $item;
-        });
+           });
     
         // Return the response with the filtered data
         return response([
@@ -91,8 +82,8 @@ class EventController extends Controller
     }
     public function edit(Request $request)
     {
-
           $data = Event::find($request->id);
+
           if($data)
           {
             if ($request->hasFile('image')) 
@@ -101,31 +92,25 @@ class EventController extends Controller
                 $image = $this->uploadImage($image_1, 'image');
                  $data->image = $image;
             }
-
             if($request->has('event_name'))
             {
                 $data->event_name = $request->event_name;
-
             }
             if($request->has('date'))
             {
                 $data->date = $request->date;
-
             }
             if($request->has('area'))
             {
                 $data->area = $request->area;
-
             }
             if($request->has('time'))
             {
                 $data->time = $request->time;
-
             }
             if($request->has('day'))
             {
                 $data->day = $request->day;
-
             }
             if($request->has('instruction'))
             {
