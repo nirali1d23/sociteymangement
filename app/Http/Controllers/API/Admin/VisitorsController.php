@@ -27,7 +27,6 @@ class VisitorsController extends Controller
     }
     public function visitorlist(Request $request)
     {
-
          $data = Visitor::all();
          return response([        
             'message' => 'visitorlist Displayed Successfully..!',

@@ -35,7 +35,7 @@ class VistiorController extends Controller
     }
     public function previsitorlist(Request $request)
     {
-       $data =  preapproval::all();
+       $data =  preapproval::where('status',1)->get();
        return response( [
         'message' => 'PreVisitor Displayed Successfully',
         'data' => $data,
@@ -45,17 +45,13 @@ class VistiorController extends Controller
     public function updateprevisitor(Request $request)
     {
           $previstor = preapproval::find($request->previstorid);
-
           if($previstor)
           {
                 $previstor->vehicle_number = $request->vehicle_number;
                 $previstor->purpose	 = $request->purpose;
                 $previstor->entry_time	 = $request->entry_time	;
                 $previstor->exit_time = $request->exit_time	;
-                
-
                 $previstor->save();
-
                 $new =  new Visitor;
                 $new->visitor_name = $previstor->visitor_name;	
                 $new->date = date('Y-m-d');	
@@ -63,10 +59,7 @@ class VistiorController extends Controller
                 $new->flat_no = $previstor->flat_no;	
                 $new->status = 1;
                 $new->purpose = $previstor->purpose;
-                
                 $new->save();
-                
-
                 return response( [
                     'message' => 'PreVisitor Updated Successfully',
                     'data' => $previstor,
@@ -74,7 +67,6 @@ class VistiorController extends Controller
                         ],200);
 
           }
-
           return response( [
             'message' => 'PreVisitor Not Found',
             'data' => $data,
