@@ -29,7 +29,7 @@ class MaintanceBillController extends Controller
                 $fcmToken = $token->fcm_token;
                 $title = "📋 New Maintenance Bill Generated!";
                 $body = "💡 Your latest maintenance bill is ready. Kindly review the details and make your payment promptly. Thank you! 🏡";
-                return $this->sendFirebaseNotification($fcmToken, $title, $body);
+                 $this->sendFirebaseNotification($fcmToken, $title, $body);
             }
         }
 
