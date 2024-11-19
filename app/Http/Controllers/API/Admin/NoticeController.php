@@ -69,7 +69,7 @@ class NoticeController extends Controller
         //     'statusCode' => 200
         // ],200 );
 
-        $data = Notice::orderBy('created_at', 'desc')->get()->map(function($item) {
+        $data = Notice::whereNull('start_date')->orderBy('created_at', 'desc')->get()->map(function($item) {
             // Modify the image field to include the full URL
             $item->image = url('images/' . $item->image);
             return $item;
