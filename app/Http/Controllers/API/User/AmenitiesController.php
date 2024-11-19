@@ -22,11 +22,12 @@ class AmenitiesController extends Controller
 
         $token = User::where('user_type',0)->first();
 
+        dd($token);
+
 
        
             if($token->fcm_token !=null)
             {
-                dd("dsf");
                 $fcmToken = $token->fcm_token;
                 $title = "🛎️ New Amenity Booking Request!";
                 $body = "📋 A new request for booking amenities has been submitted. Please review the details and take action. ✅ Approve or ❌ Disapprove the request now.";
@@ -34,7 +35,8 @@ class AmenitiesController extends Controller
                 return  $this->sendFirebaseNotification($fcmToken, $title, $body,null);
             }
         
-  
+            dd("dsf");
+
         
         // return response([
         //     'message' => 'Amenities Booked Successfully..!',
