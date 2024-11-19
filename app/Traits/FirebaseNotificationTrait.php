@@ -31,10 +31,11 @@ trait FirebaseNotificationTrait
         [
             "message" => [
                 "token" => $fcmToken,
-                'notification' => [
+                'notification' => 
+                [
                     'title' => $title,
                     'body' => $body,
-                ],  
+                ],      
                 "data" => $stringifiedData 
             ],
         ];
