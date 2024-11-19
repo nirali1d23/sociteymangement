@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\API\User;
 use App\Models\Bookamenities;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\FirebaseNotificationTrait;
