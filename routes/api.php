@@ -82,7 +82,7 @@ Route::controller(AmenitiesController::class)->group(function () {
 // Poll Routes
 Route::controller(PollController::class)->group(function () {
     Route::post('/pollcreate', 'create');
-    Route::get('/polldisplay', 'display');
+    Route::post('/polldisplay', 'display');
     Route::post('/polldetails', 'polldetails');
 });
 
