@@ -21,6 +21,8 @@ class AmenitiesController extends Controller
         ]);
 
         $token = User::where('user_type',0)->first();
+
+        
        
             if($token->fcm_token !=null)
             {
