@@ -91,7 +91,7 @@ class PollController extends Controller
                 foreach ($question->polloption as $option) {
                     if ($option->pollsurvey->contains('user_id', $userId)) {
                         $userHasResponded = true;
-                        break; // Exit the loop as soon as a match is found
+                        break; 
                     }
                 }
         
