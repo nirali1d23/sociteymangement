@@ -52,20 +52,39 @@ class PollController extends Controller
     public function display(Request $request)
     {
        
-        $data = Pollquestion::with(['polloption' => function($query) 
-        {
-            $query->withCount('pollsurvey');
-        }
-        ])->get()->map(function($question) 
-        {
-            $totalScore = $question->polloption->sum('pollsurvey_count');
+        // $data = Pollquestion::with(['polloption' => function($query) 
+        // {
+        //     $query->withCount('pollsurvey');
+        // }
+        // ])->get()->map(function($question) 
+        // {
+        //     $totalScore = $question->polloption->sum('pollsurvey_count');
             
           
-            $question->total_score = $totalScore;
+        //     $question->total_score = $totalScore;
 
    
-            if($request->has('user_id')) 
-            {
+        //     if($request->has('user_id')) 
+        //     {
+        //         $userId = $request->input('user_id');
+        //         $userHasResponded = false;
+        
+        //         foreach ($question->polloption as $option) {
+        //             if ($option->pollsurvey->contains('user_id', $userId)) {
+        //                 $userHasResponded = true;
+        //                 break; // Exit the loop as soon as a match is found
+        //             }
+        //         }
+        
+        //         $question->status = $userHasResponded ? 1 : 0;
+        //     } else {
+        //         $question->status = 0; // Default status if no user_id is provided
+        //     }
+        $data = Pollquestion::with(['polloption.pollsurvey'])->get()->map(function($question) use ($request) {
+            $totalScore = $question->polloption->sum('pollsurvey_count');
+            $question->total_score = $totalScore;
+        
+            if ($request->has('user_id')) {
                 $userId = $request->input('user_id');
                 $userHasResponded = false;
         
@@ -80,9 +99,11 @@ class PollController extends Controller
             } else {
                 $question->status = 0; // Default status if no user_id is provided
             }
-            
+        
             return $question;
         });
+        
+    
     
             if ($data->isNotEmpty()) {
                 return response([
