@@ -26,7 +26,7 @@ trait FirebaseNotificationTrait
     }
     public function sendFirebaseNotification($fcmToken, $title, $body, $data = [])
     {
-        $stringifiedData = $data ? array_map('strval', $data) : [];
+        $stringifiedData = $data ? array_map('strval', $data) : (object)[]; // Empty object if null
         $message = 
         [
             "message" => [
