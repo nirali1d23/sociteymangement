@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\API\User;
 use App\Models\NoticeComment;
 use App\Models\User;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\FirebaseNotificationTrait;
-
 class NoticeController extends Controller
 {
      use FirebaseNotificationTrait;
@@ -39,10 +37,10 @@ class NoticeController extends Controller
             }
         
 
-        return response([
-            'message' => 'Notice Comment Successfully..!',
-            'data' => $data,
-            'statusCode' => 200
-           ],200 );
+            return response([
+                'message' => 'Notice Comment Successfully..!',
+                'data' => $data,
+                'statusCode' => 200
+            ],200 );
      }
 }

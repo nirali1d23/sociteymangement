@@ -51,6 +51,7 @@ class PollController extends Controller
     }
     public function display(Request $request)
     {
+       
         $data = Pollquestion::with(['polloption' => function($query) 
         {
             $query->withCount('pollsurvey');
@@ -59,8 +60,36 @@ class PollController extends Controller
         {
             $totalScore = $question->polloption->sum('pollsurvey_count');
             
-            // Add the totalScore to each question
+          
             $question->total_score = $totalScore;
+
+            
+
+            //    if($request->has('user_id'))
+            //     { 
+
+            //            $user =  $question->polloption->pollsurvey_count
+                       
+            //         $question->status = ''
+
+
+            //     }
+
+            if ($request->has('user_id')) {
+                $userId = $request->input('user_id');
+                $userHasResponded = false;
+        
+                foreach ($question->polloption as $option) {
+                    if ($option->pollsurvey->contains('user_id', $userId)) {
+                        $userHasResponded = true;
+                        break; // Exit the loop as soon as a match is found
+                    }
+                }
+        
+                $question->status = $userHasResponded ? 1 : 0;
+            } else {
+                $question->status = 0; // Default status if no user_id is provided
+            }
             
             return $question;
         });
