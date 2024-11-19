@@ -17,7 +17,6 @@ class VistiorController extends Controller
             'flat_no' => 'required',
             'user_id' => 'required',
             'contact_number' => 'required',
-            'vehicle_number' => 'required',
             'purpose' => 'required',
             ]);
       $data =   preapproval::create([
