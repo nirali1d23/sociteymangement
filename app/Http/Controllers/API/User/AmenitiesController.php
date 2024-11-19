@@ -20,6 +20,7 @@ class AmenitiesController extends Controller
             'description' => $request->description
         ]);
         $token = User::where('user_type',0)->first();
+        dd($token);
             if($token->fcm_token !=null)
             {
                 $fcmToken = $token->fcm_token;
