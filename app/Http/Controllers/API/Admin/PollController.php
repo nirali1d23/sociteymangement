@@ -63,19 +63,9 @@ class PollController extends Controller
           
             $question->total_score = $totalScore;
 
-            
-
-            //    if($request->has('user_id'))
-            //     { 
-
-            //            $user =  $question->polloption->pollsurvey_count
-                       
-            //         $question->status = ''
-
-
-            //     }
-
-            if ($request->has('user_id')) {
+   
+            if($request->has('user_id')) 
+            {
                 $userId = $request->input('user_id');
                 $userHasResponded = false;
         
