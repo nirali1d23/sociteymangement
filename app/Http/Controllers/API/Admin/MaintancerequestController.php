@@ -4,6 +4,7 @@ use App\Models\maintance;
 use App\Traits\FirebaseNotificationTrait;
 
 use App\Models\User;
+use App\Models\Allotment;
 use App\Models\MaintanceProcess;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -56,16 +57,16 @@ class MaintancerequestController extends Controller
     }
     public function assigntostaff(Request $request)
     {
+        
        
-      $d =   maintance::find($request->maintance_id)->first();
+      $d =   maintance::find($request->maintance_id);
      
-      dd($d);
       if($d)
          {
         $d->status = 1;
         $d->save();
     
-            }
+        }
         MaintanceProcess::updateOrCreate(
             [
                 'maintance_request_id' => $request->maintance_id,
@@ -79,7 +80,7 @@ class MaintancerequestController extends Controller
         $fcmToken = $user->fcm_token;
         if($fcmToken)
         {
-            $title = "Exciting New Task Just for You! 🎉";
+            $title = "Exciting New Task Assign for You! 🎉";
             $body = "Hey there! You've been assigned a new task that's perfect for you. Let's make it amazing together! 💪✨";
             
          
