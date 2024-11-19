@@ -56,9 +56,10 @@ class MaintancerequestController extends Controller
     }
     public function assigntostaff(Request $request)
     {
-        dd($request->maintance_id);
+       
       $d =   maintance::find($request->maintance_id)->first();
      
+      dd($d);
       if($d)
          {
         $d->status = 1;
