@@ -34,7 +34,7 @@ class AmenitiesController extends Controller
     {
         $data = Amenities::get()->map(function($item)
         {
-             $item->image = url('images/' . $item->image);
+             $item->image = url('image/' . $item->image);
              return $item;
         });
         return response([

@@ -41,6 +41,7 @@ class MaintanceBillController extends Controller
     }
     public function maintancebilldisplay(Request $request)
     {    
+        
         $flat_no = Flat::find($request->flat_id);
         $houses = $flat_no->houses;    
         $houses_with_status = $houses->map(function($house) 
