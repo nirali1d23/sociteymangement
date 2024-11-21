@@ -14,7 +14,7 @@ class BookingamenitiesController extends Controller
 
     public function display(Request $request)
     {
-         $data = Bookamenities::with('amenity')->orderBy('created_at', 'desc');
+         $query = Bookamenities::with('amenity')->orderBy('created_at', 'desc');
 
          $data = $query->get()->map(function($item) 
          {
