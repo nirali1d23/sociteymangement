@@ -14,7 +14,7 @@ class VisitorsController extends Controller
     public function prebookingrequestlist(Request $request)
     {
 
-        $data = preapproval::all();
+        $data = preapproval::where('status',0)->get();
 
         return response([
         
