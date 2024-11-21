@@ -19,7 +19,7 @@ class AmenitiesController extends Controller
             'time' => $request->time,
             'description' => $request->description
         ]);
-        $token = User::where('user_type',3)->all();
+        $token = User::where('user_type',3)->get();
      
             if($token->fcm_token !=null)
             {
