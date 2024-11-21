@@ -51,6 +51,7 @@ class VistiorController extends Controller
                 $previstor->purpose	 = $request->purpose;
                 $previstor->entry_time	 = $request->entry_time	;
                 $previstor->exit_time = $request->exit_time	;
+                $previstor->status = 2;
                 $previstor->save();
                 $new =  new Visitor;
                 $new->visitor_name = $previstor->visitor_name;	
