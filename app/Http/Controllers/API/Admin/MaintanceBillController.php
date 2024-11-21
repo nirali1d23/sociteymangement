@@ -51,7 +51,7 @@ class MaintanceBillController extends Controller
         //     return $house;
         // });
 $flat_id = $request->block_id;
-        $flat_no = Flat::find($request->flat_id);
+        $flat_no = Flat::find($flat_id);
 $houses = $flat_no->houses;
 
 // Assuming `month` and `year` are passed as request parameters
