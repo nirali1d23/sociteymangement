@@ -61,7 +61,7 @@ $year = $request->year;
 $houses_with_status = $houses->map(function ($house) use ($month, $year) {
     $status = Maintancebill::whereMonth('created_at', $month)
         ->whereYear('created_at', $year)
-        ->whereHas('maintancebilllist', function ($query) use ($house) {
+        ->whereHas('maintancebilllists', function ($query) use ($house) {
             $query->where('flat_id', $house->id);
         })
         ->exists() ? 1 : 0;
