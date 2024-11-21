@@ -70,7 +70,7 @@ class NoticeController extends Controller
         // ],200 );
 
         $data = Notice::whereNull('start_date')->whereNull('time')->orderBy('created_at', 'desc')->get()->map(function($item) {
-            $item->image = url('images/' . $item->image);
+            $item->image = url('image/' . $item->image);
             return $item;
         });
 

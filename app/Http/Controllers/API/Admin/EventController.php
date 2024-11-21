@@ -22,7 +22,7 @@ class EventController extends Controller
         if ($request->hasFile('image')) 
         {
             $image_1 = $request->file('image');
-            $image = $this->uploadImage($image_1, 'images'); // Pass both the file and directory
+            $image = $this->uploadImage($image_1, 'image'); // Pass both the file and directory
         }
         $create = new Event;
         $create->event_name = $request->event_name;
