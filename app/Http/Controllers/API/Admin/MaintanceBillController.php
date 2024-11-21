@@ -50,18 +50,20 @@ class MaintanceBillController extends Controller
         //     $house->status = $status;    
         //     return $house;
         // });
-$flat_id = $request->block_id;
-        $flat_no = Flat::find($flat_id);
-$houses = $flat_no->houses;
+    $flat_id = $request->block_id;
+            $flat_no = Flat::find($flat_id);
+    $houses = $flat_no->houses;
 
 // Assuming `month` and `year` are passed as request parameters
 $month = $request->month;
 $year = $request->year;
 
-$houses_with_status = $houses->map(function($house) use ($month, $year) {
-    $status = Maintancebilllist::where('flat_id', $house->id)
-        ->whereMonth('created_at', $month)
+$houses_with_status = $houses->map(function ($house) use ($month, $year) {
+    $status = Maintancebill::whereMonth('created_at', $month)
         ->whereYear('created_at', $year)
+        ->whereHas('maintancebilllist', function ($query) use ($house) {
+            $query->where('flat_id', $house->id);
+        })
         ->exists() ? 1 : 0;
 
     $house->status = $status;
