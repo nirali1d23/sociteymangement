@@ -105,8 +105,8 @@ class MaintancerequestController extends Controller
     }
     public function maintancestatus(Request $request)
     {
-        dd($request->all());
-        $data = MaintanceProcess::with('staff')->where('maintance_request_id',$request->id)->get();
+        $data = MaintanceProcess::where('maintance_request_id',$request->id)->with('staff')->get();
+ 
         dd($data);
         if ($data) 
         {
@@ -114,8 +114,8 @@ class MaintancerequestController extends Controller
                 'message' => 'Status displayed successfully..! ',
                 'data' => [
                     'id' => $data->id,
-                    'status' => $data->status, // Include other fields as needed
-                    'staff_name' => $data->staff ? $data->staff->name : 'No staff assigned', // Assuming 'name' is the column in User model
+                    'status' => $data->status, 
+                    'staff_name' => $data->staff ? $data->staff->name : 'No staff assigned',
                 ],
                 'statusCode' => 200
             ], 200);
