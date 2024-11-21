@@ -111,7 +111,7 @@ class MaintancerequestController extends Controller
             return response([
                 'message' => 'Status displayed successfully..! ',
                 'data' => [
-                    'id' => $data->id,
+                    // 'id' => $data->id,
                     'status' => $data->status, 
                     'staff_name' => $data->staff ? $data->staff->name : 'No staff assigned',
                 ],
