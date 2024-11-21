@@ -105,9 +105,7 @@ class MaintancerequestController extends Controller
     }
     public function maintancestatus(Request $request)
     {
-        $data = MaintanceProcess::with('staff')->find($request->id);
-
-
+        $data = MaintanceProcess::with('staff')->where('maintance_request_id',$request->id)->get();
         if ($data) 
         {
             return response([

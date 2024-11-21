@@ -42,14 +42,32 @@ class MaintanceBillController extends Controller
     public function maintancebilldisplay(Request $request)
     {    
         
+        // $flat_no = Flat::find($request->flat_id);
+        // $houses = $flat_no->houses;    
+        // $houses_with_status = $houses->map(function($house) 
+        // {
+        //     $status = Maintancebilllist::where('flat_id', $house->id)->exists() ? 1 : 0;
+        //     $house->status = $status;    
+        //     return $house;
+        // });
+
         $flat_no = Flat::find($request->flat_id);
-        $houses = $flat_no->houses;    
-        $houses_with_status = $houses->map(function($house) 
-        {
-            $status = Maintancebilllist::where('flat_id', $house->id)->exists() ? 1 : 0;
-            $house->status = $status;    
-            return $house;
-        });
+$houses = $flat_no->houses;
+
+// Assuming `month` and `year` are passed as request parameters
+$month = $request->month;
+$year = $request->year;
+
+$houses_with_status = $houses->map(function($house) use ($month, $year) {
+    $status = Maintancebilllist::where('flat_id', $house->id)
+        ->whereMonth('created_at', $month)
+        ->whereYear('created_at', $year)
+        ->exists() ? 1 : 0;
+
+    $house->status = $status;
+    return $house;
+});
+
         return response([
             'message' => 'House list fetched successfully',
             'data' => $houses_with_status,
