@@ -28,12 +28,12 @@ class AmenitiesController extends Controller
                 $body = "📋 A new request for booking amenities has been submitted. Please review the details and take action. ✅ Approve or ❌ Disapprove the request now.";
                
 
-                return $this->sendFirebaseNotification($fcmToken, $title, $body, null);
+                 $this->sendFirebaseNotification($fcmToken, $title, $body, null);
             }
-        // return response([
-        //     'message' => 'Amenities Booked Successfully..!',
-        //     'data' => $data,    
-        //     'statusCode' => 200],200);
+        return response([
+            'message' => 'Amenities Booked Successfully..!',
+            'data' => $data,    
+            'statusCode' => 200],200);
     }
     public function cancelbooking(Request $request)
     {
