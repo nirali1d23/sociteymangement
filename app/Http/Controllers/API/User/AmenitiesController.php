@@ -19,12 +19,11 @@ class AmenitiesController extends Controller
             'time' => $request->time,
             'description' => $request->description
         ]);
-        $token = User::where('user_type',0)->get();
-     
+        $token = User::where('user_type',0)->first();
             if($token->fcm_token !=null)
             {
                 $fcmToken = $token->fcm_token;
-                $title = "🛎️ New Amenity Booking Request!";
+                $title = "🛎️ New Amenity Booking Request!!";
                 $body = "📋 A new request for booking amenities has been submitted. Please review the details and take action. ✅ Approve or ❌ Disapprove the request now.";
                
 
