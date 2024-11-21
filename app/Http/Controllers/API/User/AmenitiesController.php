@@ -25,7 +25,6 @@ class AmenitiesController extends Controller
                 $fcmToken = $token->fcm_token;
                 $title = "🛎️ New Amenity Booking Request!!";
                 $body = "📋 A new request for booking amenities has been submitted. Please review the details and take action. ✅ Approve or ❌ Disapprove the request now.";
-               
 
                  $this->sendFirebaseNotification($fcmToken, $title, $body, null);
             }

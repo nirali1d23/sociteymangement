@@ -60,7 +60,7 @@ class EventController extends Controller
         }
         $data = $query->get()->map(function($item) 
           {
-            $item->image = url('images/' . $item->image);
+            $item->image = url('image/' . $item->image);
             return $item;
            });
     

@@ -14,7 +14,13 @@ class BookingamenitiesController extends Controller
 
     public function display(Request $request)
     {
-         $data = Bookamenities::with('amenity')->orderBy('created_at', 'desc')->get();
+         $data = Bookamenities::with('amenity')->orderBy('created_at', 'desc');
+
+         $data = $query->get()->map(function($item) 
+         {
+           $item->image = url('image/' . $item->image);
+           return $item;
+          });
          return response( [
             'message' => 'Bookeaemenies Displayed Successfully..!',
             'data' => $data,
