@@ -18,7 +18,7 @@ class BookingamenitiesController extends Controller
 
          $data = $query->get()->map(function($item) 
          {
-           $item->amenity->image = url('image/' . $item->image);
+           $item->amenity->image = url('image/' . $item->amenity->image);
            return $item;
           });
          return response( [
