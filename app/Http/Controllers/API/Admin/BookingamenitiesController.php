@@ -16,15 +16,16 @@ class BookingamenitiesController extends Controller
     {
         $query = Bookamenities::with('amenity')->with('user')->orderBy('created_at', 'desc');
 
-$data = $query->get()->map(function ($item) {
-    if ($item->amenity && $item->amenity->image) {
-        
+        $data = $query->get()->map(function ($item) {
+            if ($item->amenity && $item->amenity->image) 
+            {
+
         if (!filter_var($item->amenity->image, FILTER_VALIDATE_URL)) {
             $item->amenity->image = url('image/' . $item->amenity->image);
         }
-    }
-    return $item;
-});
+            }
+         return $item;
+                });
 
          return response( [
             'message' => 'Bookeaemenies Displayed Successfully..!',

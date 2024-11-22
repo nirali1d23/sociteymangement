@@ -20,6 +20,8 @@ class AmenitiesController extends Controller
         $store = new Amenities;
         $store->amenities_name = $request->amenities_name;
         $store->rule= $request->rule;
+        $store->start_time= $request->start_time;
+        $store->end_time= $request->end_time;
         $store->image = $image;
 
         $store->save();
