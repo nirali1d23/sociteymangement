@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class AmenitiesController extends Controller
 {
     use ImageUpload;
-    function timeslotes($interval = 60) 
+    function generateTimeSlots($interval = 60) 
     {
      
         $startTime = '12:00:00';
