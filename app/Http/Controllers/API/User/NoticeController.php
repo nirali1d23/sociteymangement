@@ -9,7 +9,6 @@ use App\Traits\FirebaseNotificationTrait;
 class NoticeController extends Controller
 {
      use FirebaseNotificationTrait;
-
      public function notice_comment(Request $request)
      {
         $data =  new NoticeComment;

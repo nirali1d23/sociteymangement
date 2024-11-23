@@ -5,11 +5,9 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\FirebaseNotificationTrait;
-
 class AmenitiesController extends Controller
 {
     use FirebaseNotificationTrait;
-
     public function requestamenitiesbooking(Request $request)
     {
         $data = Bookamenities::create([
@@ -36,22 +34,18 @@ class AmenitiesController extends Controller
     public function cancelbooking(Request $request)
     {
        $data =  Bookamenities::find($request->id);
-
        if($data)
        {
             $data->status = 3;
             $data->save();
-
             return response([
                 'message' => 'Amenities canceled Successfully..!',
                 'data' => $data,    
                 'statusCode' => 200],200);
        }
-
        return response([
         'message' => 'No  Amenities Found..!',
         'data' => $data,    
         'statusCode' => 400],400);
     }
-    
 }
