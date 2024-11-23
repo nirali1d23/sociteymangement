@@ -14,9 +14,11 @@ use Illuminate\Http\Request;
 class AmenitiesController extends Controller
 {
     use ImageUpload;
-    function generateTimeSlots($startTime, $endTime, $interval = 60) 
+    function timeslotes($interval = 60) 
     {
      
+        $startTime = '12:00:00';
+    $endTime = '07:15:09';
         // Create Carbon instances for the start and end times
         $start = Carbon::createFromFormat('H:i:s', $startTime);
         $end = Carbon::createFromFormat('H:i:s', $endTime);
@@ -42,22 +44,13 @@ class AmenitiesController extends Controller
             }
         }
     
-        return $slots;
     
-    
+        print_r($slots);
   
 
     }
    
-    public function timeslotes()
-    {
-        
-          // Usage
-    $startTime = '12:00:00';
-    $endTime = '07:15:09';
-    $slots = generateTimeSlots($startTime, $endTime, 60); // 60 minutes for 1-hour slots
-    print_r($slots);
-    }
+
     public function create(Request $request)
     {
         if ($request->hasFile('image')) 
