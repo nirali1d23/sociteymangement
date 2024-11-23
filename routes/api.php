@@ -77,6 +77,7 @@ Route::controller(AmenitiesController::class)->group(function () {
     Route::get('/amenitiesdisplay', 'display');
     Route::post('/amenitiesedit', 'edit');
     Route::post('/amenitiesdelete', 'delete');
+    Route::post('/generateTimeSlots', 'generateTimeSlots');
 });
 
 // Poll Routes

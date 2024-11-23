@@ -59,7 +59,6 @@ class AllotmentController extends Controller
 
 
     }
-
     public function delteuser(Request $request)
     {
 

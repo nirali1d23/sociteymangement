@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\API\Admin;
 use App\Models\Notice;
 use App\Models\User;
@@ -7,13 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\ImageUpload;
 use App\Models\NoticeComment;
-
 use App\Traits\FirebaseNotificationTrait;
 use Symfony\Component\HttpFoundation\File\File;
 
 class NoticeController extends Controller
 {
-
     use ImageUpload;
     use FirebaseNotificationTrait;
     public function create(Request $request)
@@ -33,7 +30,6 @@ class NoticeController extends Controller
         $notice->image = $image;
         $notice->start_date = $request->start_date;
         $notice->time = $request->time;
-
         $notice->save();
 
 
