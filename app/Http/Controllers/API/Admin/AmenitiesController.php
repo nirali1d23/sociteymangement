@@ -98,12 +98,15 @@ class AmenitiesController extends Controller
               if($item->extra_time_status == 1 )
               {
 
-                $startTime = $item->start_time; // Replace with the actual column name
-                $endTime = $item->end_time;    // Replace with the actual column name
+                $startTime = $item->start_time;
+                $endTime = $item->end_time;
     
                 // Generate time slots
-                $slots = $this->generateTimeSlots($startTime, $endTime, 60);
-                $item->time_slots = $slots; // Add the slots to the response
+                $moring_slots = $this->generateTimeSlots($startTime, $endTime, 60);
+                $evening_slots = $this->generateTimeSlots($startTime, $endTime, 60);
+                $item->morning_time_slots = $moring_slots; 
+                $item->evening_time_slots = $evening_slots; 
+
 
                 
 
