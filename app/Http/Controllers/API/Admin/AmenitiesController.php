@@ -14,44 +14,41 @@ use Illuminate\Http\Request;
 class AmenitiesController extends Controller
 {
     use ImageUpload;
-    public function generateTimeSlots($interval = 60) 
+     function generateTimeSlots($startTime,$endTime,$interval = 60) 
     {
-        $startTime = '12:00:00'; // Starting time
-        $endTime = '07:15:09';   // Ending time
+       
     
         // Create Carbon instances for the start and end times
         $start = Carbon::createFromFormat('H:i:s', $startTime);
         $end = Carbon::createFromFormat('H:i:s', $endTime);
     
-        // Check if the time range crosses midnight
+
         if ($end->lessThan($start)) {
-            // If the end time is earlier than the start time, add one day to the end time
+
             $end->addDay();
         }
     
-        // Define the period with the interval
-        $period = CarbonPeriod::create($start, "PT{$interval}M", $end); // PT{$interval}M means interval in minutes
+        $period = CarbonPeriod::create($start, "PT{$interval}M", $end);
     
         $slots = [];
         foreach ($period as $time) 
         {
-            $slotStart = $time->format('H:i:s'); // Starting time of the slot
-            $slotEnd = $time->copy()->addMinutes($interval); // Ending time of the slot
+            $slotStart = $time->format('H:i:s');
+            $slotEnd = $time->copy()->addMinutes($interval); 
     
-            // Ensure the end time of the last slot doesn't exceed the provided end time
             if ($slotEnd->greaterThan($end)) {
                 $slotEnd = $end;
             }
     
             $slots[] = "$slotStart - " . $slotEnd->format('H:i:s');
     
-            // Stop if the end time matches the provided end time
+           
             if ($slotEnd->equalTo($end)) {
                 break;
             }
         }
     
-        print_r($slots);
+        return $slots;
     }
     
    
@@ -100,6 +97,15 @@ class AmenitiesController extends Controller
         {
               if($item->extra_time_status == 1 )
               {
+
+                $startTime = $item->start_time; // Replace with the actual column name
+                $endTime = $item->end_time;    // Replace with the actual column name
+    
+                // Generate time slots
+                $slots = $this->generateTimeSlots($startTime, $endTime, 60);
+                $item->time_slots = $slots; // Add the slots to the response
+
+                
 
               }
              $item->image = url('image/' . $item->image);
