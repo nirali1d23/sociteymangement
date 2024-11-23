@@ -14,44 +14,44 @@ use Illuminate\Http\Request;
 class AmenitiesController extends Controller
 {
     use ImageUpload;
+    function generateTimeSlots($startTime, $endTime, $interval = 60) 
+    {
+     
+        // Create Carbon instances for the start and end times
+        $start = Carbon::createFromFormat('H:i:s', $startTime);
+        $end = Carbon::createFromFormat('H:i:s', $endTime);
+    
+        // Define the period with the interval
+        $period = CarbonPeriod::create($start, "PT{$interval}M", $end); // PT{$interval}M means interval in minutes
+    
+        $slots = [];
+        foreach ($period as $time) {
+            $slotStart = $time->format('H:i:s');
+            $slotEnd = $time->copy()->addMinutes($interval);
+    
+            // Ensure the end time of the last slot doesn't exceed the provided end time
+            if ($slotEnd->greaterThan($end)) {
+                $slotEnd = $end;
+            }
+    
+            $slots[] = "$slotStart - " . $slotEnd->format('H:i:s');
+    
+            // Stop if the end time matches the provided end time
+            if ($slotEnd->equalTo($end)) {
+                break;
+            }
+        }
+    
+        return $slots;
+    
+    
+  
 
+    }
    
     public function timeslotes()
     {
-        function generateTimeSlots($startTime, $endTime, $interval = 60) 
-        {
-         
-            // Create Carbon instances for the start and end times
-            $start = Carbon::createFromFormat('H:i:s', $startTime);
-            $end = Carbon::createFromFormat('H:i:s', $endTime);
         
-            // Define the period with the interval
-            $period = CarbonPeriod::create($start, "PT{$interval}M", $end); // PT{$interval}M means interval in minutes
-        
-            $slots = [];
-            foreach ($period as $time) {
-                $slotStart = $time->format('H:i:s');
-                $slotEnd = $time->copy()->addMinutes($interval);
-        
-                // Ensure the end time of the last slot doesn't exceed the provided end time
-                if ($slotEnd->greaterThan($end)) {
-                    $slotEnd = $end;
-                }
-        
-                $slots[] = "$slotStart - " . $slotEnd->format('H:i:s');
-        
-                // Stop if the end time matches the provided end time
-                if ($slotEnd->equalTo($end)) {
-                    break;
-                }
-            }
-        
-            return $slots;
-        
-        
-      
-    
-        }
           // Usage
     $startTime = '12:00:00';
     $endTime = '07:15:09';
