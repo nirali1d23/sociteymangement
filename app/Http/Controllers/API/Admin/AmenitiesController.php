@@ -119,8 +119,8 @@ class AmenitiesController extends Controller
                 // Normalize booking times
                 $bookedTimes = $item->bookamenities->map(function ($booking) {
                     return [
-                        'start_time' => date('H:i:s', strtotime($booking->time)),
-                        'end_time' => date('H:i:s', strtotime($booking->time)) // Adjust if end_time is stored separately
+                        'start_time' => date('H:i:s', strtotime($booking->start_time)),
+                        'end_time' => date('H:i:s', strtotime($booking->end_time)) // Adjust if end_time is stored separately
                     ];
                 });
         
