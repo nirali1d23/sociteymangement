@@ -110,42 +110,35 @@ class AmenitiesController extends Controller
     }
     public function display(Request $request)
     {
-        $data = Amenities::with('bookamenities')->get()->map(function ($item) {
+        $data = Amenities::with('bookamenities')->get()->map(function ($item) 
+        {
+            // Check if extra time status is enabled (extra time functionality)
             if ($item->extra_time_status == 1) {
-                // Generate morning and evening slots
+                // Generate morning and evening slots based on start and end times
                 $morning_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time, 60);
                 $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time, 60);
-        
-                // Get booked times from the database
+    
+                // Get booked times for this amenity
                 $bookedTimes = $item->bookamenities->map(function ($booking) {
                     return [
-                        'start_time' => $booking->start_time, // Assuming 'start_time' is already in 'H:i:s' format
-                        'end_time' => $booking->end_time,     // Assuming 'end_time' exists and is in 'H:i:s' format
+                        'start_time' => $booking->start_time, 
+                        'end_time' => $booking->end_time,     
                     ];
-                })->toArray(); // Convert to array for easier manipulation
-        
-            
-                \Log::debug('Booked times: ', $bookedTimes);
-        
-              
+                })->toArray(); 
+    
+                // Check if a slot is booked
                 $isSlotBooked = function ($slotStart, $slotEnd) use ($bookedTimes) {
                     $slotStartTimestamp = strtotime($slotStart);
                     $slotEndTimestamp = strtotime($slotEnd);
-        
-                    // Debugging: Show slot being checked
-                    \Log::debug('Checking slot: ', ['start' => $slotStart, 'end' => $slotEnd]);
-        
-                    // Loop through all booked times
+    
+                    // Loop through all booked times and check for overlap
                     foreach ($bookedTimes as $booking) {
                         $bookingStartTimestamp = strtotime($booking['start_time']);
                         $bookingEndTimestamp = strtotime($booking['end_time']);
-        
-                        // Debugging: Show booked times being checked
-                        \Log::debug('Checking booking: ', ['start' => $booking['start_time'], 'end' => $booking['end_time']]);
-        
+    
                         // Check if there is any overlap between the slot and any booking
                         if (
-                            ($slotStartTimestamp < $bookingEndTimestamp && $slotEndTimestamp > $bookingStartTimestamp) || // Overlap condition
+                            ($slotStartTimestamp < $bookingEndTimestamp && $slotEndTimestamp > $bookingStartTimestamp) || 
                             ($slotStartTimestamp >= $bookingStartTimestamp && $slotStartTimestamp < $bookingEndTimestamp) ||
                             ($slotEndTimestamp > $bookingStartTimestamp && $slotEndTimestamp <= $bookingEndTimestamp)
                         ) {
@@ -154,49 +147,49 @@ class AmenitiesController extends Controller
                     }
                     return false;  // Slot is available
                 };
-        
+    
                 // Map morning slots with booked status
                 $item->morning_time_slots = array_map(function ($slot) use ($isSlotBooked) {
                     $slotRange = explode(' - ', $slot);
                     $start = $slotRange[0];
                     $end = $slotRange[1];
-        
-                    $status = !$isSlotBooked($start, $end); // True if slot is available
+    
+                    // Slot is available if not booked, otherwise false
+                    $status = !$isSlotBooked($start, $end); // True if available
                     return [
                         'slot' => $slot,
                         'status' => $status,
                     ];
                 }, $morning_slots);
-        
+    
                 // Map evening slots with booked status
                 $item->evening_time_slots = array_map(function ($slot) use ($isSlotBooked) {
                     $slotRange = explode(' - ', $slot);
                     $start = $slotRange[0];
                     $end = $slotRange[1];
-        
-                    $status = !$isSlotBooked($start, $end); // True if slot is available
+    
+                    // Slot is available if not booked, otherwise false
+                    $status = !$isSlotBooked($start, $end); // True if available
                     return [
                         'slot' => $slot,
                         'status' => $status,
                     ];
                 }, $evening_slots);
             }
-        
-            // Append full image URL
+    
+            // Append the full URL to the image (if applicable)
             $item->image = url('image/' . $item->image);
-        
+    
             return $item;
         });
-        
+    
+        // Return the formatted data along with success message
         return response([
             'message' => 'Amenities Displayed Successfully!',
             'data' => $data,
             'statusCode' => 200
         ], 200);
-        
-    
     }
-    
 
     public function edit(Request $request)
     {
