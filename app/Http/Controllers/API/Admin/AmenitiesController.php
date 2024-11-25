@@ -115,64 +115,64 @@ class AmenitiesController extends Controller
                 // Generate morning and evening time slots
                 $morning_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time, 60);
                 $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time, 60);
-    
-                // Extract and normalize booking times
-                $bookedTimes = $item->bookamenities->pluck('time')->map(function ($time) {
-                    return date('H:i:s', strtotime($time));
-                })->toArray();
-    
-                // Map morning slots with status
-                $item->morning_time_slots = array_map(function ($slot) use ($bookedTimes) {
+        
+                // Normalize booking times
+                $bookedTimes = $item->bookamenities->map(function ($booking) {
+                    return [
+                        'start_time' => date('H:i:s', strtotime($booking->time)),
+                        'end_time' => date('H:i:s', strtotime($booking->time)), // Adjust if you have separate `start_time` and `end_time`
+                    ];
+                });
+        
+                // Helper function to check booking overlap
+                $isSlotBooked = function ($slotStart, $slotEnd) use ($bookedTimes) {
+                    foreach ($bookedTimes as $booking) {
+                        if (
+                            ($slotStart >= $booking['start_time'] && $slotStart < $booking['end_time']) || // Slot start overlaps booking
+                            ($slotEnd > $booking['start_time'] && $slotEnd <= $booking['end_time']) ||   // Slot end overlaps booking
+                            ($slotStart <= $booking['start_time'] && $slotEnd >= $booking['end_time'])  // Slot fully contains booking
+                        ) {
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+        
+                // Map morning slots with availability status
+                $item->morning_time_slots = array_map(function ($slot) use ($isSlotBooked) {
                     $slotRange = explode(' - ', $slot);
                     $start = $slotRange[0];
                     $end = $slotRange[1];
-    
-                    $status = false;
-                    foreach ($bookedTimes as $time) {
-                        if ($time >= $start && $time <= $end) {
-                            $status = true;
-                            break;
-                        }
-                    }
-    
+        
+                    $status = !$isSlotBooked($start, $end); // Slot is available if no overlap
                     return [
                         'slot' => $slot,
                         'status' => $status,
                     ];
                 }, $morning_slots);
-    
-                // Map evening slots with status
-                $item->evening_time_slots = array_map(function ($slot) use ($bookedTimes) {
+        
+                // Map evening slots with availability status
+                $item->evening_time_slots = array_map(function ($slot) use ($isSlotBooked) {
                     $slotRange = explode(' - ', $slot);
                     $start = $slotRange[0];
                     $end = $slotRange[1];
-    
-                    $status = false;
-                    foreach ($bookedTimes as $time) {
-                        if ($time >= $start && $time <= $end) {
-                            $status = true;
-                            break;
-                        }
-                    }
-    
+        
+                    $status = !$isSlotBooked($start, $end); // Slot is available if no overlap
                     return [
                         'slot' => $slot,
                         'status' => $status,
                     ];
                 }, $evening_slots);
             }
-    
+        
             // Append full image URL
             $item->image = url('image/' . $item->image);
-    
+        
             return $item;
         });
+        
     
-        return response([
-            'message' => 'Amenities Displayed Successfully..!',
-            'data' => $data,
-            'statusCode' => 200,
-        ], 200);
+    
     }
     
 
