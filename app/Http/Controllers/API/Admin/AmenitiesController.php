@@ -119,20 +119,29 @@ class AmenitiesController extends Controller
                 // Get booked times from the database
                 $bookedTimes = $item->bookamenities->map(function ($booking) {
                     return [
-                        'start_time' => date('H:i:s', strtotime($booking->start_time)), // Assuming 'start_time' is a datetime or string
-                        'end_time' => date('H:i:s', strtotime($booking->end_time)),     // Assuming 'end_time' exists
+                        'start_time' => $booking->start_time, // Assuming 'start_time' is already in 'H:i:s' format
+                        'end_time' => $booking->end_time,     // Assuming 'end_time' exists and is in 'H:i:s' format
                     ];
                 })->toArray(); // Convert to array for easier manipulation
         
-                // Function to check if a slot is booked
+            
+                \Log::debug('Booked times: ', $bookedTimes);
+        
+              
                 $isSlotBooked = function ($slotStart, $slotEnd) use ($bookedTimes) {
                     $slotStartTimestamp = strtotime($slotStart);
                     $slotEndTimestamp = strtotime($slotEnd);
+        
+                    // Debugging: Show slot being checked
+                    \Log::debug('Checking slot: ', ['start' => $slotStart, 'end' => $slotEnd]);
         
                     // Loop through all booked times
                     foreach ($bookedTimes as $booking) {
                         $bookingStartTimestamp = strtotime($booking['start_time']);
                         $bookingEndTimestamp = strtotime($booking['end_time']);
+        
+                        // Debugging: Show booked times being checked
+                        \Log::debug('Checking booking: ', ['start' => $booking['start_time'], 'end' => $booking['end_time']]);
         
                         // Check if there is any overlap between the slot and any booking
                         if (
