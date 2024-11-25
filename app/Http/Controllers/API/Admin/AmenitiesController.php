@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class AmenitiesController extends Controller
 {
     use ImageUpload;
-     function generateTimeSlots($startTime,$endTime,$interval = 60) 
+    function generateTimeSlots($startTime,$endTime,$interval = 60) 
     {
        
     
@@ -50,9 +50,6 @@ class AmenitiesController extends Controller
     
         return $slots;
     }
-    
-   
-
     public function create(Request $request)
     {
         if ($request->hasFile('image')) 
@@ -60,10 +57,8 @@ class AmenitiesController extends Controller
             $image_1 = $request->file('image');
             $image = $this->uploadImage($image_1, 'image'); 
         }
-        if($request->has('time'))
-        {
-              
-        }
+       
+
         $store = new Amenities;
         $store->amenities_name = $request->amenities_name;
         $store->rule= $request->rule;
@@ -93,23 +88,16 @@ class AmenitiesController extends Controller
     }
     public function display(Request $request)
     {
-        $data = Amenities::get()->map(function($item)
+        $data = Amenities::with('bookamenities')->get()->map(function($item)
         {
               if($item->extra_time_status == 1 )
               {
 
-                $startTime = $item->start_time;
-                $endTime = $item->end_time;
-    
-                // Generate time slots
-                $moring_slots = $this->generateTimeSlots($startTime, $endTime, 60);
-                $evening_slots = $this->generateTimeSlots($startTime, $endTime, 60);
-                $item->morning_time_slots = $moring_slots; 
+                $moring_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time, 60);
+                $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time, 60);
+                $item->morning_time_slots = $moring_slots;
+
                 $item->evening_time_slots = $evening_slots; 
-
-
-                
-
               }
              $item->image = url('image/' . $item->image);
              return $item;

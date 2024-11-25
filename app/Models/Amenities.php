@@ -10,4 +10,13 @@ class Amenities extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function bookamenities()
+    {
+        
+        return $this->hasMany(Bookamenities::class, 'amenities_id');
+
+       
+
+    }
 }
