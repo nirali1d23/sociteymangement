@@ -123,6 +123,8 @@ class AmenitiesController extends Controller
                         'end_time' => date('H:i:s', strtotime($booking->end_time)) // Adjust if end_time is stored separately
                     ];
                 });
+
+                dd($bookedTimes);
         
                 // Helper function to check booking overlap
                 $isSlotBooked = function ($slotStart, $slotEnd) use ($bookedTimes) {
@@ -130,7 +132,6 @@ class AmenitiesController extends Controller
                         $bookingStart = $booking['start_time'];
                         $bookingEnd = $booking['end_time'];
         
-                        // Check for any overlap between slot and booking time
                         if (
                             ($slotStart < $bookingEnd && $slotEnd > $bookingStart) || // Overlap condition
                             ($slotStart >= $bookingStart && $slotStart < $bookingEnd) ||
