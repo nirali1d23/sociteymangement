@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class AmenitiesController extends Controller
 {
     use ImageUpload;
-    function generateTimeSlots($startTime,$endTime,$interval = 60) 
+    function generateTimeSlotss($startTime,$endTime,$interval = 60) 
     {
        
     
@@ -50,6 +50,64 @@ class AmenitiesController extends Controller
     
         return $slots;
     }
+
+    public function checkSlotAvailability($slots, $bookedTimes) {
+        $availableSlots = [];
+    
+        foreach ($slots as $slot) {
+            // Split the slot into start and end times
+            list($slotStart, $slotEnd) = explode(' - ', $slot);
+    
+            $isBooked = false;
+    
+            foreach ($bookedTimes as $booking) {
+                // Split the booked time into start and end times
+                list($bookingStart, $bookingEnd) = explode(' - ', $booking);
+    
+                // Check if the current slot overlaps with any booked time
+                if (
+                    ($slotStart >= $bookingStart && $slotStart < $bookingEnd) || 
+                    ($slotEnd > $bookingStart && $slotEnd <= $bookingEnd)
+                ) {
+                    $isBooked = true; // Slot is booked
+                    break;
+                }
+            }
+    
+            $availableSlots[] = [
+                'slot' => $slot,
+                'status' => !$isBooked,  // true if available, false if booked
+            ];
+        }
+    
+        return $availableSlots;
+    }
+    
+
+    function generateTimeSlots($startTime, $endTime, $interval = 60) {
+        $start = Carbon::createFromFormat('H:i:s', $startTime);
+        $end = Carbon::createFromFormat('H:i:s', $endTime);
+    
+        if ($end->lessThan($start)) {
+            $end->addDay();
+        }
+    
+        $slots = [];
+        while ($start->lessThanOrEqualTo($end)) {
+            $slotStart = $start->format('H:i:s');
+            $slotEnd = $start->copy()->addMinutes($interval)->format('H:i:s');
+    
+            if ($start->copy()->addMinutes($interval)->greaterThan($end)) {
+                $slotEnd = $end->format('H:i:s');
+            }
+    
+            $slots[] = "$slotStart - $slotEnd";
+            $start->addMinutes($interval);
+        }
+    
+        return $slots;
+    }
+    
     public function create(Request $request)
     {
         if ($request->hasFile('image')) 
@@ -108,88 +166,37 @@ class AmenitiesController extends Controller
            'statusCode' => 200
         ],200);
     }
-    public function display(Request $request)
-    {
-        $data = Amenities::with('bookamenities')->get()->map(function ($item) 
-        {
-            // Check if extra time status is enabled (extra time functionality)
+    public function display(Request $request) {
+        $data = Amenities::with('bookamenities')->get()->map(function ($item) {
+    
             if ($item->extra_time_status == 1) {
-                // Generate morning and evening slots based on start and end times
-                $morning_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time, 60);
-                $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time, 60);
+                // Generate morning and evening time slots
+                $morning_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time);
+                $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time);
     
-                // Get booked times for this amenity
+                // Get booked times from the database
                 $bookedTimes = $item->bookamenities->map(function ($booking) {
-                    return [
-                        'start_time' => $booking->start_time, 
-                        'end_time' => $booking->end_time,     
-                    ];
-                })->toArray(); 
+                    return $booking->start_time . ' - ' . $booking->end_time;
+                })->toArray();
     
-                // Check if a slot is booked
-                $isSlotBooked = function ($slotStart, $slotEnd) use ($bookedTimes) {
-                    $slotStartTimestamp = strtotime($slotStart);
-                    $slotEndTimestamp = strtotime($slotEnd);
-    
-                    // Loop through all booked times and check for overlap
-                    foreach ($bookedTimes as $booking) {
-                        $bookingStartTimestamp = strtotime($booking['start_time']);
-                        $bookingEndTimestamp = strtotime($booking['end_time']);
-    
-                        // Check if there is any overlap between the slot and any booking
-                        if (
-                            ($slotStartTimestamp < $bookingEndTimestamp && $slotEndTimestamp > $bookingStartTimestamp) || 
-                            ($slotStartTimestamp >= $bookingStartTimestamp && $slotStartTimestamp < $bookingEndTimestamp) ||
-                            ($slotEndTimestamp > $bookingStartTimestamp && $slotEndTimestamp <= $bookingEndTimestamp)
-                        ) {
-                            return true;  // Slot is booked
-                        }
-                    }
-                    return false;  // Slot is available
-                };
-    
-                // Map morning slots with booked status
-                $item->morning_time_slots = array_map(function ($slot) use ($isSlotBooked) {
-                    $slotRange = explode(' - ', $slot);
-                    $start = $slotRange[0];
-                    $end = $slotRange[1];
-    
-                    // Slot is available if not booked, otherwise false
-                    $status = !$isSlotBooked($start, $end); // True if available
-                    return [
-                        'slot' => $slot,
-                        'status' => $status,
-                    ];
-                }, $morning_slots);
-    
-                // Map evening slots with booked status
-                $item->evening_time_slots = array_map(function ($slot) use ($isSlotBooked) {
-                    $slotRange = explode(' - ', $slot);
-                    $start = $slotRange[0];
-                    $end = $slotRange[1];
-    
-                    // Slot is available if not booked, otherwise false
-                    $status = !$isSlotBooked($start, $end); // True if available
-                    return [
-                        'slot' => $slot,
-                        'status' => $status,
-                    ];
-                }, $evening_slots);
+                // Check slot availability
+                $item->morning_time_slots = $this->checkSlotAvailability($morning_slots, $bookedTimes);
+                $item->evening_time_slots = $this->checkSlotAvailability($evening_slots, $bookedTimes);
             }
     
-            // Append the full URL to the image (if applicable)
+            // Append the full image URL
             $item->image = url('image/' . $item->image);
     
             return $item;
         });
     
-        // Return the formatted data along with success message
         return response([
             'message' => 'Amenities Displayed Successfully!',
             'data' => $data,
             'statusCode' => 200
         ], 200);
     }
+    
 
     public function edit(Request $request)
     {
