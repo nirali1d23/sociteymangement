@@ -85,7 +85,8 @@ class AmenitiesController extends Controller
     
     
 
-  function generateTimeSlots($startTime, $endTime, $interval = 60) {
+  function generateTimeSlots($startTime, $endTime, $interval = 60) 
+  {
     $start = Carbon::createFromFormat('H:i:s', $startTime);
     $end = Carbon::createFromFormat('H:i:s', $endTime);
 
@@ -107,11 +108,9 @@ class AmenitiesController extends Controller
     }
 
     return $slots;
-}
-
-    
-    public function create(Request $request)
-    {
+  }
+   public function create(Request $request)
+  {
         if ($request->hasFile('image')) 
         {
             $image_1 = $request->file('image');
@@ -145,7 +144,8 @@ class AmenitiesController extends Controller
             'statusCode' => 200
         ], 200 );
 
-    }
+   }
+
     public function display2(Request $request)
     {
         $data = Amenities::with('bookamenities')->get()->map(function($item)
@@ -168,7 +168,9 @@ class AmenitiesController extends Controller
            'statusCode' => 200
         ],200);
     }
-public function display(Request $request) {
+
+    public function display(Request $request) 
+    {
     $data = Amenities::with('bookamenities')->get()->map(function ($item) {
 
         if ($item->extra_time_status == 1) {

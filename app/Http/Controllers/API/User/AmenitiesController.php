@@ -14,7 +14,8 @@ class AmenitiesController extends Controller
             'user_id' => $request->user_id,
             'amenities_id' => $request->amenities_id,
             'date' => $request->date,
-            'time' => $request->time,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
             'description' => $request->description
         ]);
         $token = User::where('user_type',0)->first();

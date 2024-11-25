@@ -10,6 +10,9 @@ class FlatController extends Controller
 {
     public function create(Request $request)
     {  
+
+       
+
         if ($request->has('block')) 
         {
             $data = []; 
@@ -24,7 +27,14 @@ class FlatController extends Controller
 
                       'block_no' => $block['block_no']
 
-
+      
+        // $flat = new Flat;
+        // $flat->block_number = $request->block_number;
+        // $flat->residencey_name = $request->residencey_name;
+        // $flat->residencey_type = $request->residencey_type;
+        // $block_no = $request->block_no;
+        // $no_of_floor = $request->no_of_floor;
+        // $no_of_house_per_floor = $request->no_of_house_per_floor;
                      ]);
 
 
@@ -47,15 +57,7 @@ class FlatController extends Controller
 
         }
 
-        
-        // $flat = new Flat;
-        // $flat->block_number = $request->block_number;
-        // $flat->residencey_name = $request->residencey_name;
-        // $flat->residencey_type = $request->residencey_type;
-        // $block_no = $request->block_no;
-        // $no_of_floor = $request->no_of_floor;
-        // $no_of_house_per_floor = $request->no_of_house_per_floor;
-
+   
         //   for($i=1;$i<=$no_of_floor;$i++)
         //   {
         //      for($j=1;$j<=$no_of_house_per_floor;$j++)
