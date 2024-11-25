@@ -109,46 +109,72 @@ class AmenitiesController extends Controller
         ],200);
     }
     public function display(Request $request)
-{
-    $data = Amenities::with('bookamenities')->get()->map(function($item)
     {
-        // Generate time slots if extra time status is enabled
-        if ($item->extra_time_status == 1) {
-            $moring_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time, 60);
-            $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time, 60);
-            
-            // Extract booked times from bookamenities
-            $bookedTimes = $item->bookamenities->pluck('time')->toArray();
-
-            // Map morning slots with true/false based on booked times
-            $item->morning_time_slots = array_map(function ($slot) use ($bookedTimes) {
-                return [
-                    'slot' => $slot,
-                    'status' => in_array($slot, $bookedTimes),
-                ];
-            }, $moring_slots);
-
-            // Map evening slots with true/false based on booked times
-            $item->evening_time_slots = array_map(function ($slot) use ($bookedTimes) {
-                return [
-                    'slot' => $slot,
-                    'status' => in_array($slot, $bookedTimes),
-                ];
-            }, $evening_slots);
-        }
-
-        // Append image URL
-        $item->image = url('image/' . $item->image);
-
-        return $item;
-    });
-
-    return response([
-        'message' => 'Amenities Displayed Successfully..!',
-        'data' => $data,
-        'statusCode' => 200
-    ], 200);
-}
+        $data = Amenities::with('bookamenities')->get()->map(function ($item) {
+            if ($item->extra_time_status == 1) {
+                // Generate morning and evening time slots
+                $morning_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time, 60);
+                $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time, 60);
+    
+                // Extract and normalize booking times
+                $bookedTimes = $item->bookamenities->pluck('time')->map(function ($time) {
+                    return date('H:i:s', strtotime($time));
+                })->toArray();
+    
+                // Map morning slots with status
+                $item->morning_time_slots = array_map(function ($slot) use ($bookedTimes) {
+                    $slotRange = explode(' - ', $slot);
+                    $start = $slotRange[0];
+                    $end = $slotRange[1];
+    
+                    $status = false;
+                    foreach ($bookedTimes as $time) {
+                        if ($time >= $start && $time <= $end) {
+                            $status = true;
+                            break;
+                        }
+                    }
+    
+                    return [
+                        'slot' => $slot,
+                        'status' => $status,
+                    ];
+                }, $morning_slots);
+    
+                // Map evening slots with status
+                $item->evening_time_slots = array_map(function ($slot) use ($bookedTimes) {
+                    $slotRange = explode(' - ', $slot);
+                    $start = $slotRange[0];
+                    $end = $slotRange[1];
+    
+                    $status = false;
+                    foreach ($bookedTimes as $time) {
+                        if ($time >= $start && $time <= $end) {
+                            $status = true;
+                            break;
+                        }
+                    }
+    
+                    return [
+                        'slot' => $slot,
+                        'status' => $status,
+                    ];
+                }, $evening_slots);
+            }
+    
+            // Append full image URL
+            $item->image = url('image/' . $item->image);
+    
+            return $item;
+        });
+    
+        return response([
+            'message' => 'Amenities Displayed Successfully..!',
+            'data' => $data,
+            'statusCode' => 200,
+        ], 200);
+    }
+    
 
     public function edit(Request $request)
     {
