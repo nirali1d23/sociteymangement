@@ -53,74 +53,61 @@ class AmenitiesController extends Controller
 
     public function checkSlotAvailability($slots, $bookedTimes) {
         $availableSlots = [];
-
+    
         foreach ($slots as $slot) {
+            // Split the slot into start and end times
             list($slotStart, $slotEnd) = explode(' - ', $slot);
-
-            // Initialize availability as true
+    
             $isBooked = false;
-
-            // Check each booked slot
+    
             foreach ($bookedTimes as $booking) {
+                // Split the booked time into start and end times
                 list($bookingStart, $bookingEnd) = explode(' - ', $booking);
-
-                // Debug log to check the status of each comparison
-                \Log::debug('Checking Slot:', ['slotStart' => $slotStart, 'slotEnd' => $slotEnd, 'bookedTimes' => $bookedTimes]);
-
+    
+                // Check if the current slot overlaps with any booked time
                 if (
-                    ($slotStart >= $bookingStart && $slotStart < $bookingEnd) || // Slot starts during a booking
-                    ($slotEnd > $bookingStart && $slotEnd <= $bookingEnd) ||   // Slot ends during a booking
-                    ($slotStart <= $bookingStart && $slotEnd >= $bookingEnd)    // Slot fully contains the booking
+                    ($slotStart >= $bookingStart && $slotStart < $bookingEnd) || 
+                    ($slotEnd > $bookingStart && $slotEnd <= $bookingEnd)
                 ) {
-                    \Log::debug('Slot is booked:', ['slot' => $slot, 'booking' => $booking]);
-                    $isBooked = true; // Mark as booked
-                    break; // Exit the loop once an overlap is found
+                    $isBooked = true; // Slot is booked
+                    break;
                 }
             }
-
-            // Store the slot and its availability (false means it's booked, true means available)
+    
             $availableSlots[] = [
                 'slot' => $slot,
                 'status' => !$isBooked,  // true if available, false if booked
             ];
         }
-
+    
         return $availableSlots;
     }
-
+    
     
 
-    public function generateTimeSlots($startTime, $endTime, $interval = 60) 
-    {
-        // Create Carbon instances for the start and end times
-        $start = Carbon::createFromFormat('H:i:s', $startTime);
-        $end = Carbon::createFromFormat('H:i:s', $endTime);
+  function generateTimeSlots($startTime, $endTime, $interval = 60) {
+    $start = Carbon::createFromFormat('H:i:s', $startTime);
+    $end = Carbon::createFromFormat('H:i:s', $endTime);
 
-        if ($end->lessThan($start)) {
-            $end->addDay();
-        }
-
-        $period = CarbonPeriod::create($start, "PT{$interval}M", $end);
-
-        $slots = [];
-        foreach ($period as $time) 
-        {
-            $slotStart = $time->format('H:i:s');
-            $slotEnd = $time->copy()->addMinutes($interval);
-
-            if ($slotEnd->greaterThan($end)) {
-                $slotEnd = $end;
-            }
-
-            $slots[] = "$slotStart - " . $slotEnd->format('H:i:s');
-
-            if ($slotEnd->equalTo($end)) {
-                break;
-            }
-        }
-
-        return $slots;
+    if ($end->lessThan($start)) {
+        $end->addDay();
     }
+
+    $slots = [];
+    while ($start->lessThanOrEqualTo($end)) {
+        $slotStart = $start->format('H:i:s');
+        $slotEnd = $start->copy()->addMinutes($interval)->format('H:i:s');
+
+        if ($start->copy()->addMinutes($interval)->greaterThan($end)) {
+            $slotEnd = $end->format('H:i:s');
+        }
+
+        $slots[] = "$slotStart - $slotEnd";
+        $start->addMinutes($interval);
+    }
+
+    return $slots;
+}
 
     
     public function create(Request $request)
@@ -181,44 +168,37 @@ class AmenitiesController extends Controller
            'statusCode' => 200
         ],200);
     }
-    public function display(Request $request)
-    {
-        $data = Amenities::with('bookamenities')->get()->map(function ($item) {
-            if ($item->extra_time_status == 1) {
-                // Generate the morning and evening slots based on the available start and end times
-                $morning_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time, 60);
-                $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time, 60);
+public function display(Request $request) {
+    $data = Amenities::with('bookamenities')->get()->map(function ($item) {
 
-                // Get the booked times for the amenities
-                $bookedTimes = $item->bookamenities->map(function ($booking) {
-                    return [
-                        'start_time' => $booking->start_time, 
-                        'end_time' => $booking->end_time,     
-                    ];
-                })->toArray(); 
+        if ($item->extra_time_status == 1) {
+            // Generate morning and evening time slots
+            $morning_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time);
+            $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time);
 
-                \Log::debug('Booked times: ', $bookedTimes);
+            // Get booked times from the database
+            $bookedTimes = $item->bookamenities->map(function ($booking) {
+                return $booking->start_time . ' - ' . $booking->end_time;
+            })->toArray();
 
-                // Check availability of slots for morning and evening slots
-                $item->morning_time_slots = $this->checkSlotAvailability($morning_slots, $bookedTimes);
-                $item->evening_time_slots = $this->checkSlotAvailability($evening_slots, $bookedTimes);
-            }
+            // Check slot availability
+            $item->morning_time_slots = $this->checkSlotAvailability($morning_slots, $bookedTimes);
+            $item->evening_time_slots = $this->checkSlotAvailability($evening_slots, $bookedTimes);
+        }
 
-            // Append full image URL for each item
-            $item->image = url('image/' . $item->image);
+        // Append the full image URL
+        $item->image = url('image/' . $item->image);
 
-            return $item;
-        });
+        return $item;
+    });
 
-        // Return the response with the data
-        return response([
-            'message' => 'Amenities Displayed Successfully!',
-            'data' => $data,
-            'statusCode' => 200
-        ], 200);
-    }
+    return response([
+        'message' => 'Amenities Displayed Successfully!',
+        'data' => $data,
+        'statusCode' => 200
+    ], 200);
+}
 
-    
 
     public function edit(Request $request)
     {
