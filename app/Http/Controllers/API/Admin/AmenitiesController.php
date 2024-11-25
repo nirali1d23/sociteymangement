@@ -120,17 +120,21 @@ class AmenitiesController extends Controller
                 $bookedTimes = $item->bookamenities->map(function ($booking) {
                     return [
                         'start_time' => date('H:i:s', strtotime($booking->time)),
-                        'end_time' => date('H:i:s', strtotime($booking->time)), // Adjust if you have separate `start_time` and `end_time`
+                        'end_time' => date('H:i:s', strtotime($booking->time)) // Adjust if end_time is stored separately
                     ];
                 });
         
                 // Helper function to check booking overlap
                 $isSlotBooked = function ($slotStart, $slotEnd) use ($bookedTimes) {
                     foreach ($bookedTimes as $booking) {
+                        $bookingStart = $booking['start_time'];
+                        $bookingEnd = $booking['end_time'];
+        
+                        // Check for any overlap between slot and booking time
                         if (
-                            ($slotStart >= $booking['start_time'] && $slotStart < $booking['end_time']) || // Slot start overlaps booking
-                            ($slotEnd > $booking['start_time'] && $slotEnd <= $booking['end_time']) ||   // Slot end overlaps booking
-                            ($slotStart <= $booking['start_time'] && $slotEnd >= $booking['end_time'])  // Slot fully contains booking
+                            ($slotStart < $bookingEnd && $slotEnd > $bookingStart) || // Overlap condition
+                            ($slotStart >= $bookingStart && $slotStart < $bookingEnd) ||
+                            ($slotEnd > $bookingStart && $slotEnd <= $bookingEnd)
                         ) {
                             return true;
                         }
@@ -170,6 +174,7 @@ class AmenitiesController extends Controller
         
             return $item;
         });
+        
         
         return response([
             'message' => 'Amenities Displayed Successfully..!',
