@@ -174,12 +174,11 @@ class AmenitiesController extends Controller
                 $morning_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time);
                 $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time);
     
-                // Get booked times from the database
                 $bookedTimes = $item->bookamenities->map(function ($booking) {
                     return $booking->start_time . ' - ' . $booking->end_time;
                 })->toArray();
     
-                // Check slot availability
+               
                 $item->morning_time_slots = $this->checkSlotAvailability($morning_slots, $bookedTimes);
                 $item->evening_time_slots = $this->checkSlotAvailability($evening_slots, $bookedTimes);
             }
