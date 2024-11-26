@@ -89,7 +89,7 @@ class ReportController extends Controller
 
          $allData = [
             'preapproval' => $data,
-            'book_amenities' => $data2,
+            'book_amenities' => $data2, 
             'maintenance' => $data3
         ];
          

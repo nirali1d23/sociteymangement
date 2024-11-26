@@ -54,21 +54,40 @@ class MaintanceBillController extends Controller
             $flat_no = Flat::find($flat_id);
     $houses = $flat_no->houses;
 
-// Assuming `month` and `year` are passed as request parameters
+
 $month = $request->month;
 $year = $request->year;
 
+// $houses_with_status = $houses->map(function ($house) use ($month, $year) {
+//     $status = Maintancebill::whereMonth('created_at', $month)
+//         ->whereYear('created_at', $year)
+//         ->whereHas('maintancebilllists', function ($query) use ($house) {
+//             $query->where('flat_id', $house->id);
+//         })
+//         ->exists() ? 1 : 0;
+
+//     $house->status = $status;
+//     return $house;
+// });
+
 $houses_with_status = $houses->map(function ($house) use ($month, $year) {
-    $status = Maintancebill::whereMonth('created_at', $month)
+    // Fetch the maintenance bill related to this house
+    $maintance_bill = Maintancebill::whereMonth('created_at', $month)
         ->whereYear('created_at', $year)
         ->whereHas('maintancebilllists', function ($query) use ($house) {
             $query->where('flat_id', $house->id);
         })
-        ->exists() ? 1 : 0;
+        ->first(); // Get the first relevant bill or null if none exists
 
-    $house->status = $status;
-    return $house;
+    // Add house_id, house_number, status, and maintenance_bill_id to the output
+    return [
+        'house_id' => $house->id,
+        'house_number' => $house->house_number,
+        'status' => $maintance_bill ? 1 : 0, // Status is 1 if a bill exists, otherwise 0
+        'maintance_bill_id' => $maintance_bill ? $maintance_bill->id : null, // Include the bill ID or null
+    ];
 });
+
 
         return response([
             'message' => 'House list fetched successfully',
@@ -80,7 +99,7 @@ $houses_with_status = $houses->map(function ($house) use ($month, $year) {
     public function paymaintance(Request $request)
     {
        $data =  Maintancebilllist::create([
- 
+             'maintance_bill_id' => $request->maintance_bill_id,
              'flat_id' => $request->flat_id,
              'date' => $request->date,
              'payment_method' => $request->payment_method,
