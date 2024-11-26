@@ -110,7 +110,7 @@ class AmenitiesController extends Controller
     return $slots;
   }
    public function create(Request $request)
-  {
+   {
         if ($request->hasFile('image')) 
         {
             $image_1 = $request->file('image');
@@ -145,7 +145,6 @@ class AmenitiesController extends Controller
         ], 200 );
 
    }
-
     public function display2(Request $request)
     {
         $data = Amenities::with('bookamenities')->get()->map(function($item)
@@ -168,7 +167,6 @@ class AmenitiesController extends Controller
            'statusCode' => 200
         ],200);
     }
-
     public function display(Request $request) 
     {
     $data = Amenities::with('bookamenities')->get()->map(function ($item) {

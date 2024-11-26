@@ -20,7 +20,7 @@ class PollController extends Controller
         $store->question = $request->question;
       $store->save();
 
-      $data = User::all();
+      $data = User::where('user_type',2)->get();
       foreach($data as  $token)
       {
           if($token->fcm_token !=null)

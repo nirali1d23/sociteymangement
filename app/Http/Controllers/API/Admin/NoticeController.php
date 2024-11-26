@@ -31,8 +31,7 @@ class NoticeController extends Controller
         $notice->start_date = $request->start_date;
         $notice->time = $request->time;
         $notice->save();
-
-
+        
          $user = User::where('user_type','2')->get();
            foreach($user as $userdata)
            {
