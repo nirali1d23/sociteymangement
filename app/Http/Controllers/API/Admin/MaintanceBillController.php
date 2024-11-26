@@ -83,8 +83,9 @@ $houses_with_status = $houses->map(function ($house) use ($month, $year) {
 
         return response([
             'message' => 'House list fetched successfully',
-            'data' => $houses_with_status,
             'maintenance_bill_id' => $maintenanceBillId,  
+            'data' => $houses_with_status,
+        
                       'statusCode' => 200
         ], 200);   
     
