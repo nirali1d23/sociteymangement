@@ -17,7 +17,7 @@ class RoleMiddleware
     {
         $user = $request->user();
         if ($user && $user->user_type == $role) {
-            return $next($request);// Allow access if role matches
+            return $next($request);
         }
 
         return response()->json(['message' => 'Unauthorized'], 403);

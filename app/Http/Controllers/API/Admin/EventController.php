@@ -33,7 +33,7 @@ class EventController extends Controller
         $create->instruction= $request->instruction;
         $create->image= $image;
         $create->save();
-        $data = User::all();
+        $data = User::where('user_type',2)->get();
         foreach($data as  $token)
         {
             if($token->fcm_token !=null)
