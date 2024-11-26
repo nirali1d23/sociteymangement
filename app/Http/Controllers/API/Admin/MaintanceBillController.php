@@ -57,8 +57,8 @@ class MaintanceBillController extends Controller
 
 $month = $request->month;
 $year = $request->year;
-$maintenanceBill = Maintancebill::whereMonth('created_at', $month)
-    ->whereYear('created_at', $year)
+$maintenanceBill = Maintancebill::whereMonth('date', $month)
+    ->whereYear('date', $year)
     ->first();
     dd($maintenanceBill);
 
