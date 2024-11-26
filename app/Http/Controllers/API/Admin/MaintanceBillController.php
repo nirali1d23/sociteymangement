@@ -66,11 +66,13 @@ $houses_with_status = $houses->map(function ($house) use ($month, $year) {
             $query->where('flat_id', $house->id);
         })
         ->first();
+$maintenancebillid = Maintancebill::whereMonth('created_at', $month)
+->whereYear('created_at', $year)->first();
 
-        dd($maintenanceBill);
+
 
     $house->status = $maintenanceBill ? 1 : 0;
-    $house->maintenance_bill_id = $maintenanceBill ? $maintenanceBill->id : null;
+   
 
     return $house;
 });
@@ -79,6 +81,7 @@ $houses_with_status = $houses->map(function ($house) use ($month, $year) {
         return response([
             'message' => 'House list fetched successfully',
             'data' => $houses_with_status,
+            'id' =>$maintenancebillid->id,
             'statusCode' => 200
         ], 200);   
     
