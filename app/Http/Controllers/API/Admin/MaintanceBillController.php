@@ -67,6 +67,8 @@ $houses_with_status = $houses->map(function ($house) use ($month, $year) {
         })
         ->first();
 
+        dd($maintenanceBill);
+
     $house->status = $maintenanceBill ? 1 : 0;
     $house->maintenance_bill_id = $maintenanceBill ? $maintenanceBill->id : null;
 
