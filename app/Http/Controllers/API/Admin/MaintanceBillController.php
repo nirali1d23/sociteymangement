@@ -61,6 +61,9 @@ $maintenanceBill = Maintancebill::whereMonth('created_at', $month)
     ->whereYear('created_at', $year)
     ->first();
 
+    if($maintenanceBill)
+    {
+
 
 $maintenanceBillId = $maintenanceBill ? $maintenanceBill->id : null;
 
@@ -89,6 +92,14 @@ $houses_with_status = $houses->map(function ($house) use ($month, $year) {
         
                       'statusCode' => 200
         ], 200);   
+    }
+
+    return response([
+        'message' => 'Maitance Bill not Found',
+      
+    
+                  'statusCode' => 404
+    ], 404);   
     
     }
     public function paymaintance(Request $request)
