@@ -65,8 +65,8 @@ $maintenanceBill = Maintancebill::whereMonth('date', $month)
 $maintenanceBillId = $maintenanceBill ? $maintenanceBill->id : null;
 
 $houses_with_status = $houses->map(function ($house) use ($month, $year) {
-    $maintenanceBill = Maintancebill::whereMonth('created_at', $month)
-        ->whereYear('created_at', $year)
+    $maintenanceBill = Maintancebill::whereMonth('date', $month)
+        ->whereYear('date', $year)
         ->whereHas('maintancebilllists', function ($query) use ($house) {
             $query->where('flat_id', $house->id);
         })
