@@ -60,7 +60,7 @@ $year = $request->year;
 $maintenanceBill = Maintancebill::whereMonth('created_at', $month)
     ->whereYear('created_at', $year)
     ->first();
-    dd($maintenanceBill);
+
 
 $maintenanceBillId = $maintenanceBill ? $maintenanceBill->id : null;
 
