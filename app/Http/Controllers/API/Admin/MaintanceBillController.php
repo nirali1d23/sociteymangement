@@ -57,7 +57,11 @@ class MaintanceBillController extends Controller
 
 $month = $request->month;
 $year = $request->year;
+$maintenanceBill = Maintancebill::whereMonth('created_at', $month)
+    ->whereYear('created_at', $year)
+    ->first();
 
+$maintenanceBillId = $maintenanceBill ? $maintenanceBill->id : null;
 
 $houses_with_status = $houses->map(function ($house) use ($month, $year) {
     $maintenanceBill = Maintancebill::whereMonth('created_at', $month)
@@ -66,8 +70,7 @@ $houses_with_status = $houses->map(function ($house) use ($month, $year) {
             $query->where('flat_id', $house->id);
         })
         ->first();
-$maintenancebillid = Maintancebill::whereMonth('created_at', $month)
-->whereYear('created_at', $year)->first();
+
 
 
 
@@ -81,8 +84,8 @@ $maintenancebillid = Maintancebill::whereMonth('created_at', $month)
         return response([
             'message' => 'House list fetched successfully',
             'data' => $houses_with_status,
-            'id' =>$maintenancebillid->id,
-            'statusCode' => 200
+            'maintenance_bill_id' => $maintenanceBillId,  
+                      'statusCode' => 200
         ], 200);   
     
     }
