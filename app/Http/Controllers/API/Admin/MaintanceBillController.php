@@ -50,46 +50,42 @@ class MaintanceBillController extends Controller
         //     $house->status = $status;    
         //     return $house;
         // });
-    $flat_id = $request->block_id;
-            $flat_no = Flat::find($flat_id);
-    $houses = $flat_no->houses;
-
-
-$month = $request->month;
-$year = $request->year;
-
-// $houses_with_status = $houses->map(function ($house) use ($month, $year) {
-//     $status = Maintancebill::whereMonth('created_at', $month)
-//         ->whereYear('created_at', $year)
-//         ->whereHas('maintancebilllists', function ($query) use ($house) {
-//             $query->where('flat_id', $house->id);
-//         })
-//         ->exists() ? 1 : 0;
-
-//     $house->status = $status;
-//     return $house;
-// });
-$houses_with_status = $houses->map(function ($house) use ($month, $year) {
-    $maintenanceBill = Maintancebill::whereMonth('created_at', $month)
-        ->whereYear('created_at', $year)
-        ->whereHas('maintancebilllists', function ($query) use ($house) {
-            $query->where('flat_id', $house->id);
-        })
-        ->first();
-
-    $house->status = $maintenanceBill ? 1 : 0;
-    $house->maintenance_bill_id = $maintenanceBill ? $maintenanceBill->id : null;
-
-    return $house;
-});
-
-
-        return response([
+        $flat_id = $request->block_id;
+        $month = $request->month;
+        $year = $request->year;
+        
+        // Fetch maintenance bill for the given flat, month, and year
+        $maintenanceBill = Maintancebill::whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->where('flat_id', $flat_id)
+            ->first();
+        
+        // Prepare maintenance bill ID
+        $maintenance_bill_id = $maintenanceBill ? $maintenanceBill->id : null;
+        
+        // Map houses with their status
+        $houses_with_status = $houses->map(function ($house) use ($month, $year) {
+            $status = Maintancebill::whereMonth('created_at', $month)
+                ->whereYear('created_at', $year)
+                ->whereHas('maintancebilllists', function ($query) use ($house) {
+                    $query->where('flat_id', $house->id);
+                })
+                ->exists() ? 1 : 0;
+        
+            $house->status = $status;
+            return $house;
+        });
+        
+        // Prepare response
+        $response = [
             'message' => 'House list fetched successfully',
             'data' => $houses_with_status,
-            'statusCode' => 200
-        ], 200);   
-    
+            'maintenance_bill_id' => $maintenance_bill_id,
+            'statusCode' => 200,
+        ];
+        
+        return response()->json($response);
+        
     }
     public function paymaintance(Request $request)
     {
