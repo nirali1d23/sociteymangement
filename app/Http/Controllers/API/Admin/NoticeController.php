@@ -123,8 +123,20 @@ class NoticeController extends Controller
     }
     public function schedulenoticedisplay(Request $request)
     {
-        $data = Notice::whereNotNull('start_date')->orderBy('created_at', 'desc')->get()->map(function($item) {
-            $item->image = url('images/' . $item->image);
+       
+
+        $data = Notice::where(function ($query) {
+            $now = now()->setTimezone('Asia/Kolkata');
+            $query->whereNotNull('start_date')
+                  ->orWhere(function ($q) use ($now) {
+                      $q->whereDate('start_date', '>=', $now->toDateString())
+                        ->whereTime('time', '>=', $now->toTimeString());
+                  });
+        })
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->map(function($item) {
+            $item->image = url('image/' . $item->image); // Add full URL to the image
             return $item;
         });
         return response([
