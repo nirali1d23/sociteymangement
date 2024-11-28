@@ -106,8 +106,7 @@ class FlatController extends Controller
                     'block_no' => $blockData['block_no'],
                 ]);
         
-                // Debug: Check if block is being created successfully
-                dd($block); // This will show you the $block details and confirm its ID
+           
         
                 // Loop through the floors from 'Floor_number_from' to 'Floor_number_To'
                 for ($i = $blockData['Floor_number_from']; $i <= $blockData['Floor_number_To']; $i++) {
