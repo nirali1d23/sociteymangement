@@ -107,6 +107,7 @@ Route::controller(MaintanceBillController::class)->group(function () {
     Route::post('/maintancebillcreate', 'store');
     Route::post('/maintancebilldisplay', 'maintancebilldisplay');
     Route::post('/paymaintance', 'paymaintance');
+    Route::post('/maitnacebilldropdown', 'maitnacebilldropdown');
 });
 
 // Notification Routes

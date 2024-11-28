@@ -38,6 +38,31 @@ class MaintanceBillController extends Controller
             'statusCode' => 200
         ],200 );
     }
+    public function maitnacebilldropdown(Request $request)
+    {
+        $month = $request->month;
+        $year = $request->year;
+
+        $title = [];
+        $maintenanceBill = Maintancebill::whereMonth('created_at', $month)
+        ->whereYear('created_at', $year)
+        ->get();
+
+          foreach($maintenanceBill as $item)
+          {
+               $title[] = $item->title;
+          }
+
+
+          return response([
+            'message' => 'bill list given',
+            
+            'data' => $title,
+        
+                      'statusCode' => 200
+        ], 200);   
+
+    }
     public function maintancebilldisplay(Request $request)
     {    
         
