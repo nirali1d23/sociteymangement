@@ -125,14 +125,17 @@ class NoticeController extends Controller
     {
        
   
-
         $data = Notice::where(function ($query) {
             $now = now()->setTimezone('Asia/Kolkata');
             $query->whereNotNull('start_date')
-                  ->orWhere(function ($q) use ($now) {
-                      $q->whereDate('start_date', '<=', $now->toDateString())
-                        ->whereTime('time', '<=', $now->toTimeString());
-                       
+                  ->where(function ($q) use ($now) {
+                      // Compare both start_date and time together
+                      $q->whereDate('start_date', '>', $now->toDateString()) // Start date is in the future
+                        ->orWhere(function ($subQuery) use ($now) {
+                            // If start_date is today, check if the time is in the future
+                            $subQuery->whereDate('start_date', '=', $now->toDateString())
+                                     ->whereTime('time', '>', $now->toTimeString());
+                        });
                   });
         })
         ->orderBy('created_at', 'desc')
