@@ -13,42 +13,67 @@ class FlatController extends Controller
 
        
 
-        if ($request->has('block')) 
-        {
-            $data = []; 
-            foreach ($request->block as $blockData) 
-            {
+        // if ($request->has('block')) 
+        // {
+        //     $data = []; 
+        //     foreach ($request->block as $blockData) 
+        //     {
               
-                    $no_of_floors = $blockData['Floor_number_To'] - $blockData['Floor_number_from'];
-                    $no_of_house_per_floor = $blockData['no_of_house_per_floor_to'] -  $blockData['no_of_house_per_floor'];
+        //             $no_of_floors = $blockData['Floor_number_To'] - $blockData['Floor_number_from'];
+        //             $no_of_house_per_floor = $blockData['no_of_house_per_floor_to'] -  $blockData['no_of_house_per_floor'];
               
 
-                     $block = Flat::create([
+        //              $block = Flat::create([
 
-                      'block_no' => $blockData['block_no']
-
-
-                     ]);
+        //               'block_no' => $blockData['block_no']
 
 
+        //              ]);
 
-                     for($i=1;$i<=$no_of_floors;$i++)
+
+
+        //              for($i=1;$i<=$no_of_floors;$i++)
                     
-                     {
-                        for($j=1;$j<=$no_of_house_per_floor;$j++)
-                        {
-                            $house_number = $i . '0' . $j;
+        //              {
+        //                 for($j=1;$j<=$no_of_house_per_floor;$j++)
+        //                 {
+        //                     $house_number = $i . '0' . $j;
 
-                            House::create([
-                                'house_number' => $house_number,
-                                'flat_id' =>  $block->id,
-                            ]);
-                        }
-                     }
-            } 
+        //                     House::create([
+        //                         'house_number' => $house_number,
+        //                         'flat_id' =>  $block->id,
+        //                     ]);
+        //                 }
+        //              }
+        //     } 
           
 
+        // }
+        if ($request->has('block')) {
+            foreach ($request->block as $blockData) { // Rename to avoid conflict
+                $no_of_floors = $blockData['Floor_number_To'] - $blockData['Floor_number_from'] + 1; // Add 1 to include the range
+                $no_of_house_per_floor = $blockData['no_of_house_per_floor_to'] - $blockData['no_of_house_per_floor'] + 1;
+        
+                // Create the block in the `flats` table
+                $block = Flat::create([
+                    'block_no' => $blockData['block_no'],
+                ]);
+        
+                // Generate houses for the block
+                for ($i = 1; $i <= $no_of_floors; $i++) {
+                    for ($j = 1; $j <= $no_of_house_per_floor; $j++) {
+                        $house_number = $i . '0' . $j;
+        
+                        // Create the house with the correct `flat_id`
+                        House::create([
+                            'house_number' => $house_number,
+                            'flat_id' => $block->id, // Correctly associate the house with the block
+                        ]);
+                    }
                 }
+            }
+        }
+        
 
                 return response( [
                     'message' => 'Flat stored.',
