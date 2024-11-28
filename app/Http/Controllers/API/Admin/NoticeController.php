@@ -82,7 +82,6 @@ class NoticeController extends Controller
         ->map(function($item) {
             $item->image = url('image/' . $item->image);
             $item->created_at = $item->created_at->setTimezone('Asia/Kolkata');
-            // Add full URL to the image
             return $item;
         });
         
