@@ -85,18 +85,22 @@ class FlatController extends Controller
                     'block_no' => $blockData['block_no'],
                 ]);
         
-        
+                // Now loop over the actual floor numbers from the start to end
                 for ($i = $blockData['Floor_number_from']; $i <= $blockData['Floor_number_To']; $i++) {
                     for ($j = $blockData['no_of_house_per_floor']; $j <= $blockData['no_of_house_per_floor_to']; $j++) {
-                        $house_number = $i . '0' . $j; // Construct the house number
+                        // Construct the house number
+                        $house_number = $i . '0' . $j;
+        
+                        // Ensure each house gets the correct flat_id based on the block
                         House::create([
                             'house_number' => $house_number,
-                            'flat_id' => $block->id, // Link to the current block's ID
+                            'flat_id' => $block->id,  // This ensures that each house is associated with the correct flat ID
                         ]);
                     }
                 }
             }
         }
+        
         
         
 
