@@ -16,25 +16,18 @@ class FlatController extends Controller
         if ($request->has('block')) 
         {
             $data = []; 
-            foreach ($request->block as $block) 
+            foreach ($request->block as $blockData) 
             {
               
-                    $no_of_floors = $block['Floor_number_To'] - $block['Floor_number_from'];
-                    $no_of_house_per_floor = $block['no_of_house_per_floor_to'] -  $block['no_of_house_per_floor'];
+                    $no_of_floors = $blockData['Floor_number_To'] - $blockData['Floor_number_from'];
+                    $no_of_house_per_floor = $blockData['no_of_house_per_floor_to'] -  $blockData['no_of_house_per_floor'];
               
 
                      $block = Flat::create([
 
-                      'block_no' => $block['block_no']
+                      'block_no' => $blockData['block_no']
 
-      
-        // $flat = new Flat;
-        // $flat->block_number = $request->block_number;
-        // $flat->residencey_name = $request->residencey_name;
-        // $flat->residencey_type = $request->residencey_type;
-        // $block_no = $request->block_no;
-        // $no_of_floor = $request->no_of_floor;
-        // $no_of_house_per_floor = $request->no_of_house_per_floor;
+
                      ]);
 
 
@@ -53,7 +46,11 @@ class FlatController extends Controller
                         }
                      }
             } 
-            return response()->json(['message' => 'Blocks and houses saved successfully']);
+            return response( [
+                        'message' => 'Flat stored.',
+                        'statusCode' => 200
+                    ],200 );
+                }
 
         }
 
@@ -95,5 +92,5 @@ class FlatController extends Controller
         //     'message' => 'Failed to store flat..!',
         //     'statusCode' => 400
         // ],400 );
-    }
+        
 }
