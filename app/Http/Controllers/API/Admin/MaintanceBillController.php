@@ -57,7 +57,7 @@ class MaintanceBillController extends Controller
           return response([
             'message' => 'bill list given',
             
-            'data' => $title,
+            'data' => [$title],
         
                       'statusCode' => 200
         ], 200);   
