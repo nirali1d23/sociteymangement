@@ -88,7 +88,6 @@ class NoticeController extends Controller
             return $item;
         });
         
-        dd($data);
 
         return response([
             'message' => 'Notice Displayed Successfully..!',
