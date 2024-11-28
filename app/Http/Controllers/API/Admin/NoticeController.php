@@ -124,6 +124,8 @@ class NoticeController extends Controller
     public function schedulenoticedisplay(Request $request)
     {
        
+        $now = now()->setTimezone('Asia/Kolkata');
+        dd($now->toTimeString());
 
         $data = Notice::where(function ($query) {
             $now = now()->setTimezone('Asia/Kolkata');
