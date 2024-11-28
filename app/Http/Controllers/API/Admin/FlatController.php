@@ -46,11 +46,14 @@ class FlatController extends Controller
                         }
                      }
             } 
-            return response( [
-                        'message' => 'Flat stored.',
-                        'statusCode' => 200
-                    ],200 );
+          
+
                 }
+
+                return response( [
+                    'message' => 'Flat stored.',
+                    'statusCode' => 200
+                ],200 );
 
         }
 
