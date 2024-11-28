@@ -125,6 +125,7 @@ class ReportController extends Controller
 
         return response([
             'message' => 'No Data Found..!',
+            'data' => $data,
             'statusCode' => 400
         ],400 );
     }
