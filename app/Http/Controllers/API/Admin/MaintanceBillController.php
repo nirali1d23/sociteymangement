@@ -50,7 +50,7 @@ class MaintanceBillController extends Controller
 
           foreach($maintenanceBill as $item)
           {
-               $title = $item->title;
+               $title[] = $item->title;
           }
 
 
