@@ -110,7 +110,7 @@ class FlatController extends Controller
            
         
                 // Loop through the floors from 'Floor_number_from' to 'Floor_number_To'
-                for ($i = $blockData['Floor_number_from']; $i <= $blockData['Floor_number_To']; $i++) {
+                for ($i =1; $i <=$no_of_floors; $i++) {
                     // Loop through the house range from 'no_of_house_per_floor' to 'no_of_house_per_floor_to'
                     for ($j = $blockData['no_of_house_per_floor']; $j <= $blockData['no_of_house_per_floor_to']; $j++) {
                         // Construct the house number by combining floor number and house number
