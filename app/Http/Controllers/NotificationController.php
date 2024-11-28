@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Kreait\Firebase;
+
 use Google_Client;
 use App\Services\FirebaseService;
 use Illuminate\Http\Request;

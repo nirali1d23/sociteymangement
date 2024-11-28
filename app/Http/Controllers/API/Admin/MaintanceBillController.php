@@ -17,11 +17,10 @@ class MaintanceBillController extends Controller
         $store =  new Maintancebill;
         $store->due_date = $request->due_date;
         $store->total_amount = $request->total_amount;
-        $store->member_type = $request->member_type;
-        $store->billing_period = $request->billing_period;
+        $store->title = $request->title;
         $store->save();
 
-        $data = User::all();
+        $data = User::where('user_type',2)->get();
         foreach($data as  $token)
         {
             if($token->fcm_token !=null)
@@ -50,6 +49,9 @@ class MaintanceBillController extends Controller
         //     $house->status = $status;    
         //     return $house;
         // });
+
+
+        
     $flat_id = $request->block_id;
             $flat_no = Flat::find($flat_id);
     $houses = $flat_no->houses;

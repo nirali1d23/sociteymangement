@@ -4,6 +4,8 @@ use App\Models\Notice;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 use App\Traits\ImageUpload;
 use App\Models\NoticeComment;
 use App\Traits\FirebaseNotificationTrait;
@@ -81,7 +83,8 @@ class NoticeController extends Controller
         ->get()
         ->map(function($item) {
             $item->image = url('image/' . $item->image);
-            $item->created_at = $item->created_at->setTimezone('Asia/Kolkata');
+            $item->created_at = Carbon::parse($item->created_at)->setTimezone('Asia/Kolkata');
+           
             return $item;
         });
         
