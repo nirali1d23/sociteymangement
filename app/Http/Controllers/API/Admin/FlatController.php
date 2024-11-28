@@ -99,8 +99,11 @@ class FlatController extends Controller
         if ($request->has('block')) {
             foreach ($request->block as $blockData) {
                 // Calculate the number of floors and houses per floor
-                $no_of_floors = $blockData['Floor_number_To'] - $blockData['Floor_number_from'];
-                $no_of_house_per_floor = $blockData['no_of_house_per_floor_to'] - $blockData['no_of_house_per_floor'];
+                // $no_of_floors = $blockData['Floor_number_To'] - $blockData['Floor_number_from'];
+                // $no_of_house_per_floor = $blockData['no_of_house_per_floor_to'] - $blockData['no_of_house_per_floor'];
+
+                $no_of_floors = 5;
+                $no_of_house_per_floor =4;
         
                 // Create a new block (flat)
                 $block = Flat::create([
