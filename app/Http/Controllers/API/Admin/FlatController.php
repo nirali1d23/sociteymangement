@@ -86,8 +86,8 @@ class FlatController extends Controller
                 ]);
         
         
-                for ($i = 1; $i <= $no_of_floors; $i++) {
-                    for ($j = 1; $j <= $no_of_house_per_floor; $j++) {
+                for ($i =1; $i <= $blockData['Floor_number_To']; $i++) {
+                    for ($j = $blockData['no_of_house_per_floor']; $j <= $blockData['no_of_house_per_floor_to']; $j++) {
                         $house_number = $i . '0' . $j; // Construct the house number
                         House::create([
                             'house_number' => $house_number,
