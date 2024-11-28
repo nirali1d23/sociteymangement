@@ -80,7 +80,9 @@ class NoticeController extends Controller
         ->orderBy('created_at', 'desc')
         ->get()
         ->map(function($item) {
-            $item->image = url('image/' . $item->image); // Add full URL to the image
+            $item->image = url('image/' . $item->image);
+            $item->created_at = $item->created_at->setTimezone('Asia/Kolkata');
+            // Add full URL to the image
             return $item;
         });
         
