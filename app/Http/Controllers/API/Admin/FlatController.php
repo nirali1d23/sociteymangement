@@ -58,6 +58,7 @@ class FlatController extends Controller
                 $block = Flat::create([
                     'block_no' => $blockData['block_no'],
                 ]);
+                dd($block); 
         
                 // Generate houses for the block
                 for ($i = 1; $i <= $no_of_floors; $i++) {
