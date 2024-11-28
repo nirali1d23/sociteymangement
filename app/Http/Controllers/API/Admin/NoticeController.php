@@ -64,10 +64,26 @@ class NoticeController extends Controller
         //     'statusCode' => 200
         // ],200 );
 
-        $data = Notice::whereNull('start_date')->whereNull('time')->orderBy('created_at', 'desc')->get()->map(function($item) {
-            $item->image = url('image/' . $item->image);
+        // $data = Notice::whereNull('start_date')->whereNull('time')->orderBy('created_at', 'desc')->get()->map(function($item) {
+        //     $item->image = url('image/' . $item->image);
+        //     return $item;
+        // });
+        $data = Notice::where(function ($query) {
+            $now = now();
+            $query->whereNull('start_date')
+                  ->whereNull('time')
+                  ->orWhere(function ($q) use ($now) {
+                      $q->whereDate('start_date', '<=', $now->toDateString())
+                        ->whereTime('time', '<=', $now->toTimeString());
+                  });
+        })
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->map(function($item) {
+            $item->image = url('image/' . $item->image); // Add full URL to the image
             return $item;
         });
+        
 
         return response([
             'message' => 'Notice Displayed Successfully..!',

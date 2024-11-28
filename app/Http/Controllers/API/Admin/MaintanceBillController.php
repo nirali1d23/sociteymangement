@@ -55,11 +55,11 @@ class MaintanceBillController extends Controller
     $houses = $flat_no->houses;
 
 
-$month = $request->month;
-$year = $request->year;
-$maintenanceBill = Maintancebill::whereMonth('created_at', $month)
-    ->whereYear('created_at', $year)
-    ->first();
+        $month = $request->month;
+        $year = $request->year;
+        $maintenanceBill = Maintancebill::whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->first();
 
     if($maintenanceBill)
     {
@@ -70,7 +70,8 @@ $maintenanceBillId = $maintenanceBill ? $maintenanceBill->id : null;
 $houses_with_status = $houses->map(function ($house) use ($month, $year) {
     $maintenanceBill = Maintancebill::whereMonth('created_at', $month)
         ->whereYear('created_at', $year)
-        ->whereHas('maintancebilllists', function ($query) use ($house) {
+        ->whereHas('maintancebilllists', function ($query) use ($house) 
+        {
             $query->where('flat_id', $house->id);
         })
         ->first();
