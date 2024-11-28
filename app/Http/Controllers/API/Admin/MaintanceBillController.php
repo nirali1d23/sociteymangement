@@ -50,14 +50,14 @@ class MaintanceBillController extends Controller
 
           foreach($maintenanceBill as $item)
           {
-               $title[] = $item->title;
+               $title[] =[$item->title];
           }
 
 
           return response([
             'message' => 'bill list given',
             
-            'data' => [$title],
+            'data' => $title,
         
                       'statusCode' => 200
         ], 200);   
