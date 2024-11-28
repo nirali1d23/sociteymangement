@@ -131,8 +131,8 @@ class NoticeController extends Controller
             $now = now()->setTimezone('Asia/Kolkata');
             $query->whereNotNull('start_date')
                   ->orWhere(function ($q) use ($now) {
-                      $q->whereDate('start_date', '>=', $now->toDateString())
-                        ->whereTime('time', '>=', $now->toTimeString());
+                      $q->whereDate('start_date', '<=', $now->toDateString())
+                        ->whereTime('time', '<=', $now->toTimeString());
                   });
         })
         ->orderBy('created_at', 'desc')
