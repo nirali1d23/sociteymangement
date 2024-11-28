@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Admin;
 use App\Models\Flat;
 use App\Models\House;
+use Illuminate\Support\Facades\Log; // Ensure you import the Log facade at the top of your controller
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -117,7 +118,7 @@ class FlatController extends Controller
         
                         // Debug: Check the house number and flat_id before creation
                         // You can also log or output the $block->id for each house here
-                        dd($house_number, $block->id); // This will show you the house number and the assigned flat_id
+                        Log::info("House Created: " . $house_number . " with flat_id: " . $block->id);
         
                         // Create a new house with the correct block ID
                         House::create([
