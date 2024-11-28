@@ -76,36 +76,26 @@ class FlatController extends Controller
 
         if ($request->has('block')) {
             foreach ($request->block as $blockData) {
-                // Calculate the number of floors and houses per floor
                 $no_of_floors = $blockData['Floor_number_To'] - $blockData['Floor_number_from'] + 1;
                 $no_of_house_per_floor = $blockData['no_of_house_per_floor_to'] - $blockData['no_of_house_per_floor'] + 1;
         
-                // Create a new block (flat) for each iteration
                 $block = Flat::create([
                     'block_no' => $blockData['block_no'],
                 ]);
         
-                // Debugging: Check the block ID generated for each iteration
-                Log::info("Created Block with ID: " . $block->id);
-        
-                // Loop over floors and houses per floor
                 for ($i = $blockData['Floor_number_from']; $i <= $blockData['Floor_number_To']; $i++) {
                     for ($j = $blockData['no_of_house_per_floor']; $j <= $blockData['no_of_house_per_floor_to']; $j++) {
-                        // Construct the house number
                         $house_number = $i . '0' . $j;
         
-                        // Debugging: Print the house number and the block ID to ensure correct association
-                        Log::info("Creating House: " . $house_number . " with Block ID: " . $block->id);
-        
-                        // Create a new house and associate it with the block using $block->id
                         House::create([
                             'house_number' => $house_number,
-                            'flat_id' => $block->id,  // Correctly associate the house with the current block
+                            'flat_id' => $block->id, 
                         ]);
                     }
                 }
             }
         }
+        
         
         
 
