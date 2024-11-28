@@ -132,6 +132,7 @@ class NoticeController extends Controller
                   ->orWhere(function ($q) use ($now) {
                       $q->whereDate('start_date', '<=', $now->toDateString())
                         ->whereTime('time', '<=', $now->toTimeString());
+                       
                   });
         })
         ->orderBy('created_at', 'desc')
@@ -140,6 +141,7 @@ class NoticeController extends Controller
             $item->image = url('image/' . $item->image); // Add full URL to the image
             return $item;
         });
+
         return response([
             'message' => 'Notice Displayed Successfully..!',
             'data' => $data,
