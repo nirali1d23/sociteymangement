@@ -74,27 +74,57 @@ class FlatController extends Controller
         //     }
         // }
 
+        // if ($request->has('block')) {
+        //     foreach ($request->block as $blockData) {
+        //         $no_of_floors = $blockData['Floor_number_To'] - $blockData['Floor_number_from'] + 1;
+        //         $no_of_house_per_floor = $blockData['no_of_house_per_floor_to'] - $blockData['no_of_house_per_floor'] + 1;
+        
+        //         $block = Flat::create([
+        //             'block_no' => $blockData['block_no'],
+        //         ]);
+        
+        //         for ($i = $blockData['Floor_number_from']; $i <= $blockData['Floor_number_To']; $i++) {
+        //             for ($j = $blockData['no_of_house_per_floor']; $j <= $blockData['no_of_house_per_floor_to']; $j++) {
+        //                 $house_number = $i . '0' . $j;
+        
+        //                 House::create([
+        //                     'house_number' => $house_number,
+        //                     'flat_id' => $block->id, 
+        //                 ]);
+        //             }
+        //         }
+        //     }
+        // }
+
         if ($request->has('block')) {
             foreach ($request->block as $blockData) {
                 $no_of_floors = $blockData['Floor_number_To'] - $blockData['Floor_number_from'] + 1;
-                $no_of_house_per_floor = $blockData['no_of_house_per_floor_to'] - $blockData['no_of_house_per_floor'] + 1;
-        
+                
+                // Loop through each block
                 $block = Flat::create([
                     'block_no' => $blockData['block_no'],
                 ]);
         
-                for ($i = $blockData['Floor_number_from']; $i <= $blockData['Floor_number_To']; $i++) {
-                    for ($j = $blockData['no_of_house_per_floor']; $j <= $blockData['no_of_house_per_floor_to']; $j++) {
-                        $house_number = $i . '0' . $j;
+                // Debug: Check block ID for each block
+                // dd($block->id);
         
+                // Loop through the floors from 'Floor_number_from' to 'Floor_number_To'
+                for ($i = $blockData['Floor_number_from']; $i <= $blockData['Floor_number_To']; $i++) {
+                    // Loop through the house range from 'no_of_house_per_floor' to 'no_of_house_per_floor_to'
+                    for ($j = $blockData['no_of_house_per_floor']; $j <= $blockData['no_of_house_per_floor_to']; $j++) {
+                        // Construct the house number by combining floor number and house number
+                        $house_number = $i . '0' . $j;
+                        
+                        // Create a new house with the correct block ID
                         House::create([
                             'house_number' => $house_number,
-                            'flat_id' => $block->id, 
+                            'flat_id' => $block->id,  // This ensures that each house is associated with the correct flat ID
                         ]);
                     }
                 }
             }
         }
+        
         
         
         
