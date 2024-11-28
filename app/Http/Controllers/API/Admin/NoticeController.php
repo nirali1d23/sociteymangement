@@ -69,7 +69,7 @@ class NoticeController extends Controller
         //     return $item;
         // });
         $data = Notice::where(function ($query) {
-            $now = now();
+            $now = now()->setTimezone('Asia/Kolkata');
             dd($now->toTimeString());
             $query->whereNull('start_date')
                   ->whereNull('time')
