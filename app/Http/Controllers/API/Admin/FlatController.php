@@ -95,18 +95,19 @@ class FlatController extends Controller
         //         }
         //     }
         // }
-
         if ($request->has('block')) {
             foreach ($request->block as $blockData) {
+                // Calculate the number of floors and houses per floor
                 $no_of_floors = $blockData['Floor_number_To'] - $blockData['Floor_number_from'] + 1;
-                
-                // Loop through each block
+                $no_of_house_per_floor = $blockData['no_of_house_per_floor_to'] - $blockData['no_of_house_per_floor'] + 1;
+        
+                // Create a new block (flat)
                 $block = Flat::create([
                     'block_no' => $blockData['block_no'],
                 ]);
         
-                // Debug: Check block ID for each block
-                // dd($block->id);
+                // Debug: Check if block is being created successfully
+                dd($block); // This will show you the $block details and confirm its ID
         
                 // Loop through the floors from 'Floor_number_from' to 'Floor_number_To'
                 for ($i = $blockData['Floor_number_from']; $i <= $blockData['Floor_number_To']; $i++) {
@@ -114,7 +115,11 @@ class FlatController extends Controller
                     for ($j = $blockData['no_of_house_per_floor']; $j <= $blockData['no_of_house_per_floor_to']; $j++) {
                         // Construct the house number by combining floor number and house number
                         $house_number = $i . '0' . $j;
-                        
+        
+                        // Debug: Check the house number and flat_id before creation
+                        // You can also log or output the $block->id for each house here
+                        dd($house_number, $block->id); // This will show you the house number and the assigned flat_id
+        
                         // Create a new house with the correct block ID
                         House::create([
                             'house_number' => $house_number,
@@ -124,7 +129,6 @@ class FlatController extends Controller
                 }
             }
         }
-        
         
         
         
