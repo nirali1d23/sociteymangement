@@ -70,6 +70,7 @@ class NoticeController extends Controller
         // });
         $data = Notice::where(function ($query) {
             $now = now();
+            dd($now->toTimeString());
             $query->whereNull('start_date')
                   ->whereNull('time')
                   ->orWhere(function ($q) use ($now) {
