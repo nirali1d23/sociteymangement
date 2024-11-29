@@ -80,7 +80,7 @@ class VistiorController extends Controller
 
         if($data)
         {
-              $data->exit_time = $request->exit_time;
+              $data->check_out = $request->exit_time;
               $data->save();
 
               return response( [
