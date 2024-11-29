@@ -45,7 +45,9 @@ class MaintanceBillController extends Controller
         ->get();
           foreach($maintenanceBill as $item)
           {
-               $title[] = $item->title;
+               $title[] = ["title" => $item->title,
+               "id" => $item->id    
+            ];
           }
           return response([
             'message' => 'bill list given',
