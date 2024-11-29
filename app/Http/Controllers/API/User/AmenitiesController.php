@@ -10,6 +10,7 @@ class AmenitiesController extends Controller
     use FirebaseNotificationTrait;
     public function requestamenitiesbooking(Request $request)
     {
+        
         $data = Bookamenities::create([
             'user_id' => $request->user_id,
             'amenities_id' => $request->amenities_id,

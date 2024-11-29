@@ -157,7 +157,15 @@ class NoticeController extends Controller
     }
     public function commentlist(Request $request)
     {
-         $data = NoticeComment::with('user')->with('notice')->where('notice_id',$request->id)->get();
+         $data = NoticeComment::with('user')->with('notice')->where('notice_id',$request->id)->get()->map(function($item){
+
+            $item->created_at = Carbon::parse($item->created_at)->setTimezone('Asia/Kolkata');
+            return $item;
+
+         });
+        //  $data = Amenities::with('bookamenities')->get()->map(function($item)
+
+
          if($data)
          {
          return response([
