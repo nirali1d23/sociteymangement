@@ -18,10 +18,10 @@ class ReportController extends Controller
     public function report(Request $request)
     {
         $type = $request->type;
-        $start_date = $request->start_date;
-        $end_date = $request->end_date;
-        $startDate = Carbon::createFromFormat('d/m/Y', $start_date)->format('Y-m-d');
-        $endDate = Carbon::createFromFormat('d/m/Y', $end_date)->format('Y-m-d');
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+        // $startDate = Carbon::createFromFormat('d/m/Y', $start_date)->format('Y-m-d');
+        // $endDate = Carbon::createFromFormat('d/m/Y', $end_date)->format('Y-m-d');
         $responseData = []; 
         
         switch ($type) 
