@@ -157,13 +157,25 @@ class NoticeController extends Controller
     }
     public function commentlist(Request $request)
    {
-         $data = NoticeComment::with('user')->with('notice')->get();
+
+
+         $data = NoticeComment::with('user')->with('notice')->where('notice_id',$request->id)->get();
+         if($data)
+         {
 
          return response([
             'message' => 'Notice Comment displayed Successfully..!',
             'data' => $data,
             'statusCode' => 200
            ],200 );
+        }
+
+        
+        return response([
+            'message' => 'Notice Comment Not Found..!',
+            'data' => $data,
+            'statusCode' => 404
+           ],404 );
 
    }
 }

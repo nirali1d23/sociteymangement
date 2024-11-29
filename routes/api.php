@@ -59,7 +59,7 @@ Route::controller(NoticeController::class)->group(function () {
     Route::get('/noticedisplay', 'display');
     Route::get('/schedulenoticedisplay', 'schedulenoticedisplay');
     Route::post('/noticeupdate', 'noticeupdate');
-    Route::get('/commentlist', 'commentlist');
+    Route::post('/commentlist', 'commentlist');
 });
 
 // Event Routes
