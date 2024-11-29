@@ -76,6 +76,22 @@ class VistiorController extends Controller
 
     public function updatevisitor(Request $request)
     {
+        
+        $request->validate([
+
+
+
+            'vistorid' => 'required',
+
+
+
+            'exit_time' => 'required'
+
+
+
+        ]);
+
+
         $data =  Visitor::find($request->vistorid);
 
         if($data)
