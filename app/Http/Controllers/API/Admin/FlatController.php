@@ -96,7 +96,8 @@ class FlatController extends Controller
         //         }
         //     }
         // }
-        if ($request->has('block')) {
+        if ($request->has('block')) 
+        {
             foreach ($request->block as $blockData) 
             {
                 // Calculate the number of floors and houses per floor
@@ -110,9 +111,7 @@ class FlatController extends Controller
                 $block = Flat::create([
                     'block_no' => $blockData['block_no'],
                 ]);
-        
-           
-        
+    
                 // Loop through the floors from 'Floor_number_from' to 'Floor_number_To'
                 for ($i =1; $i <=$no_of_floors; $i++) {
                     // Loop through the house range from 'no_of_house_per_floor' to 'no_of_house_per_floor_to'
@@ -183,4 +182,4 @@ class FlatController extends Controller
         //     'statusCode' => 400
         // ],400 );
         
-}
+    }

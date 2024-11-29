@@ -120,6 +120,7 @@ Route::controller(visitorentry::class)->group(function () {
     Route::get('/visitorentrydetails', 'visitorentrydetails');
     Route::get('/previsitorlist', 'previsitorlist');
     Route::post('/updateprevisitor', 'updateprevisitor');
+    Route::post('/updatevisitor', 'updatevisitor');
 });
 Route::controller(vistiorcon::class)->group(function () {
     Route::post('/prebookvistior', 'prebookvistior');

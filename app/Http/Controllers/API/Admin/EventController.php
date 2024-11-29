@@ -83,7 +83,6 @@ class EventController extends Controller
     public function edit(Request $request)
     {
           $data = Event::find($request->id);
-
           if($data)
           {
             if ($request->hasFile('image')) 
@@ -136,23 +135,17 @@ class EventController extends Controller
     public function delete(Request $request)
     {
         $data = Event::find($request->id);
-
          if($data)
          {
              $data->delete();
-
              return response( [
                 'message' => 'Event Deleted Successfully..!',
                 'statusCode' => 200
             ],200 );
-
          }
-
          return response( [
             'message' => 'Event Not Found..!',
             'statusCode' => 400
         ],400 );
-
-
     }
 }

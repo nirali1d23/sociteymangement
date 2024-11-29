@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class VistiorController extends Controller
 {
     public function visitorentry(Request $request)
-    {
+    {   
        $data =  Visitor::create([
          'visitor_name' => $request->visitor_name,
          'date' => $request->visitor_date,
@@ -16,7 +16,6 @@ class VistiorController extends Controller
          'flat_no'=>$request->flat_no,
          'purpose' => $request->purpose,
          'status' => 0
-
         ]);
         return response( [
             'message' => 'Visitor Created Successfully',
@@ -73,5 +72,30 @@ class VistiorController extends Controller
             'data' => $data,
             'statusCode' => 404
                 ],404);
+    }
+
+    public function updatevisitor(Request $request)
+    {
+        $data =  Visitor::find($request->vistorid);
+
+        if($data)
+        {
+              $data->exit_time = $request->exit_time;
+              $data->save();
+
+              return response( [
+                'message' => 'vistor Updated Successfully',
+                'data' => $data,
+                'statusCode' => 200
+                    ],200);
+
+        }
+
+        return response( [
+            'message' => 'vistor not found',
+            'data' => $data,
+            'statusCode' => 404
+                ],404);
+
     }
 }
