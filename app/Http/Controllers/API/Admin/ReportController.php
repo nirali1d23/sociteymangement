@@ -112,7 +112,6 @@ class ReportController extends Controller
     public function popupliststaff(Request $request)
     {
        $data =  MaintanceProcess::where('staff_id', $request->staff_id)->where('status',1)->first();
-
         if($data)
         {
             return response([
@@ -122,11 +121,37 @@ class ReportController extends Controller
             ],200 );
         
         }
-
         return response([
             'message' => 'No Data Found..!',
             'data' => $data,
             'statusCode' => 400
         ],400 );
+    }
+    public function popuplistuser(Request $request)
+    {
+        $data = preapproval::where('status',1)->where('user_id',$request->user_id)->first();
+         $data2 = Bookamenities::where('status',1)->where('user_id',$request->user_id)->first();
+
+         $allData = [
+            'preapproval' => $data,
+            'book_amenities' => $data2, 
+           
+        ];
+         
+        
+            return response([
+                'message' => 'data Displayed Successfully..!',
+                'data' => $allData,
+                'statusCode' => 200
+            ],200 );
+        
+         
+
+         return response([
+            'message' => 'No Data found..!',
+            'data' => $data,
+            'statusCode' => 400
+        ],400 );
+
     }
 }
