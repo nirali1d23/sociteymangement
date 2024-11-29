@@ -46,7 +46,7 @@ class MaintanceBillController extends Controller
           foreach($maintenanceBill as $item)
           {
                $title[] = ["title" => $item->title,
-               "id" => $item->id    
+               "id" => $item->id
             ];
           }
           return response([
@@ -77,7 +77,7 @@ class MaintanceBillController extends Controller
                 $month = $request->month;
                 $year = $request->year;
                 $maintenanceBill = Maintancebill::whereMonth('created_at', $month)
-                    ->whereYear('created_at', $year)
+                    ->whereYear('created_at', $year)->where('id',$request->maintance_id)
                     ->first();
 
             if($maintenanceBill)
