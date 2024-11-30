@@ -22,7 +22,7 @@ class NoticeController extends Controller
             'description' => 'required',
            ]);
             if ($request->hasFile('image')) 
-            {
+                {
                 $image_1 = $request->file('image');
                 $image = $this->uploadImage($image_1, 'image'); // Pass both the file and directory
             }
@@ -181,5 +181,25 @@ class NoticeController extends Controller
             'statusCode' => 404
            ],404 );
 
+    }
+    public function noticedelete(Request $request)
+
+    {
+        $data = Notice::find($request->id);
+        if($data)
+        {
+             $data->delete();
+
+             return response( [
+                'message' => 'Notice deleted Successfully..!',
+                'statusCode' => 200
+            ],200 );
+    
+
+        }
+        return response( [
+            'message' => 'Notice Not Found..!',
+            'statusCode' => 400
+        ],404);
     }
 }
