@@ -33,7 +33,8 @@ class NoticeController extends Controller
         $notice->start_date = $request->start_date;
         $notice->time = $request->time;
         $notice->save();
-        
+        if(!$request->has('start_date'))
+        {
          $user = User::where('user_type','2')->get();
            foreach($user as $userdata)
            {
@@ -45,7 +46,7 @@ class NoticeController extends Controller
              $this->sendFirebaseNotification($fcmToken, $title, $body);
               }
            }
-       
+        }
 
 
         return response( [

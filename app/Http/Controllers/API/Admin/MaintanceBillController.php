@@ -66,8 +66,6 @@ class MaintanceBillController extends Controller
         //     $house->status = $status;    
         //     return $house;
         // });
-
-
                 
             $flat_id = $request->block_id;
                     $flat_no = Flat::find($flat_id);
