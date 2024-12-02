@@ -33,6 +33,7 @@ Route::controller(AuthController::class)->group(function()
 {   
     Route::post('login', 'login');
     Route::post('register_rtw', 'register_rtw');
+    Route::post('import', 'import');
     Route::post('changepassword', 'changepassword');
     Route::post('securitypin', 'securitypin');
     Route::post('checksecuritypin', 'checksecuritypin');
