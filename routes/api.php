@@ -50,6 +50,7 @@ Route::controller(AllotmentController::class)->group(function () {
     Route::get('/blocklist', 'block_list');
     Route::get('/userlist', 'userlist');
     Route::post('/alltoment', 'store');
+    Route::post('/base64Image', 'base64Image');
 });
 
 // Auth Routes

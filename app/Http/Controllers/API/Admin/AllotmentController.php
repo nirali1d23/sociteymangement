@@ -21,6 +21,81 @@ class AllotmentController extends Controller
          }
 
     }
+
+
+
+    public function base64Image(Request $request)
+    {
+        
+        if ($request->has("file"))
+        {
+            $base64Image = $request->file;
+
+
+            if 
+            (
+                preg_match("/^data:image\/(\w+);base64,/", $base64Image, $type)
+            ) 
+            {
+                $base64Image = substr(
+                    $base64Image,
+                    strpos($base64Image, ",") + 1
+                );
+                $type = strtolower($type[1]); 
+            } else {
+                return response()->json([
+                    "data" => [],
+                    "message" => "Invalid base64 string",
+                    "status" => 400,
+                ]);
+            }
+
+            $base64Image = str_replace(" ", "+", $base64Image);
+            $imageData = base64_decode($base64Image);
+
+            if ($imageData === false) {
+                return response()->json([
+                    "data" => [],
+                    "message" => "Base64 decode failed",
+                    "status" => 400,
+                ]);
+            }
+
+
+            $imageName = uniqid() . '.' . 'png';
+
+
+            $filePath = public_path("images/") . $imageName;
+
+            if (file_put_contents($filePath, $imageData)) 
+            {
+
+
+
+                $imageUrl = url("images/" . $imageName);
+                return response()->json([
+                    "data" => $imageName,
+                    "message" => "Image uploaded successfully",
+                    "status" => 200,
+                ]);
+            }
+             else {
+                return response()->json([
+                    "data" => [],
+                    "message" => "Failed to save image",
+                    "status" => 500,
+                ]);
+            }
+        } else {
+            return response()->json([
+                "data" => [],
+                "message" => "File not found in the request",
+                "status" => 400,
+            ]);
+        }
+
+      
+    }
     public function houselist(Request $request)
     {
           $flat_no = Flat::find($request->flat_id);
@@ -31,6 +106,9 @@ class AllotmentController extends Controller
             'statusCode' => 200
         ],200);
     }
+
+
+
     public function store(Request $request)
     {
          $allotment = new  Allotment;
