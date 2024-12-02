@@ -27,7 +27,7 @@ class User extends Authenticatable
 
     public function allotment()
     {
-        return $this->hasMany(Allotment::class,'user_id');
+        return $this->hasOne(Allotment::class,'user_id');
     }
     public function eventfeedback()
     {
