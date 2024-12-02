@@ -13,7 +13,7 @@ class Allotment extends Model
 
     public function flat()  
     {  
-          return $this->belongsTo(Flat::class,'flat_id');  
+          return $this->belongsTo(House::class,'flat_id');  
  
     } 
     
