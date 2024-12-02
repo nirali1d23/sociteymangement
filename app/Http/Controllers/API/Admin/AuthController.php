@@ -6,6 +6,14 @@ use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Hash;
 use App\Models\User;
+use App\Models\Allotment;
+use App\Models\Bookamenities;
+use App\Models\EventFeedback;
+use App\Models\maintance;
+use App\Models\NoticeComment;
+use App\Models\Pollsurvey;
+use App\Models\Visitor;
+use App\Models\preapproval;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 class AuthController extends Controller
@@ -259,5 +267,26 @@ class AuthController extends Controller
             'message' => 'User not found',
             'statusCode' => 404
         ], 404 );
+    }
+
+    public function deleteuser(Request $request)
+    {
+            $user = User::find($request->user_id);
+            if($user)
+            {
+
+             
+                  $user->delete();
+
+                  return response( [
+                    'message' => 'User data is deleted successfully',
+                    'statusCode' => 200
+                ], 200 );
+            }
+
+            return response( [
+                'message' => 'User not found',
+                'statusCode' => 404
+            ], 404 );
     }
 }   

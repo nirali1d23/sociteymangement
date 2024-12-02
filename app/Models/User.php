@@ -31,13 +31,48 @@ class User extends Authenticatable
     }
     public function eventfeedback()
     {
-        
         return $this->hasMany(EventFeedback::class, 'event_id');
-
-       
-
     }
 
+    public function bookamenities()
+    {
+        return $this->hasMany(Bookamenities::class, 'user_id');
+    }    
+    public function maintance()
+    {
+        return $this->hasMany(maintance::class, 'user_id');
+    }
+    public function visitor()
+    {
+        return $this->hasMany(Visitor::class, 'user_id');
+    }
+    public function preapproval()
+    {
+        return $this->hasMany(preapproval::class, 'user_id');
+    }
+    public function pollsurvey()
+    {
+        return $this->hasMany(Pollsurvey::class, 'user_id');
+    }
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+            // Delete related records for `hasMany` relationships
+            $user->eventfeedback()->delete();
+            $user->bookamenities()->delete();
+            $user->maintance()->delete();
+            $user->visitor()->delete();
+            $user->preapproval()->delete();
+            $user->pollsurvey()->delete();
+
+            // Handle `belongsToMany` relationships (detach pivot table data)
+            $user->allotment()->detach();
+        });
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -37,6 +37,7 @@ Route::controller(AuthController::class)->group(function()
     Route::post('securitypin', 'securitypin');
     Route::post('checksecuritypin', 'checksecuritypin');
     Route::post('edituser', 'edituser');
+    Route::post('deleteuser', 'deleteuser');
 });
 
 // Flat Routes
