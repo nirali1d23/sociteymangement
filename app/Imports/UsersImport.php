@@ -21,6 +21,7 @@ class UsersImport implements ToCollection
                 'email'    => $row[1], 
                 'password' => Hash::make($row[2]),
                 'mobile_no' => $row[3],
+                'user_type' =>2,
             ]);
 
             Allotment::create([
