@@ -47,7 +47,7 @@ class AllotmentController extends Controller
     }
     public function userlist(Request $request)
     {
-         $data = User::where('user_type','2')->with('allotment')->get();
+         $data = User::where('user_type','2')->with('allotment')->with('flat')->get();
          if($data!=null)
          {
             return response( [
