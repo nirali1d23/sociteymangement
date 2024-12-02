@@ -64,9 +64,9 @@ class User extends Authenticatable
             $user->maintance()->delete();
             $user->preapproval()->delete();
             $user->pollsurvey()->delete();
-
-            // Handle `belongsToMany` relationships (detach pivot table data)
-            $user->allotment()->detach();
+            if ($user->allotment) {
+                $user->allotment->delete();
+            }
         });
     }
     /**
