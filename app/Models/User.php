@@ -62,7 +62,6 @@ class User extends Authenticatable
             $user->eventfeedback()->delete();
             $user->bookamenities()->delete();
             $user->maintance()->delete();
-            $user->visitor()->delete();
             $user->preapproval()->delete();
             $user->pollsurvey()->delete();
 
