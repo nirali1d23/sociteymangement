@@ -51,10 +51,10 @@ class AllotmentController extends Controller
         $data = User::where('user_type', '2')
     ->with([
         'allotment.flat' => function ($query) {
-            $query->select('id', 'house_number', 'flat_id');
+            $query->select('house_number');
         },
         'allotment.flat.block' => function ($query) {
-            $query->select('id', 'block_no'); 
+            $query->select('block_no'); 
         }
     ])
     ->get();
