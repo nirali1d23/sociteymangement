@@ -11,11 +11,15 @@ class House extends Model
 
     protected $guarded = [];
 
-    public function flat()
-    {
-        return $this->belongsTo(Flat::class);
-    }
+    // public function flat()
+    // {
+    //     return $this->belongsTo(Flat::class);
+    // }
 
+    public function block()
+    {
+        return $this->belongsTo(Flat::class, 'flat_id');
+    }
     
 
 
