@@ -31,7 +31,7 @@ class User extends Authenticatable
     }
     public function eventfeedback()
     {
-        return $this->hasMany(EventFeedback::class, 'event_id');
+        return $this->hasMany(EventFeedback::class, 'user_id');
     }
 
     public function bookamenities()
