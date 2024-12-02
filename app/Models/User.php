@@ -52,6 +52,10 @@ class User extends Authenticatable
         return $this->hasMany(Pollsurvey::class, 'user_id');
     }
 
+    public function noticecomment()
+    {
+        return $this->hasMany(NoticeComment::class, 'user_id');
+    }
 
     protected static function boot()
     {
@@ -64,6 +68,7 @@ class User extends Authenticatable
             $user->maintance()->delete();
             $user->preapproval()->delete();
             $user->pollsurvey()->delete();
+            $user->noticecomment()->delete();
             if ($user->allotment) {
                 $user->allotment->delete();
             }
