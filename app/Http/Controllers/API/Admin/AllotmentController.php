@@ -47,7 +47,17 @@ class AllotmentController extends Controller
     }
     public function userlist(Request $request)
     {
-         $data = User::where('user_type','2')->with(['allotment.flat.block'])->get();
+        //  $data = User::where('user_type','2')->with(['allotment.flat.block'])->get();
+        $data = User::where('user_type', '2')
+    ->with([
+        'allotment.flat' => function ($query) {
+            $query->select('id', 'house_number', 'block_id');
+        },
+        'allotment.flat.block' => function ($query) {
+            $query->select('id', 'block_no'); 
+        }
+    ])
+    ->get();
          if($data!=null)
          {
             return response( [
