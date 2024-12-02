@@ -42,10 +42,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(maintance::class, 'user_id');
     }
-    public function visitor()
-    {
-        return $this->hasMany(Visitor::class, 'user_id');
-    }
+  
     public function preapproval()
     {
         return $this->hasMany(preapproval::class, 'user_id');
