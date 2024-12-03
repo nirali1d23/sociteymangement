@@ -24,14 +24,14 @@ class VistiorController extends Controller
             ->with('flat') 
             ->first();
 
-            dd($allotment->flat->house_number);
+          
         
 
 
       $data =   preapproval::create([
              'visitor_name' => $request->visitor_name,
              'date' => $request->date,
-             'flat_no' => $request->flat_no,
+             'flat_no' => $allotment->flat->house_number,
              'user_id' => $request->user_id,
              'contact_number' => $request->contact_number,
              'vehicle_number' => $request->vehicle_number,
