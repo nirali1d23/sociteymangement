@@ -170,7 +170,7 @@ class AmenitiesController extends Controller
 
     function updateSlotStatus($amenityId, $timeSlots, $bookedTimes)
 {
-    dd($bookedTimes);
+   
     // Initialize an array for slot statuses
     $slotsWithStatus = [];
 
