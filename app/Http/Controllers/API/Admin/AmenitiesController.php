@@ -208,6 +208,7 @@ class AmenitiesController extends Controller
    
     // $date =  $request->date;
     $date = date("y-m-d");
+    dd($date);
 
 
     $data = Amenities::with('bookamenities')->get()->map(function ($item) use ($date) {
