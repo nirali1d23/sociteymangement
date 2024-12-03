@@ -229,13 +229,13 @@ class AmenitiesController extends Controller
     //     return $item;
     // });
 
-   $date =  date("Y-m-d");
     $data = Amenities::with('bookamenities')->get()->map(function ($item) {
         if ($item->extra_time_status == 1) {
             // Generate morning and evening time slots
             $morningSlots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time);
             $eveningSlots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time);
-    
+            $date =  date("Y-m-d");
+
             // Get booked times from the database
             $bookedTimes = $item->bookamenities->where('date',$date)->map(function ($booking) {
                 return $booking->start_time . ' - ' . $booking->end_time;
