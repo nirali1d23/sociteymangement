@@ -24,9 +24,6 @@ class VistiorController extends Controller
             ->with('flat') 
             ->first();
 
-          
-        
-
 
       $data =   preapproval::create([
              'visitor_name' => $request->visitor_name,

@@ -167,30 +167,89 @@ class AmenitiesController extends Controller
            'statusCode' => 200
         ],200);
     }
+
+    function updateSlotStatus($amenityId, $timeSlots, $bookedTimes)
+{
+    // Initialize an array for slot statuses
+    $slotsWithStatus = [];
+
+    foreach ($timeSlots as $slot) {
+        [$slotStart, $slotEnd] = explode(' - ', $slot);
+
+        $isAvailable = true;
+
+        foreach ($bookedTimes as $bookedTime) {
+            [$bookedStart, $bookedEnd] = explode(' - ', $bookedTime);
+
+            // Check if the slot overlaps with the booked time
+            if (
+                ($slotStart >= $bookedStart && $slotStart < $bookedEnd) ||
+                ($slotEnd > $bookedStart && $slotEnd <= $bookedEnd) ||
+                ($slotStart <= $bookedStart && $slotEnd >= $bookedEnd)
+            ) {
+                $isAvailable = false;
+                break;
+            }
+        }
+
+        // Append the status with the slot
+        $slotsWithStatus[] = [
+            'slot' => $slot,
+            'status' => $isAvailable ? 'true' : 'false',
+        ];
+    }
+
+    return $slotsWithStatus;
+}
+
     public function display(Request $request) 
     {
-    $data = Amenities::with('bookamenities')->get()->map(function ($item) {
+    // $data = Amenities::with('bookamenities')->get()->map(function ($item) {
 
+    //     if ($item->extra_time_status == 1) 
+    //     {
+    //         // Generate morning and evening time slots
+    //         $morning_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time);
+    //         $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time);
+
+    //         // Get booked times from the database
+    //         $bookedTimes = $item->bookamenities->map(function ($booking) {
+    //             return $booking->start_time . ' - ' . $booking->end_time;
+    //         })->toArray();
+
+    //         // Check slot availability
+    //         $item->morning_time_slots = $this->checkSlotAvailability($morning_slots, $bookedTimes);
+    //         $item->evening_time_slots = $this->checkSlotAvailability($evening_slots, $bookedTimes);
+    //     }
+
+    //     // Append the full image URL
+    //     $item->image = url('image/' . $item->image);
+
+    //     return $item;
+    // });
+
+    $data = Amenities::with('bookamenities')->get()->map(function ($item) {
         if ($item->extra_time_status == 1) {
             // Generate morning and evening time slots
-            $morning_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time);
-            $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time);
-
+            $morningSlots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time);
+            $eveningSlots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time);
+    
             // Get booked times from the database
             $bookedTimes = $item->bookamenities->map(function ($booking) {
                 return $booking->start_time . ' - ' . $booking->end_time;
             })->toArray();
-
-            // Check slot availability
-            $item->morning_time_slots = $this->checkSlotAvailability($morning_slots, $bookedTimes);
-            $item->evening_time_slots = $this->checkSlotAvailability($evening_slots, $bookedTimes);
+    
+            // Update slot status for morning and evening slots
+            $item->morning_time_slots = $this->updateSlotStatus($item->id, $morningSlots, $bookedTimes);
+            $item->evening_time_slots = $this->updateSlotStatus($item->id, $eveningSlots, $bookedTimes);
         }
-
+    
         // Append the full image URL
         $item->image = url('image/' . $item->image);
-
+    
         return $item;
     });
+    
 
     return response([
         'message' => 'Amenities Displayed Successfully!',
