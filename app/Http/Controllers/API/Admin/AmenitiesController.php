@@ -234,7 +234,7 @@ class AmenitiesController extends Controller
             // Generate morning and evening time slots
             $morningSlots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time);
             $eveningSlots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time);
-            $date =  date("Y-m-d");
+            $date =  $request->date;
 
             // Get booked times from the database
             $bookedTimes = $item->bookamenities->where('date',$date)->map(function ($booking) {

@@ -78,7 +78,7 @@ Route::controller(EventController::class)->group(function () {
 // Amenities Routes
 Route::controller(AmenitiesController::class)->group(function () {
     Route::post('/amenitiescreate', 'create');
-    Route::get('/amenitiesdisplay', 'display');
+    Route::post('/amenitiesdisplay', 'display');
     Route::post('/amenitiesedit', 'edit');
     Route::post('/amenitiesdelete', 'delete');
     Route::post('/generateTimeSlots', 'generateTimeSlots');
