@@ -13,6 +13,7 @@ class MaintanceBillController extends Controller
     use FirebaseNotificationTrait;
     public function store(Request $request)
     {
+        dd($request->all());
         $store =  new Maintancebill;
         $store->due_date = $request->due_date;
         $store->total_amount = $request->total_amount;
