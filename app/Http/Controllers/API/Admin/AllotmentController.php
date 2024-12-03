@@ -72,8 +72,8 @@ class AllotmentController extends Controller
 
 
 
-                $imageUrl = url("images/" . $imageName);
-                return response()->json([
+                $imageUrl = url("images/    " . $imageName);
+                return response()->json([   
                     "data" => $imageName,
                     "message" => "Image uploaded successfully",
                     "status" => 200,
@@ -96,6 +96,8 @@ class AllotmentController extends Controller
 
       
     }
+
+    
     public function houselist(Request $request)
     {
           $flat_no = Flat::find($request->flat_id);
@@ -106,8 +108,6 @@ class AllotmentController extends Controller
             'statusCode' => 200
         ],200);
     }
-
-
 
     public function store(Request $request)
     {

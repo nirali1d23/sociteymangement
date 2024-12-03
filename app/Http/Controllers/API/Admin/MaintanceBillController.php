@@ -17,6 +17,7 @@ class MaintanceBillController extends Controller
         $store->due_date = $request->due_date;
         $store->total_amount = $request->total_amount;
         $store->title = $request->title;
+        $store->created_at = $request->created_at;
         $store->save();
         $data = User::where('user_type',2)->get();
         foreach($data as  $token)
