@@ -196,7 +196,7 @@ class AmenitiesController extends Controller
         // Append the status with the slot
         $slotsWithStatus[] = [
             'slot' => $slot,
-            'status' => $isAvailable ? 'true' : 'false',
+            'status' => $isAvailable ? true : false,
         ];
     }
 
