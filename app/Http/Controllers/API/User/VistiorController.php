@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\preapproval;
+use App\Models\Allotment;
 use App\Models\Visitor;
 
 class VistiorController extends Controller
@@ -14,11 +15,19 @@ class VistiorController extends Controller
         $request->validate([
             'visitor_name' => 'required',
             'date' => 'required',
-            'flat_no' => 'required',
             'user_id' => 'required',
             'contact_number' => 'required',
             'purpose' => 'required',
             ]);
+
+            $allotment = Allotment::where('user_id', $request->user_id)
+            ->with('flat') 
+            ->first();
+
+            dd($allotment);
+        
+
+
       $data =   preapproval::create([
              'visitor_name' => $request->visitor_name,
              'date' => $request->date,
