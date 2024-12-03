@@ -205,6 +205,7 @@ class AmenitiesController extends Controller
 
     public function display(Request $request) 
     {
+        $date = date('Y-m-d');
     // $data = Amenities::with('bookamenities')->get()->map(function ($item) {
 
     //     if ($item->extra_time_status == 1) 
@@ -236,7 +237,7 @@ class AmenitiesController extends Controller
             $eveningSlots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time);
     
             // Get booked times from the database
-            $bookedTimes = $item->bookamenities->map(function ($booking) {
+            $bookedTimes = $item->bookamenities->where('date',$date)->map(function ($booking) {
                 return $booking->start_time . ' - ' . $booking->end_time;
             })->toArray();
     
