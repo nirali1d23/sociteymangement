@@ -206,7 +206,8 @@ class AmenitiesController extends Controller
     public function display(Request $request) 
     {
    
-    $date =  $request->date;
+    // $date =  $request->date;
+    $date = date("y-m-d");
 
 
     $data = Amenities::with('bookamenities')->get()->map(function ($item) use ($date) {
