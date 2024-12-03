@@ -205,33 +205,11 @@ class AmenitiesController extends Controller
 
     public function display(Request $request) 
     {
-    // $data = Amenities::with('bookamenities')->get()->map(function ($item) {
-
-    //     if ($item->extra_time_status == 1) 
-    //     {
-    //         // Generate morning and evening time slots
-    //         $morning_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time);
-    //         $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time);
-
-    //         // Get booked times from the database
-    //         $bookedTimes = $item->bookamenities->map(function ($booking) {
-    //             return $booking->start_time . ' - ' . $booking->end_time;
-    //         })->toArray();
-
-    //         // Check slot availability
-    //         $item->morning_time_slots = $this->checkSlotAvailability($morning_slots, $bookedTimes);
-    //         $item->evening_time_slots = $this->checkSlotAvailability($evening_slots, $bookedTimes);
-    //     }
-
-    //     // Append the full image URL
-    //     $item->image = url('image/' . $item->image);
-
-    //     return $item;
-    // });
+   
     $date =  $request->date;
 
 
-    $data = Amenities::with('bookamenities')->get()->map(function ($item) {
+    $data = Amenities::with('bookamenities')->get()->map(function ($item) use ($date) {
         if ($item->extra_time_status == 1) {
             // Generate morning and evening time slots
             $morningSlots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time);
