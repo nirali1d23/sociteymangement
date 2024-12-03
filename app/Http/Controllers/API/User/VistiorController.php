@@ -24,7 +24,7 @@ class VistiorController extends Controller
             ->with('flat') 
             ->first();
 
-            dd($allotment);
+            dd($allotment->flat->house_number);
         
 
 
