@@ -228,7 +228,7 @@ class AmenitiesController extends Controller
 
     //     return $item;
     // });
-    $date =  date("Y-m-d");
+    $date =  $request->date;
     $data = Amenities::with('bookamenities')->get()->map(function ($item) use($date) {
         if ($item->extra_time_status == 1) {
             // Generate morning and evening time slots
