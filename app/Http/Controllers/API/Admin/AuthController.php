@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\API\Admin;
 use Auth;
+use App\Models\Allotment;
+
 use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Hash;
 use App\Models\User;
-use App\Models\Allotment;
 use App\Models\Bookamenities;
 use App\Models\EventFeedback;
 use App\Models\maintance;
@@ -54,6 +55,14 @@ class AuthController extends Controller
                         'statusCode' => 200
                     ], 200 );
                         
+                    }
+                    if($request->user_type == '2')
+                    {
+                        $allotment = Allotment::where('user_id', $user->id)
+                        ->with('flat') 
+                        ->first();
+
+                        $user->house_no =$allotment->flat->house_number;
                     }
 
                     $user->fcm_token = $request->fcm_token;
