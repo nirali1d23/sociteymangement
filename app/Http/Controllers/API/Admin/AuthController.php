@@ -61,11 +61,9 @@ class AuthController extends Controller
                             ->with('flat')
                             ->first();
                     
-                        if ($allotment && $allotment->flat) {
-                            $user->house_no = $allotment->flat->house_number;
-                        } else {
-                            $user->house_no = null; // Handle the absence of a related flat gracefully
-                        }
+                        $houseNumber = $allotment && $allotment->flat ? $allotment->flat->house_number : null;
+                    } else {
+                        $houseNumber = null;
                     }
                     
 
@@ -74,6 +72,7 @@ class AuthController extends Controller
             return response( [
                 'message' => 'You can Login',
                  'data' =>$user,
+                 'house_no' => $houseNumber,
                 'statusCode' => 200
             ], 200 );
 
