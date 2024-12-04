@@ -56,14 +56,18 @@ class AuthController extends Controller
                     ], 200 );
                         
                     }
-                    if($request->user_type == '2')
-                    {
+                    if ($request->user_type == '2') {
                         $allotment = Allotment::where('user_id', $user->id)
-                        ->with('flat') 
-                        ->first();
-
-                        $user->house_no =$allotment->flat->house_number;
+                            ->with('flat')
+                            ->first();
+                    
+                        if ($allotment && $allotment->flat) {
+                            $user->house_no = $allotment->flat->house_number;
+                        } else {
+                            $user->house_no = null; // Handle the absence of a related flat gracefully
+                        }
                     }
+                    
 
                     $user->fcm_token = $request->fcm_token;
                     $user->save();
