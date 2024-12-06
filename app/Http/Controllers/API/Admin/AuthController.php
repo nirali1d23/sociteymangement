@@ -210,7 +210,6 @@ class AuthController extends Controller
             'statusCode' => 404
         ], 404 );
     }
-
     public function checksecuritypin(Request $request)
     {
         $securitypin =  $request->securitypin;
@@ -247,7 +246,6 @@ class AuthController extends Controller
 
     
     }
-
     public function edituser(Request $request)
     {
         $request->validate([
@@ -280,7 +278,6 @@ class AuthController extends Controller
             'statusCode' => 404
         ], 404 );
     }
-
     public function deleteuser(Request $request)
     {
             $user = User::find($request->user_id);
@@ -302,3 +299,4 @@ class AuthController extends Controller
             ], 404 );
     }
 }   
+    

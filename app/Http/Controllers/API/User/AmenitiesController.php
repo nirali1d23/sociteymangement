@@ -18,7 +18,7 @@ class AmenitiesController extends Controller
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'description' => $request->description,
-            'status' => 1
+            'status' => 0
         ]);
         $token = User::where('user_type',0)->first();
             if($token->fcm_token !=null)
