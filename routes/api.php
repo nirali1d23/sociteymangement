@@ -42,7 +42,7 @@ Route::controller(AuthController::class)->group(function()
 });
 
 // Flat Routes
-Route::post('/flatcreateee', [FlatController::class, 'create']);
+Route::post('/flatcrete', [FlatController::class, 'create']);
 
 // Allotment Routes
 Route::controller(AllotmentController::class)->group(function () {
