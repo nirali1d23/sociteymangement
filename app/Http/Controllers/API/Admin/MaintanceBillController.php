@@ -120,6 +120,7 @@ class MaintanceBillController extends Controller
                 ], 404);   
     
     }
+    //maintance bill payment ->user site
     public function paymaintance(Request $request)
     {
        $data =  Maintancebilllist::create([
@@ -135,4 +136,7 @@ class MaintanceBillController extends Controller
             'statusCode' => 200
         ],200 );
     }
+
+    
+
 }

@@ -19,7 +19,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 class AuthController extends Controller
 {
-    //login
+    //login of Reisdent,Tenant and staff
     public function login(Request $request)
     {
         $request->validate([
@@ -128,6 +128,7 @@ class AuthController extends Controller
             'statusCode' => 400
         ],400 );
     }    
+    //import the resisent and allotment
     public function import(Request $request) 
     {
         $file = $request->file('file');
@@ -138,6 +139,7 @@ class AuthController extends Controller
             'statusCode' => 200
         ],200);
     }
+    //change password
     public function changepassword(Request $request)
     {
             $request->validate([
@@ -183,6 +185,7 @@ class AuthController extends Controller
                 ], 404 );
                 }
     }
+    //set security pin for admin
     public function securitypin(Request $request)
     {
        $securitypin =  $request->securitypin;

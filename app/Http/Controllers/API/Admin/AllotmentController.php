@@ -101,12 +101,21 @@ class AllotmentController extends Controller
     public function houselist(Request $request)
     {
           $flat_no = Flat::find($request->flat_id);
+          if($flat_no)
+          {
           $houses = $flat_no->houses;
           return response( [
             'message' => 'House list show Successfully',
             'data' => $houses,
             'statusCode' => 200
         ],200);
+    }
+
+    return response( [
+        'message' => 'no house found',
+        'statusCode' => 404
+    ],404);
+
     }
 
     public function store(Request $request)

@@ -12,6 +12,7 @@ class BookingamenitiesController extends Controller
 {
     use FirebaseNotificationTrait;
 
+    //display booked aemniteis
     public function display(Request $request)
     {
         $query = Bookamenities::with('amenity')->with('user')->orderBy('created_at', 'desc');
@@ -34,6 +35,7 @@ class BookingamenitiesController extends Controller
         ],200);
         
     }
+    //change the status of booked aemnites (approve/disapprove)
     public function changestatusbookaementies(Request $request)
     {
           $data = Bookamenities::find($request->bookaemnitites_id);

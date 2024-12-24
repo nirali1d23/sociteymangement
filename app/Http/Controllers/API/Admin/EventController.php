@@ -17,6 +17,8 @@ class EventController extends Controller
 {
     use ImageUpload;
     use FirebaseNotificationTrait;
+
+    //create the event
     public function create(Request $request)
     {
         if ($request->hasFile('image')) 
@@ -49,6 +51,7 @@ class EventController extends Controller
             'statusCode' => 200
         ],200 );
     }
+    //display the event
     public function display(Request $request)
     {
         $query = Event::query();
@@ -71,6 +74,7 @@ class EventController extends Controller
             'statusCode' => 200
         ], 200);
     }
+    //display the event feedback
     public function eventfeedbacklist(Request $request)
     {
         $data = EventFeedback::with(['event', 'user'])->get();
@@ -80,6 +84,7 @@ class EventController extends Controller
             'statusCode' => 200
         ],200 );
     }
+    
     public function edit(Request $request)
     {
           $data = Event::find($request->id);
