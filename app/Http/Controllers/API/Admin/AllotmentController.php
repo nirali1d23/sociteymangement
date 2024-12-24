@@ -100,7 +100,7 @@ class AllotmentController extends Controller
     
     public function houselist(Request $request)
     {
-        dd("asdfasdfasdf");
+        dd("asdfasdfasdfsdfasdfa");
           $flat_no = Flat::find($request->flat_id);
           if($flat_no)
           {
