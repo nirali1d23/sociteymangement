@@ -14,7 +14,7 @@ class AllotmentController extends Controller
          if($data!=null)
          {
             return response( [
-                'message' => 'Blcok list show Successfully',
+                'message' => 'Blcok list show Successfullyy',
                 'data' => $data,
                 'statusCode' => 200
             ],200);
