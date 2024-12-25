@@ -143,7 +143,6 @@ class AuthController extends Controller
     public function changepassword(Request $request)
     {
             $request->validate([
-
             'email' => 'required|email',
             'newpassword' => 'required',
             'oldpassword' => 'required',
@@ -286,8 +285,6 @@ class AuthController extends Controller
             $user = User::find($request->user_id);
             if($user)
             {
-
-             
                   $user->delete();
 
                   return response( [
