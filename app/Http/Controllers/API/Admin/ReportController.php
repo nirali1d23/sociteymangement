@@ -94,11 +94,16 @@ class ReportController extends Controller
         ];
          
         
+
+         if($data !==null || $data2 !== null || $data3 !== null) 
+        {
             return response([
                 'message' => 'data Displayed Successfully..!',
                 'data' => $allData,
                 'statusCode' => 200
             ],200 );
+
+        }
         
          
 

@@ -19,4 +19,7 @@ class MaintanceProcess extends Model
     {
         return $this->belongsTo(maintance::class, 'maintance_request_id');
     }
+
+
+
 }

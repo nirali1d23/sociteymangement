@@ -21,6 +21,10 @@ class EventController extends Controller
     //create the event
     public function create(Request $request)
     {
+        $validated = $request->validate([
+         
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif', // Image validation
+        ]);
         if ($request->hasFile('image')) 
         {
             $image_1 = $request->file('image');

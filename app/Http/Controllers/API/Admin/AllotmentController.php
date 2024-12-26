@@ -21,9 +21,6 @@ class AllotmentController extends Controller
          }
 
     }
-
-
-
     public function base64Image(Request $request)
     {
         
@@ -95,9 +92,7 @@ class AllotmentController extends Controller
         }
 
       
-    }
-
-    
+    }    
     public function houselist(Request $request)
     {
     
@@ -110,15 +105,14 @@ class AllotmentController extends Controller
             'data' => $houses,
             'statusCode' => 200
         ],200);
+          }   
+
+            return response( [
+                'message' => 'no house found',
+                'statusCode' => 404
+            ],404);
+
     }
-
-    return response( [
-        'message' => 'no house found',
-        'statusCode' => 404
-    ],404);
-
-    }
-
     public function store(Request $request)
     {
          $allotment = new  Allotment;
@@ -137,23 +131,23 @@ class AllotmentController extends Controller
     {
         //  $data = User::where('user_type','2')->with(['allotment.flat.block'])->get();
         $data = User::where('user_type', '2')
-    ->with([
-        'allotment.flat' => function ($query) {
-            $query->select('id', 'house_number', 'flat_id');
-        },
-        'allotment.flat.block' => function ($query) {
-            $query->select('id', 'block_no'); 
-        }
-    ])
-    ->get();
-         if($data!=null)
-         {
-            return response( [
-                'message' => 'User list show Successfully',
-                'data' => $data,
-                'statusCode' => 200
-            ],200);
-         }
+            ->with([
+                'allotment.flat' => function ($query) {
+                    $query->select('id', 'house_number', 'flat_id');
+                },
+                'allotment.flat.block' => function ($query) {
+                    $query->select('id', 'block_no'); 
+                }
+            ])
+            ->get();
+                if($data!=null)
+                {
+                    return response( [
+                        'message' => 'User list show Successfully',
+                        'data' => $data,
+                        'statusCode' => 200
+                    ],200);
+                }
 
 
     }

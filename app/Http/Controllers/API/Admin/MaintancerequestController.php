@@ -10,9 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 class MaintancerequestController extends Controller
 { 
-
     use FirebaseNotificationTrait;
-    
     public function displaymaintancerequest(Request $request)
     {
 
@@ -49,7 +47,7 @@ class MaintancerequestController extends Controller
         });
         
         return response([
-                'message' => 'staff list displayed Successfully..!',
+                'message' => 'staff list displayed Successfullyy..!',
                 'data' => $result,
                 'statusCode' => 200
             ],200 );
