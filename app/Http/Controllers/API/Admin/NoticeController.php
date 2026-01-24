@@ -21,18 +21,20 @@ class NoticeController extends Controller
             'title' => 'required',
             'description' => 'required',
            ]);
+             $notice =  new Notice;
+        $notice->title = $request->title;
+        $notice->description= $request->description;
+        $notice->start_date = $request->start_date;
+        $notice->time = $request->time;
+        $notice->save();
             if ($request->hasFile('image')) 
                 {
                 $image_1 = $request->file('image');
                 $image = $this->uploadImage($image_1, 'image'); // Pass both the file and directory
+                $notice->image= $image;
+                $notice->save();
             }
-        $notice =  new Notice;
-        $notice->title = $request->title;
-        $notice->description= $request->description;
-        $notice->image = $image;
-        $notice->start_date = $request->start_date;
-        $notice->time = $request->time;
-        $notice->save();
+      
         if(!$request->has('start_date'))
         {
          $user = User::where('user_type','2')->get();
