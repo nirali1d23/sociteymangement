@@ -60,15 +60,7 @@ class MaintanceBillController extends Controller
     public function maintancebilldisplay(Request $request)
     {    
         
-        // $flat_no = Flat::find($request->flat_id);
-        // $houses = $flat_no->houses;    
-        // $houses_with_status = $houses->map(function($house) 
-        // {
-        //     $status = Maintancebilllist::where('flat_id', $house->id)->exists() ? 1 : 0;
-        //     $house->status = $status;    
-        //     return $house;
-        // });
-                
+   
             $flat_id = $request->block_id;
                     $flat_no = Flat::find($flat_id);
             $houses = $flat_no->houses;
@@ -80,6 +72,7 @@ class MaintanceBillController extends Controller
                     ->whereYear('created_at', $year)->where('id',$request->maintance_id)
                     ->first();
 
+                    dd($maintenanceBill);
             if($maintenanceBill)
             {
 
