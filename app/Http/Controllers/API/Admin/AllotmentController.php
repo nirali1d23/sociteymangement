@@ -19,6 +19,10 @@ class AllotmentController extends Controller
                 'statusCode' => 200
             ],200);
          }
+         return response( [
+            'message' => 'no block found',
+            'statusCode' => 404
+        ],404);
 
     }
     public function base64Image(Request $request)
