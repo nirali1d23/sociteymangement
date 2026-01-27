@@ -24,16 +24,15 @@ use App\Http\Controllers\API\User\MaintanceBillController as mainbill;
 use App\Http\Controllers\API\staff\VistiorController as visitorentry;
 use App\Http\Controllers\API\staff\MaintancestController as maincon;
 use App\Http\Controllers\NotificationController;
-Route::get('/user', function (Request $request) 
-{
+Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::controller(AuthController::class)->group(function() 
-{   
+Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register_rtw', 'register_rtw');
     Route::post('import', 'import');
+    Route::post('get_user', 'get_user');
     Route::post('changepassword', 'changepassword');
     Route::post('securitypin', 'securitypin');
     Route::post('checksecuritypin', 'checksecuritypin');
@@ -45,8 +44,7 @@ Route::controller(AuthController::class)->group(function()
 Route::post('/flatcrete', [FlatController::class, 'create']);
 
 // Allotment Routes
-Route::controller(AllotmentController::class)->group(function () 
-{
+Route::controller(AllotmentController::class)->group(function () {
     Route::post('/houselist', 'houselist');
     Route::get('/blocklist', 'block_list');
     Route::get('/userlist', 'userlist');
@@ -143,7 +141,7 @@ Route::controller(maincon::class)->group(function () {
 
 Route::controller(noticecon::class)->group(function () {
     Route::post('/notice_comment', 'notice_comment');
- 
+
 });
 
 // Event Feedback Routes
@@ -164,7 +162,7 @@ Route::post('/popupliststaff', [ReportController::class, 'popupliststaff']);
 Route::post('/popuplistuser', [ReportController::class, 'popuplistuser']);
 Route::post('/requestamenitiesbooking', [amenticon::class, 'requestamenitiesbooking']);
 Route::post('/cancelbooking', [amenticon::class, 'cancelbooking']);
-Route::post('/submitpoll',[pollcon::class,'submitpoll']);
+Route::post('/submitpoll', [pollcon::class, 'submitpoll']);
 
 
 // Route::post('/flatcreate',[FlatController::class,'create']);

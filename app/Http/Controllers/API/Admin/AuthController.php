@@ -298,5 +298,26 @@ class AuthController extends Controller
                 'statusCode' => 404
             ], 404 );
     }
+
+    public function get_user(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required',         
+            ]); 
+        $user = User::find($request->user_id);
+        if($user)
+        {
+            return response( [
+                'message' => 'User found successfully',
+                'data' => $user,
+                'statusCode' => 200
+            ], 200 );
+        }
+
+        return response( [
+            'message' => 'User not found',
+            'statusCode' => 404
+        ], 404 );
+    }
 }   
     
