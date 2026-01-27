@@ -69,7 +69,7 @@ class VistiorController extends Controller
           }
           return response( [
             'message' => 'PreVisitor Not Found',
-            'data' => $data,
+            'data' => $previstor,
             'statusCode' => 404
                 ],404);
     }
