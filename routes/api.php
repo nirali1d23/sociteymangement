@@ -120,7 +120,7 @@ Route::post('/maintancebilllist', [mainbill::class, 'maintancebilllist']);
 // Visitor Entry Routes
 Route::controller(visitorentry::class)->group(function () {
     Route::post('/vistorentry', 'visitorentry');
-    Route::post('/visitorentrydetails', 'visitorentrydetails');
+    Route::get('/visitorentrydetails', 'visitorentrydetails');
     Route::get('/previsitorlist', 'previsitorlist');
     Route::post('/updateprevisitor', 'updateprevisitor');
     Route::post('/updatevisitor', 'updatevisitor');

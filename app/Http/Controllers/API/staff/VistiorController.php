@@ -27,7 +27,7 @@ class VistiorController extends Controller
     {
         $data = Visitor::all();
         return response( [
-            'message' => 'Visitor Created Successfully',
+            'message' => 'Visitor displayed Successfully',
             'data' => $data,
             'statusCode' => 200
         ],200);
