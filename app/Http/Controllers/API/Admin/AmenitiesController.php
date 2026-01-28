@@ -244,7 +244,9 @@ function updateSlotStatus($amenityId, $timeSlots, $bookedTimes)
         }
     
         // Append the full image URL
-        $item->image = url('image/' . $item->image);
+$item->image = $item->image 
+    ? url('image/' . $item->image) 
+    : null;
     
         return $item;
     });
