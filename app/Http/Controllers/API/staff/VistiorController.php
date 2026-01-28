@@ -91,12 +91,12 @@ class VistiorController extends Controller
 
         ]);
 
-
         $data =  Visitor::find($request->vistorid);
 
         if($data)
         {
               $data->check_out = $request->exit_time;
+              $data->status = 1;
               $data->save();
 
               return response( [
