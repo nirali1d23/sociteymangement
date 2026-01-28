@@ -84,7 +84,6 @@ class AuthController extends Controller
         ], 404);
 
 
-
     }
     //register Resisdent ,Tenant  and worker
     public function register_rtw(Request $request)
