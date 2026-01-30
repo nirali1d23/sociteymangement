@@ -270,12 +270,11 @@ $item->image = $item->image
             if ($request->hasFile('image')) 
             {
                 $image_1 = $request->file('image');
-                $image = $this->uploadImage($image_1, 'image'); 
+                 $store->image = $this->uploadImage($image_1, 'image'); 
             }
 
-            $store->amenities_name = $request->amenities_name;
-            $store->rule= $request->rule;
-            $store->image = $image ?? null;
+       $store->amenities_name = $request->amenities_name;
+    $store->rule = $request->rule;
             $store->save();
 
             
