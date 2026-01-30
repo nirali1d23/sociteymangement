@@ -275,6 +275,13 @@ $item->image = $item->image
 
        $store->amenities_name = $request->amenities_name;
     $store->rule = $request->rule;
+        $store->start_time = $request->start_time;
+    $store->morning_start_time = $request->morning_start_time;
+    $store->morning_end_time = $request->morning_end_time;
+    $store->evening_start_time = $request->evening_start_time;
+    $store->evening_end_time = $request->evening_end_time;
+    $store->end_time = $request->end_time;
+
             $store->save();
 
             
