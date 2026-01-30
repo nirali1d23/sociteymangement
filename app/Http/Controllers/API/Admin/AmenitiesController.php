@@ -200,61 +200,73 @@ function updateSlotStatus($amenityId, $timeSlots, $bookedTimes)
     return $slotsWithStatus;
 }
 
-    public function display(Request $request) 
-    {
-    // $data = Amenities::with('bookamenities')->get()->map(function ($item) {
+public function display(Request $request)
+{
+    $date = $request->date;
 
-    //     if ($item->extra_time_status == 1) 
-    //     {
-    //         // Generate morning and evening time slots
-    //         $morning_slots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time);
-    //         $evening_slots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time);
+    $data = Amenities::with('bookamenities')->get()->map(function ($item) use ($date) {
 
-    //         // Get booked times from the database
-    //         $bookedTimes = $item->bookamenities->map(function ($booking) {
-    //             return $booking->start_time . ' - ' . $booking->end_time;
-    //         })->toArray();
+        // default empty arrays (VERY IMPORTANT)
+        $item->morning_time_slots = [];
+        $item->evening_time_slots = [];
 
-    //         // Check slot availability
-    //         $item->morning_time_slots = $this->checkSlotAvailability($morning_slots, $bookedTimes);
-    //         $item->evening_time_slots = $this->checkSlotAvailability($evening_slots, $bookedTimes);
-    //     }
+        // run slot logic ONLY when everything is valid
+        if (
+            $item->extra_time_status == 1 &&
+            !empty($item->morning_start_time) &&
+            !empty($item->morning_end_time) &&
+            !empty($item->evening_start_time) &&
+            !empty($item->evening_end_time)
+        ) {
 
-    //     // Append the full image URL
-    //     $item->image = url('image/' . $item->image);
+            try {
+                // generate slots
+                $morningSlots = $this->generateTimeSlots(
+                    $item->morning_start_time,
+                    $item->morning_end_time
+                );
 
-    //     return $item;
-    // });
-    $date =  $request->date;
-    $data = Amenities::with('bookamenities')->get()->map(function ($item) use($date) {
-        if ($item->extra_time_status == 1) {
-            // Generate morning and evening time slots
-            $morningSlots = $this->generateTimeSlots($item->morning_start_time, $item->morning_end_time);
-            $eveningSlots = $this->generateTimeSlots($item->evening_start_time, $item->evening_end_time);
-       
+                $eveningSlots = $this->generateTimeSlots(
+                    $item->evening_start_time,
+                    $item->evening_end_time
+                );
 
-            // Get booked times from the database
-            $bookedTimes = $item->bookamenities->where('date',$date)->map(function ($booking) {
-                return $booking->start_time . ' - ' . $booking->end_time;
-            })->toArray();
-    
-            // Update slot status for morning and evening slots
-            $item->morning_time_slots = $this->updateSlotStatus($item->id, $morningSlots, $bookedTimes);
-            $item->evening_time_slots = $this->updateSlotStatus($item->id, $eveningSlots, $bookedTimes);
+                // booked times
+                $bookedTimes = $item->bookamenities
+                    ->where('date', $date)
+                    ->map(fn ($b) => $b->start_time . ' - ' . $b->end_time)
+                    ->toArray();
+
+                // update slot status
+                $item->morning_time_slots = $this->updateSlotStatus(
+                    $item->id,
+                    $morningSlots,
+                    $bookedTimes
+                );
+
+                $item->evening_time_slots = $this->updateSlotStatus(
+                    $item->id,
+                    $eveningSlots,
+                    $bookedTimes
+                );
+            } catch (\Exception $e) {
+                // fail silently (no crash)
+                $item->morning_time_slots = [];
+                $item->evening_time_slots = [];
+            }
         }
-    
-        // Append the full image URL
-$item->image = $item->image 
-    ? url('image/' . $item->image) 
-    : null;
-    
+
+        // image handling (already correct)
+        $item->image = $item->image
+            ? url('image/' . $item->image)
+            : null;
+
         return $item;
     });
-    
 
-    return response([
-        'message' => 'Amenities Displayed Successfully!',
-        'data' => $data,
+    return response()->json([
+        'message'    => 'Amenities Displayed Successfully!',
+        'data'       => $data,
         'statusCode' => 200
     ], 200);
 }
