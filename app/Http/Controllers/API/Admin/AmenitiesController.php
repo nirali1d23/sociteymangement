@@ -275,7 +275,7 @@ $item->image = $item->image
 
             $store->amenities_name = $request->amenities_name;
             $store->rule= $request->rule;
-            $store->image = $image;
+            $store->image = $image ?? null;
             $store->save();
 
             
