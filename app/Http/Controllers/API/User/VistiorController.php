@@ -42,7 +42,7 @@ class VistiorController extends Controller
     }
     public function visitorlist(Request $request)
     { 
-         $data = Visitor::where('flat_no',$request->flat_no)->where('status',0)->get();
+         $data = Visitor::where('flat_no',$request->flat_no)->get();
 
 
          return response( [
