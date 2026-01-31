@@ -289,7 +289,9 @@ class AuthController extends Controller
         $request->validate([
             'user_id' => 'required',
         ]);
-        $user = User::find($request->user_id);
+        $user = User::with([
+            'allotment.house.block'
+        ])->find($request->user_id);
         if ($user) {
             return response([
                 'message' => 'User found successfully',
