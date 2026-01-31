@@ -290,7 +290,7 @@ class AuthController extends Controller
             'user_id' => 'required',
         ]);
         $user = User::with([
-            'allotment.house.block'
+            'allotment.flat.block'
         ])->find($request->user_id);
         if ($user) {
             return response([
