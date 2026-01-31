@@ -97,6 +97,7 @@ class MaintanceBillController extends Controller
                 'message' => 'House list fetched successfully',
                 'maintenance_bill_id' => $maintenanceBillId,
                 'data' => $houses_with_status,
+                'block' => $flat_no,
 
                 'statusCode' => 200
             ], 200);
