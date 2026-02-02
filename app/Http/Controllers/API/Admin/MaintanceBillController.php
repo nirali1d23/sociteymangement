@@ -13,7 +13,6 @@ class MaintanceBillController extends Controller
     use FirebaseNotificationTrait;
     public function store(Request $request)
     {
-
         $store = new Maintancebill;
         $store->due_date = $request->due_date;
         $store->total_amount = $request->total_amount;
@@ -39,31 +38,22 @@ class MaintanceBillController extends Controller
     {
         $month = $request->month;
         $year = $request->year;
-        $title = [];
         $maintenanceBill = Maintancebill::whereMonth('created_at', $month)
             ->whereYear('created_at', $year)
             ->get();
-        foreach ($maintenanceBill as $item) {
-            $title[] = [
-                "title" => $item->title,
-                "id" => $item->id
-            ];
-        }
+ 
         return response([
             'message' => 'bill list given',
-            'data' => $title,
+            'data' => $maintenanceBill,
             'statusCode' => 200
         ], 200);
     }
     public function maintancebilldisplay(Request $request)
     {
 
-
         $flat_id = $request->block_id;
         $flat_no = Flat::find($flat_id);
         $houses = $flat_no->houses;
-
-
         $month = $request->month;
         $year = $request->year;
         $maintenanceBill = Maintancebill::whereMonth('created_at', $month)
@@ -119,12 +109,15 @@ class MaintanceBillController extends Controller
             'payment_method' => $request->payment_method,
             'status' => 1
         ]);
+
         return response([
             'message' => 'Maintance  Bill Payed Successfully..!',
             'data' => $data,
             'statusCode' => 200
         ], 200);
     }
+
+
 
 
 

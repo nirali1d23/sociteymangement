@@ -113,6 +113,8 @@ Route::controller(MaintanceBillController::class)->group(function () {
     Route::post('/maitnacebilldropdown', 'maitnacebilldropdown');
 });
 
+
+
 // Notification Routes
 Route::post('/sendnotification', [NotificationController::class, 'send']);
 Route::post('/maintancebilllist', [mainbill::class, 'maintancebilllist']);
