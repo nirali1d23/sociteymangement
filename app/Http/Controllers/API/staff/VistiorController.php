@@ -8,75 +8,75 @@ use Illuminate\Http\Request;
 class VistiorController extends Controller
 {
     public function visitorentry(Request $request)
-    {   
-       $data =  Visitor::create([
-         'visitor_name' => $request->visitor_name,
-         'date' => $request->visitor_date,
-         'check_in' => $request->check_in,
-         'flat_no'=>$request->flat_no,
-         'purpose' => $request->purpose,
-         'status' => 0
+    {
+        $data = Visitor::create([
+            'visitor_name' => $request->visitor_name,
+            'date' => $request->visitor_date,
+            'check_in' => $request->check_in,
+            'flat_no' => $request->flat_no,
+            'purpose' => $request->purpose,
+            'status' => 0
         ]);
-        return response( [
+        return response([
             'message' => 'Visitor Created Successfully',
             'data' => $data,
             'statusCode' => 200
-        ],200);
+        ], 200);
     }
     public function visitorentrydetails(Request $request)
     {
         $data = Visitor::all();
-        return response( [
+        return response([
             'message' => 'Visitor displayed Successfully',
             'data' => $data,
             'statusCode' => 200
-        ],200);
+        ], 200);
     }
     public function previsitorlist(Request $request)
     {
-       $data =  preapproval::where('status',1)->get();
-       return response( [
-        'message' => 'PreVisitor Displayed Successfully',
-        'data' => $data,
-        'statusCode' => 200
-            ],200);
+        $data = preapproval::where('status', 1)->get();
+        return response([
+            'message' => 'PreVisitor Displayed Successfully',
+            'data' => $data,
+            'statusCode' => 200
+        ], 200);
     }
     public function updateprevisitor(Request $request)
     {
-          $previstor = preapproval::find($request->previstorid);
-          if($previstor)
-          {
-                $previstor->vehicle_number = $request->vehicle_number;
-                $previstor->purpose	 = $request->purpose;
-                $previstor->entry_time	 = $request->entry_time	;
-                $previstor->exit_time = $request->exit_time	;
-                $previstor->status = 2;
-                $previstor->save();
-                $new =  new Visitor;
-                $new->visitor_name = $previstor->visitor_name;	
-                $new->date = date('Y-m-d');	
-                $new->check_in = $request->entry_time;	
-                $new->flat_no = $previstor->flat_no;	
-                $new->status = 1;
-                $new->purpose = $previstor->purpose;
-                $new->save();
-                return response( [
-                    'message' => 'PreVisitor Updated Successfully',
-                    'data' => $previstor,
-                    'statusCode' => 200
-                        ],200);
+        $previstor = preapproval::find($request->previstorid);
+        if ($previstor) {
+            $previstor->vehicle_number = $request->vehicle_number;
+            $previstor->purpose = $request->purpose;
+            $previstor->entry_time = $request->entry_time;
+            $previstor->exit_time = $request->exit_time;
+            $previstor->status = 2;
+            $previstor->save();
+            $new = new Visitor;
+            $new->visitor_name = $previstor->visitor_name;
+            $new->date = date('Y-m-d');
+            $new->check_in = $request->entry_time;
+            $new->check_out = $request->exit_time;
+            $new->flat_no = $previstor->flat_no;
+            $new->status = 1;
+            $new->purpose = $previstor->purpose;
+            $new->save();
+            return response([
+                'message' => 'PreVisitor Updated Successfully',
+                'data' => $previstor,
+                'statusCode' => 200
+            ], 200);
 
-          }
-          return response( [
+        }
+        return response([
             'message' => 'PreVisitor Not Found',
             'data' => $previstor,
             'statusCode' => 404
-                ],404);
+        ], 404);
     }
 
     public function updatevisitor(Request $request)
     {
-        
+
         $request->validate([
 
 
@@ -91,27 +91,26 @@ class VistiorController extends Controller
 
         ]);
 
-        $data =  Visitor::find($request->vistorid);
+        $data = Visitor::find($request->vistorid);
 
-        if($data)
-        {
-              $data->check_out = $request->exit_time;
-              $data->status = 1;
-              $data->save();
+        if ($data) {
+            $data->check_out = $request->exit_time;
+            $data->status = 1;
+            $data->save();
 
-              return response( [
+            return response([
                 'message' => 'vistor Updated Successfully',
                 'data' => $data,
                 'statusCode' => 200
-                    ],200);
+            ], 200);
 
         }
 
-        return response( [
+        return response([
             'message' => 'vistor not found',
             'data' => $data,
             'statusCode' => 404
-                ],404);
+        ], 404);
 
     }
 }
