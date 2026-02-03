@@ -98,25 +98,35 @@ class AllotmentController extends Controller
       
     }    
     public function houselist(Request $request)
-    {
-    
-          $flat_no = Flat::find($request->flat_id);
-          if($flat_no)
-          {
-          $houses = $flat_no->houses;
-          return response( [
-            'message' => 'House list show Successfully',
-            'data' => $houses,
-            'statusCode' => 200
-        ],200);
-          }   
+{
+    $flat = Flat::find($request->flat_id);
 
-            return response( [
-                'message' => 'no house found',
-                'statusCode' => 404
-            ],404);
-
+    if (!$flat) {
+        return response([
+            'message' => 'no house found',
+            'statusCode' => 404
+        ], 404);
     }
+
+    // Get all houses of the flat
+    $housesQuery = $flat->houses();
+
+    // If admin → remove houses already in allotment table
+    if ($request->type === 'admin') {
+        $housesQuery->whereNotIn('id', function ($query) {
+            $query->select('flat_id')->from('allotments');
+        });
+    }
+
+    $houses = $housesQuery->get();
+
+    return response([
+        'message' => 'House list show Successfully',
+        'data' => $houses,
+        'statusCode' => 200
+    ], 200);
+}
+
     public function store(Request $request)
     {
          $allotment = new  Allotment;
