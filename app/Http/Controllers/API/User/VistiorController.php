@@ -24,11 +24,15 @@ class VistiorController extends Controller
             ->with('flat') 
             ->first();
 
+            $block_name = $allotment->flat->block->block_no;
+            $house_number = $allotment->flat->house_number;
+
+$flat_with_block = $block_name . '_' . $house_number;
 
       $data =   preapproval::create([
              'visitor_name' => $request->visitor_name,
              'date' => $request->date,
-             'flat_no' => $allotment->flat->house_number,
+             'flat_no' => $flat_with_block,
              'user_id' => $request->user_id,
              'contact_number' => $request->contact_number,
              'vehicle_number' => $request->vehicle_number,
