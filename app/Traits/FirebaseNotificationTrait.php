@@ -40,7 +40,7 @@ public function sendFirebaseNotification($fcmToken, $title, $body, $data = [])
             ]
         ];
 
-        $apiurl = 'https://fcm.googleapis.com/v1/projects/society-management-2de9d/messages:send';
+        $apiurl = 'https://fcm.googleapis.com/v1/projects/society-management-daea4/messages:send';
 
         $headers = [
             'Authorization' => 'Bearer ' . $this->getGoogleAccessToken(),
@@ -97,7 +97,7 @@ public function sendFirebaseNotification($fcmToken, $title, $body, $data = [])
                 ],      
             ],
         ];
-        $apiurl = 'https://fcm.googleapis.com/v1/projects/society-management-2de9d/messages:send'; 
+        $apiurl = 'https://fcm.googleapis.com/v1/projects/society-management-daea4/messages:send'; 
         $headers = [
             'Authorization' => 'Bearer ' . $this->getGoogleAccessToken2(),
             'Content-Type' => 'application/json',
