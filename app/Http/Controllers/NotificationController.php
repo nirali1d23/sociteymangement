@@ -21,7 +21,10 @@ class NotificationController extends Controller
             "comment_id" => 32,
             "user_name" => 23432,
         ];
-        return $this->sendFirebaseNotification($fcmToken, $title, $body,$data );
+        $response = $this->sendFirebaseNotification($fcmToken, $title, $body,$data );
+
+
+        dd($response);
     }
 
 }   
