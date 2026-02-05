@@ -5,7 +5,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+use Log;
 use App\Traits\ImageUpload;
 use App\Models\NoticeComment;
 use App\Traits\FirebaseNotificationTrait;
@@ -41,12 +41,24 @@ class NoticeController extends Controller
            foreach($user as $userdata)
            {
             $fcmToken = $userdata->fcm_token;
-              if($fcmToken)
-              {
+                if($userdata->fcm_token)
+        {
             $title = "🌟 Exciting News! A New Notice Has Arrived!";
-            $body = "Hey there! We've got something new for you. Check out the latest notice and stay informed. Don't miss it!";
-             $this->sendFirebaseNotification($fcmToken, $title, $body);
-              }
+            $body  = "Hey there! We've got something new for you. Check out the latest notice and stay informed. Don't miss it!";
+
+            $response = $this->sendFirebaseNotification(
+                $userdata->fcm_token,
+                $title,
+                $body
+            );
+
+            \Log::info('Notice Notification Status', [
+                'user_id'   => $userdata->id,
+                'fcm_token' => $userdata->fcm_token,
+                'response'  => $response,
+                'status'    => isset($response['success']) && $response['success'] == 1 ? 'SENT' : 'FAILED'
+            ]);
+        }
            }
         }
 
