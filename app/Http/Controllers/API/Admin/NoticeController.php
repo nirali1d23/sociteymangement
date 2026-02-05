@@ -41,7 +41,11 @@ class NoticeController extends Controller
            foreach($user as $userdata)
            {
             $fcmToken = $userdata->fcm_token;
-                if($userdata->fcm_token)
+            \Log::info('Notice Notification Token', [
+                'user_id'   => $userdata->id,
+                'fcm_token' => $userdata->fcm_token,
+            ]);
+                if($fcmToken != null)
         {
             $title = "🌟 Exciting News! A New Notice Has Arrived!";
             $body  = "Hey there! We've got something new for you. Check out the latest notice and stay informed. Don't miss it!";
