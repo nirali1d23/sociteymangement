@@ -63,48 +63,55 @@ class NoticeCron extends Command
     // }
 
 
-  public function handle()
+public function handle()
 {
     $date = now()->format('Y-m-d'); 
     Log::info('NoticeCron executed at: ' . now());
 
-
     $notices = Notice::all();
 
-    // Fetch all staff users (user_type = 2)
     $users = User::where('user_type', 2)
-                 ->whereNotNull('fcm_token')
-                 ->get();
+        ->whereNotNull('fcm_token')
+        ->get();
 
     foreach ($notices as $notice) {
 
         if ($notice->start_date == $date) {
 
-            $title = $notice->title;
-            $body  = $notice->description;
-
             foreach ($users as $user) {
 
-                $fcmToken = $user->fcm_token;
-
                 $response = $this->sendFirebaseStaffNotification(
-                    $fcmToken,
-                    $title,
-                    $body
+                    $user->fcm_token,
+                    $notice->title,
+                    $notice->description
                 );
 
                 if ($response->failed()) {
+
+                    Log::error('FCM failed', [
+                        'user_id' => $user->id,
+                        'status'  => $response->status(),
+                        'body'    => $response->body(),
+                    ]);
+
                     $this->error(
-                        'Notification failed for user ID ' . $user->id .
-                        ' : ' . json_encode($response->json())
+                        "Notification failed for user ID {$user->id}"
                     );
+
                 } else {
+
+                    Log::info('FCM sent', [
+                        'user_id' => $user->id,
+                        'response' => $response->json(),
+                    ]);
+
                     $this->info(
-                        'Notification sent to user ID ' . $user->id
+                        "Notification sent to user ID {$user->id}"
                     );
                 }
             }
         }
     }
 }
+
 }
