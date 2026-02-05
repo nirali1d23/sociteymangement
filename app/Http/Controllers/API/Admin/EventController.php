@@ -47,7 +47,7 @@ class EventController extends Controller
                 $fcmToken = $token->fcm_token;
                 $title = "🎉 New Event Alert!";
                 $body = "✨ Don't miss out! Join us for an unforgettable experience. Stay tuned for more details! 🌟";   
-                 $this->sendFirebaseNotification($fcmToken, $title, $body);
+                 $this->sendFirebaseStaffNotification($fcmToken, $title, $body);
             }
         }
         return response( [

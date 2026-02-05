@@ -63,7 +63,7 @@ class BookingamenitiesController extends Controller
                      $body = "Unfortunately, your request for amenity Booking could not be approved. Please contact our support team for further details or assistance. We're here to help!";
                  }
         
-            $this->sendFirebaseNotification($fcmToken, $title, $body);
+            $this->sendFirebaseStaffNotification($fcmToken, $title, $body);
             }
             return response( [
                 'message' => 'status updated Successfully..!',
