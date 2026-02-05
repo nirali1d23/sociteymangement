@@ -83,7 +83,7 @@ class MaintancerequestController extends Controller
             
          
     
-        $this->sendFirebaseNotification($fcmToken, $title, $body);
+                 $this->sendFirebaseStaffNotification($fcmToken, $title, $body);
         }
 
 
