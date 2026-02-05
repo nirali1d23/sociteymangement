@@ -10,7 +10,7 @@ use App\Traits\FirebaseNotificationTrait;
 use Illuminate\Console\Command;
 use App\Models\Notice;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Log;
 class NoticeCron extends Command
 {
     use FirebaseNotificationTrait;
@@ -66,6 +66,8 @@ class NoticeCron extends Command
   public function handle()
 {
     $date = now()->format('Y-m-d'); 
+    Log::info('NoticeCron executed at: ' . now());
+
 
     $notices = Notice::all();
 
