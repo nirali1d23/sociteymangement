@@ -181,6 +181,9 @@ class AuthController extends Controller
     //set security pin for admin
     public function securitypin(Request $request)
     {
+        $request->validate([
+            'securitypin' => 'required',
+        ]);
         $securitypin = $request->securitypin;
 
         $data = User::find($request->user_id);
@@ -206,13 +209,16 @@ class AuthController extends Controller
     }
     public function checksecuritypin(Request $request)
     {
+        $request->validate([
+            'securitypin' => 'required',
+        ]);
         $securitypin = $request->securitypin;
 
         $data = User::find($request->user_id);
 
         if ($data) {
 
-            if ($data->securitypin == $securitypin) {
+            if ($data->securitypin === $securitypin) {
 
                 return response([
                     'message' => 'Your pin is correct',
