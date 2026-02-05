@@ -88,7 +88,6 @@ class EventController extends Controller
             'statusCode' => 200
         ],200 );
     }
-    
     public function edit(Request $request)
     {
           $data = Event::find($request->id);

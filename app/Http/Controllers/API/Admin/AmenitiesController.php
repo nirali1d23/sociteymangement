@@ -1,13 +1,10 @@
 <?php
-
 namespace App\Http\Controllers\API\Admin;
 use App\Models\Amenities;
 use App\Models\Bookamenities;
 use App\Traits\ImageUpload;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
-
-
 use Symfony\Component\HttpFoundation\File\File;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -159,7 +156,6 @@ class AmenitiesController extends Controller
             'statusCode' => 200
         ], 200);
     }
-
     function updateSlotStatus($amenityId, $timeSlots, $bookedTimes)
     {
 

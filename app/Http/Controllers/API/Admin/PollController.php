@@ -28,7 +28,7 @@ class PollController extends Controller
               $fcmToken = $token->fcm_token;
               $title = "🗳️ New Poll Created!";
               $body = "📢 Have your say! A new poll is now live. Cast your vote and let your opinion be heard. 🌟";
-               $this->sendFirebaseNotification($fcmToken, $title, $body);
+               $this->sendFirebaseStaffNotification($fcmToken, $title, $body);
           }
       }
 

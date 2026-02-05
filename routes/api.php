@@ -28,7 +28,8 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::controller(AuthController::class)->group(function () {
+Route::controller(AuthController::class)->group(function () 
+{
     Route::post('login', 'login');
     Route::post('register_rtw', 'register_rtw');
     Route::post('import', 'import');
@@ -44,7 +45,8 @@ Route::controller(AuthController::class)->group(function () {
 Route::post('/flatcreate', [FlatController::class, 'create']);
 
 // Allotment Routes
-Route::controller(AllotmentController::class)->group(function () {
+Route::controller(AllotmentController::class)->group(function () 
+{
     Route::post('/houselist', 'houselist');
     Route::get('/blocklist', 'block_list');
     Route::get('/userlist', 'userlist');

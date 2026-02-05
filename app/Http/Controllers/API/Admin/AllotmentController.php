@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\API\Admin;
 use App\Models\Allotment;
 use App\Models\Flat;
@@ -125,8 +124,7 @@ class AllotmentController extends Controller
         'data' => $houses,
         'statusCode' => 200
     ], 200);
-}
-
+    }
     public function store(Request $request)
     {
          $allotment = new  Allotment;

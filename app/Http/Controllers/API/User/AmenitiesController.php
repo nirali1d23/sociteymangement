@@ -21,14 +21,15 @@ class AmenitiesController extends Controller
             'status' => 0
         ]);
         $token = User::where('user_type',0)->first();
-            if($token->fcm_token !=null)
-            {
-                $fcmToken = $token->fcm_token;
-                $title = "🛎️ New Amenity Booking Request!!";
-                $body = "📋 A new request for booking amenities has been submitted. Please review the details and take action. ✅ Approve or ❌ Disapprove the request now.";
 
-                 $this->sendFirebaseStaffNotification($fcmToken, $title, $body);
-            }
+        if($token->fcm_token !=null)
+        {
+            $fcmToken = $token->fcm_token;
+            $title = "🛎️ New Amenity Booking Request!!";
+            $body = "📋 A new request for booking amenities has been submitted. Please review the details and take action. ✅ Approve or ❌ Disapprove the request now.";
+
+            $this->sendFirebaseStaffNotification($fcmToken, $title, $body);
+        }
         return response([
             'message' => 'Amenities Booked Successfully..!',
             'data' => $data,    

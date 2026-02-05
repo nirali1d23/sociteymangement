@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Http;
 use App\Traits\FirebaseNotificationTrait;
 use Illuminate\Console\Command;
 use App\Models\Notice;
+use App\Models\User;
 
 class NoticeCron extends Command
 {
@@ -62,27 +63,46 @@ class NoticeCron extends Command
     // }
 
 
-    public function handle()
-    {
-        $date = now()->format('Y-m-d'); 
-        $notices = Notice::all();
-        foreach ($notices as $notice) {
-            if ($notice->start_date == $date) {
-                $fcmToken = 'c0gJrrjaQuuL_6TGPHDGM7:APA91bECccj1BiJlrpF4kRVzyxM3JVfaK_cWE-EPx0x7M9h-ui-_dd17lZWwzpi2POD05RbCfegXQV7oiX8G1dWhqrkfMfe-cpI499sUt8x-5sW672sbO8LzIlPP1Ob6k9cF2BQjDklj';
-                $title = $notice->title;
-                $body = $notice->description;
+  public function handle()
+{
+    $date = now()->format('Y-m-d'); 
 
-                $response = $this->sendFirebaseNotification($fcmToken, $title, $body);
+    $notices = Notice::all();
 
-          
+    // Fetch all staff users (user_type = 2)
+    $users = User::where('user_type', 2)
+                 ->whereNotNull('fcm_token')
+                 ->get();
+
+    foreach ($notices as $notice) {
+
+        if ($notice->start_date == $date) {
+
+            $title = $notice->title;
+            $body  = $notice->description;
+
+            foreach ($users as $user) {
+
+                $fcmToken = $user->fcm_token;
+
+                $response = $this->sendFirebaseStaffNotification(
+                    $fcmToken,
+                    $title,
+                    $body
+                );
+
                 if ($response->failed()) {
-                    $this->error('Notification failed to send. Details: ' . json_encode($response->json()));
+                    $this->error(
+                        'Notification failed for user ID ' . $user->id .
+                        ' : ' . json_encode($response->json())
+                    );
                 } else {
-                    $this->info('Notification sent successfully! Details: ' . json_encode($response->json()));
+                    $this->info(
+                        'Notification sent to user ID ' . $user->id
+                    );
                 }
             }
         }
-
-        $this->info("Notification process completed.");
     }
+}
 }
