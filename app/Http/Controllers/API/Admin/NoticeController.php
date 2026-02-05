@@ -50,12 +50,12 @@ class NoticeController extends Controller
             $title = "🌟 Exciting News! A New Notice Has Arrived!";
             $body  = "Hey there! We've got something new for you. Check out the latest notice and stay informed. Don't miss it!";
 
-            $response = $this->sendFirebaseNotification(
-                $userdata->fcm_token,
-                $title,
-                $body,
-                $data = []
-            );
+          $response = $this->sendFirebaseNotification(
+    $userdata->fcm_token,
+    $title,
+    $body,
+    $data = []
+);
 
             \Log::info('Notice Notification Status', [
                 'user_id'   => $userdata->id,
