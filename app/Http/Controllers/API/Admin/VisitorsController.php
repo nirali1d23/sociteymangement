@@ -38,12 +38,13 @@ class VisitorsController extends Controller
     }
     public function approvalprebooking(Request $request)
     {
+
         $booking = preapproval::find($request->booking_id);
         if($booking!=null)
         {
              $booking->status =  $request->status;
              $booking->save();
-            $user = User::find($booking->user_id);
+             $user = User::find($booking->user_id);
      
              $fcmToken = $user->fcm_token;
              if($fcmToken)
