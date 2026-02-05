@@ -218,7 +218,7 @@ class AuthController extends Controller
 
         if ($data) {
 
-            if ($data->securitypin === $securitypin) {
+            if ($data->security_pin == $securitypin) {
 
                 return response([
                     'message' => 'Your pin is correct',
