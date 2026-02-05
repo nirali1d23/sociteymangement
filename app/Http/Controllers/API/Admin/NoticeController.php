@@ -53,7 +53,8 @@ class NoticeController extends Controller
             $response = $this->sendFirebaseNotification(
                 $userdata->fcm_token,
                 $title,
-                $body
+                $body,
+                $data = []
             );
 
             \Log::info('Notice Notification Status', [
