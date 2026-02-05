@@ -189,7 +189,7 @@ class AuthController extends Controller
         $data = User::find($request->user_id);
 
         if ($data) {
-            $data->securitypin = $securitypin;
+            $data->security_pin = $securitypin;
             $data->save();
 
             return response([
