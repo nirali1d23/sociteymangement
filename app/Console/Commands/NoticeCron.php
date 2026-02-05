@@ -65,7 +65,7 @@ class NoticeCron extends Command
 
 public function handle()
 {
-    $date = now()->format('Y-m-d'); 
+    $date = now()->format('Y-m-d');
     Log::info('NoticeCron executed at: ' . now());
 
     $notices = Notice::all();
@@ -86,12 +86,16 @@ public function handle()
                     $notice->description
                 );
 
-                if ($response->failed()) {
+                // ✅ JsonResponse handling
+                $statusCode = $response->getStatusCode();
+                $data = $response->getData(true); // array
 
-                    Log::error('FCM failed', [
+                if ($statusCode !== 200) {
+
+                    Log::error('FCM notification failed', [
                         'user_id' => $user->id,
-                        'status'  => $response->status(),
-                        'body'    => $response->body(),
+                        'status_code' => $statusCode,
+                        'response' => $data,
                     ]);
 
                     $this->error(
@@ -100,9 +104,9 @@ public function handle()
 
                 } else {
 
-                    Log::info('FCM sent', [
+                    Log::info('FCM notification sent', [
                         'user_id' => $user->id,
-                        'response' => $response->json(),
+                        'response' => $data,
                     ]);
 
                     $this->info(
@@ -113,5 +117,6 @@ public function handle()
         }
     }
 }
+
 
 }
