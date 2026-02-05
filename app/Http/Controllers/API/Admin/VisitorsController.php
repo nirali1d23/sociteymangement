@@ -63,7 +63,7 @@ class VisitorsController extends Controller
                       $body = "We regret to inform you that your pre-visitor booking for visitor on could not be approved. For further assistance, please reach out to our support team. We're here to help!";
                   }
          
-             $this->sendFirebaseNotification($fcmToken, $title, $body);
+                 $this->sendFirebaseStaffNotification($fcmToken, $title, $body);
              }
 
 
