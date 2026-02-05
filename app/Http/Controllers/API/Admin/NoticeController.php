@@ -60,7 +60,6 @@ class NoticeController extends Controller
                 'user_id'   => $userdata->id,
                 'fcm_token' => $userdata->fcm_token,
                 'response'  => $response,
-                'status'    => isset($response['success']) && $response['success'] == 1 ? 'SENT' : 'FAILED'
             ]);
         }
            }
