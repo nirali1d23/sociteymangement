@@ -72,4 +72,20 @@
 
     <h5>7. Children’s Privacy</h5>
     <p>
-        This App is intended
+        This App is intended for society residents and staff.
+        We do not knowingly collect data from children under 13 years of age.
+    </p>
+
+    <h5>8. Changes to This Policy</h5>
+    <p>
+        We may update this Privacy Policy from time to time.
+        Any changes will be posted within the App.
+    </p>
+
+    <h5>9. Contact Us</h5>
+    <p>
+        If you have any questions about this Privacy Policy, contact:<br>
+        <strong>Email:</strong> info@saurabhinfosys.com
+    </p>
+</div>
+@endsection
