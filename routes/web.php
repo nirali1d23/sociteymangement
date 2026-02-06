@@ -21,7 +21,11 @@ Route::get('/', function ()
 Route::get('/dashboard', function () {
     return view('admin_panel.admin.dashbord');
 });
+Route::view('/terms-and-conditions', 'pages.terms')->name('terms');
 
+Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
+
+Route::view('/contact-us', 'pages.contact')->name('contact');
 Route::post('/login',[AuthController::class,'authlogin'])->name('login');
 Route::post('/singout',[AuthController::class,'singout'])->name('singout');
 Route::get('/add-residene',[ResidenetController::class,'index'])->name('add-residenet');
