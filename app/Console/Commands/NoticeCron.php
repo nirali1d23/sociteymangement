@@ -10,6 +10,8 @@ use App\Traits\FirebaseNotificationTrait;
 use Illuminate\Console\Command;
 use App\Models\Notice;
 use App\Models\User;
+use Carbon\Carbon;
+
 use Illuminate\Support\Facades\Log;
 class NoticeCron extends Command
 {
@@ -65,8 +67,10 @@ class NoticeCron extends Command
 
 public function handle()
 {
-    $date = now()->format('Y-m-d');
     Log::info('NoticeCron executed at: ' . now());
+
+    // current date & time
+    $now = Carbon::now();
 
     $notices = Notice::all();
 
@@ -76,7 +80,14 @@ public function handle()
 
     foreach ($notices as $notice) {
 
-        if ($notice->start_date == $date) {
+        // Combine start_date + time
+        $noticeDateTime = Carbon::createFromFormat(
+            'Y-m-d H:i:s',
+            $notice->start_date . ' ' . $notice->time
+        );
+
+        // ✅ Check if current time matches notice time (minute level)
+        if ($now->format('Y-m-d H:i') === $noticeDateTime->format('Y-m-d H:i')) {
 
             foreach ($users as $user) {
 
@@ -86,32 +97,22 @@ public function handle()
                     $notice->description
                 );
 
-                // ✅ JsonResponse handling
                 $statusCode = $response->getStatusCode();
-                $data = $response->getData(true); // array
+                $data = $response->getData(true);
 
                 if ($statusCode !== 200) {
 
                     Log::error('FCM notification failed', [
                         'user_id' => $user->id,
-                        'status_code' => $statusCode,
                         'response' => $data,
                     ]);
-
-                    $this->error(
-                        "Notification failed for user ID {$user->id}"
-                    );
 
                 } else {
 
                     Log::info('FCM notification sent', [
                         'user_id' => $user->id,
-                        'response' => $data,
+                        'notice_id' => $notice->id,
                     ]);
-
-                    $this->info(
-                        "Notification sent to user ID {$user->id}"
-                    );
                 }
             }
         }
