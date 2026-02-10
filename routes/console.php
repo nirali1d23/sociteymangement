@@ -11,3 +11,4 @@ Artisan::command('inspire', function () {
 
 
 Schedule::command('Notice:cron')->everyMinute();
+Schedule::command('society:truncate-data')->daily();
