@@ -15,7 +15,7 @@ class TruncateSocietyData extends Command
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
         // 1️⃣ Delete users except user_type = 1
-        DB::table('users')->where('user_type', '!=', 1)->delete();
+        DB::table('users')->where('user_type', '!=', 0)->delete();
 
         // 2️⃣ Tables to truncate
         $tables = [
