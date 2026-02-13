@@ -33,7 +33,7 @@ class UsersImport implements ToCollection
                 'name'      => 'required|string|max:255',
                 'email'     => 'required|email|unique:users,email',
                 'password'  => 'required|min:6',
-                'mobile_no' => 'required|digits_between:10,15',
+                'mobile_no' => 'required|digits_between:10',
                 'flat_id'   => 'required|exists:flats,id',
             ]);
 
