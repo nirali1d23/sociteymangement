@@ -129,14 +129,23 @@ class AuthController extends Controller
 public function import(Request $request)
 {
     $request->validate([
-        'file' => 'required|file|mimes:xlsx,xls,csv|max:2048',
+        'file' => 'required|file|mimes:xlsx,xls,csv',
     ]);
 
-    Excel::import(new UsersImport, $request->file('file'));
+    $import = new UsersImport();
+    Excel::import($import, $request->file('file'));
+
+    if (!empty($import->errors)) {
+        return response()->json([
+            'status'  => false,
+            'message' => 'Import failed due to validation errors',
+            'errors'  => $import->errors
+        ], 422);
+    }
 
     return response()->json([
-        'message' => 'Users imported successfully',
-        'statusCode' => 200
+        'status'  => true,
+        'message' => 'Users imported successfully'
     ], 200);
 }
 
