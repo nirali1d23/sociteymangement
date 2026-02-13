@@ -11,19 +11,18 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 
 class UsersImport implements ToCollection
 {
+    public array $errors = [];
+
     public function collection(Collection $rows)
     {
-        // Remove header row
-        $rows = $rows->slice(1);
+        $rows = $rows->slice(1); // remove header
 
         foreach ($rows as $index => $row) {
 
-            // 🔹 Skip completely empty rows
             if ($row->filter()->isEmpty()) {
                 continue;
             }
 
-            // 🔹 Validation rules
             $validator = Validator::make([
                 'name'       => $row[0] ?? null,
                 'email'      => $row[1] ?? null,
@@ -38,23 +37,21 @@ class UsersImport implements ToCollection
                 'flat_id'   => 'required|exists:flats,id',
             ]);
 
-            // 🔹 If validation fails → skip row
             if ($validator->fails()) {
-                // optional: log errors
-                // Log::error("Row {$index} failed", $validator->errors()->toArray());
+                foreach ($validator->errors()->all() as $error) {
+                    $this->errors[] = $error;
+                }
                 continue;
             }
 
-            // 🔹 Create user
             $user = User::create([
-                'name'       => $row[0],
-                'email'      => $row[1],
-                'password'   => Hash::make($row[2]),
-                'mobile_no'  => $row[3],
-                'user_type'  => 2,
+                'name'      => $row[0],
+                'email'     => $row[1],
+                'password'  => Hash::make($row[2]),
+                'mobile_no' => $row[3],
+                'user_type' => 2,
             ]);
 
-            // 🔹 Create allotment
             Allotment::create([
                 'user_id' => $user->id,
                 'flat_id' => $row[4],
