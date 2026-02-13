@@ -28,13 +28,11 @@ class UsersImport implements ToCollection
                 'email'      => $row[1] ?? null,
                 'password'   => $row[2] ?? null,
                 'mobile_no'  => $row[3] ?? null,
-                'flat_id'    => $row[4] ?? null,
             ], [
                 'name'      => 'required|string|max:255',
                 'email'     => 'required|email|unique:users,email',
                 'password'  => 'required|min:6',
                 'mobile_no' => 'required|digits_between:10',
-                'flat_id'   => 'required|exists:flats,id',
             ]);
 
             if ($validator->fails()) {
@@ -52,10 +50,10 @@ class UsersImport implements ToCollection
                 'user_type' => 2,
             ]);
 
-            Allotment::create([
-                'user_id' => $user->id,
-                'flat_id' => $row[4],
-            ]);
+            // Allotment::create([
+            //     'user_id' => $user->id,
+            //     'flat_id' => $row[4],
+            // ]);
         }
     }
 }
