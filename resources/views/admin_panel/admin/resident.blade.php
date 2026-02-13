@@ -106,7 +106,7 @@
 	  var table = $('.data-table').DataTable({
 		  processing: true,
 		  serverSide: true,
-		  ajax: "{{ route('userstore') }}",
+		  ajax: "{{ route('add-residene') }}",
 		  columns: 
 		  [
 			
