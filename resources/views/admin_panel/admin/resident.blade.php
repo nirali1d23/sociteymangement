@@ -47,7 +47,7 @@
 						<div class="form-group">
 							<label for="name" class="col-sm-2 control-label">Email</label>
 							<div class="col-sm-12">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Enter Email" value=""  required="">
+								<input type="text" class="form-control" id="email" name="email" placeholder="Enter Email" value=""  required="">
 							</div>
 						</div>
         
@@ -56,22 +56,21 @@
 							<div class="col-sm-12">
 							  <select class="form-select" aria-label="Default select example">
 								<option selected>Open this select menu</option>
-								<option value="1">One</option>
-								<option value="2">Two</option>
-								<option value="3">Three</option>
+								<option value="2">Resisdent</option>
+								<option value="3">Staff</option>
 							  </select>
 							</div>
 						  </div>
 						<div class="form-group">
-							<label for="name" class="col-md-2 control-label">asdf</label>
+							<label for="name" class="col-md-2 control-label">mobile_number</label>
 							<div class="col-sm-12">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Enter Mobileno" value=""  required="">
+								<input type="text" class="form-control" id="mobile_number" name="mobile_number" placeholder="Enter Mobileno" value=""  required="">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="name" class="col-md-2 control-label">pa</label>
+							<label for="name" class="col-md-2 control-label">password</label>
 							<div class="col-sm-12">
-								<input type="password" class="form-control" id="name" name="name" placeholder="Enter password" value=""  required="">
+								<input type="password" class="form-control" id="password" name="password" placeholder="Enter password" value=""  required="">
 							</div>
 						</div>
 						
@@ -107,13 +106,15 @@
 	  var table = $('.data-table').DataTable({
 		  processing: true,
 		  serverSide: true,
-		  ajax: "{{ route('add-residenet') }}",
+		  ajax: "{{ route('userstore') }}",
 		  columns: 
 		  [
 			
 			  {data: 'name', name: 'name'},
-			  {data: 'name', name: 'name'},
-			  {data: 'name', name: 'name'},
+			  {data: 'email', name: 'email'},
+			  {data: 'password', name: 'password'},
+			  {data: 'mobile_number', name: 'mobile_number'},
+			  {data: 'user_type', name: 'user_type'},
 			  {data: 'action', name: 'action', orderable: false, searchable: false},
 			
 		  ]

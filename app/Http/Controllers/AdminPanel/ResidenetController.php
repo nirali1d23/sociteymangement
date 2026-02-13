@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DataTables;
 use session;
+use Hash;
 use App\Models\User;    
 class ResidenetController extends Controller
 {
@@ -51,10 +52,10 @@ class ResidenetController extends Controller
         ],
         [
             'name' => $request->name,
-            'email' => $request->name,
-            'password' => $request->name,
-            'mobile_no' => $request->name,
-            'user_type' => $request->name,
+            'email' => $request->email,
+            'password' =>Hash::make($request->password),
+            'mobile_no' => $request->mobile_number,
+            'user_type' => $request->user_type,
         ]);        
         return response()->json(['success' => true, 'message' => 'User saved successfully.']);
     }
