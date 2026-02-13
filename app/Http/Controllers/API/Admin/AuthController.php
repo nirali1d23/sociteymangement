@@ -126,16 +126,20 @@ class AuthController extends Controller
         ], 400);
     }
     //import the resisent and allotment
-    public function import(Request $request)
-    {
-        $file = $request->file('file');
-        Excel::import(new UsersImport, $file);
+public function import(Request $request)
+{
+    $request->validate([
+        'file' => 'required|file|mimes:xlsx,xls,csv|max:2048',
+    ]);
 
-        return response([
-            'message' => 'User Store Successfully',
-            'statusCode' => 200
-        ], 200);
-    }
+    Excel::import(new UsersImport, $request->file('file'));
+
+    return response()->json([
+        'message' => 'Users imported successfully',
+        'statusCode' => 200
+    ], 200);
+}
+
     //change password
     public function changepassword(Request $request)
     {
