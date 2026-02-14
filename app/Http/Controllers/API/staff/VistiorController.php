@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\staff;
 use App\Models\Visitor;
+use App\Models\User;
 use App\Models\preapproval;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -113,4 +114,14 @@ class VistiorController extends Controller
         ], 404);
 
     }
+
+    public function all_resisdent_list(Request $request)
+    {
+        $user = User::where('user_type',2)->with('allotment.flat.block')->get();
+
+ return response([
+            'message' => 'user list displayed Successfully',
+            'data' => $user,
+            'statusCode' => 200
+        ], 200);    }
 }
