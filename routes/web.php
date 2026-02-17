@@ -13,7 +13,7 @@ use App\Http\Controllers\AdminPanel\PrevisitorController;
 use App\Http\Controllers\AdminPanel\MaintanceController;
 use App\Http\Controllers\AdminPanel\AmenitiesController;
 use App\Http\Controllers\AdminPanel\BookedamenitiesController;
-
+use App\Models\Contactus;
 Route::get('/', function ()
 {
     return view('Auth.login');
@@ -27,9 +27,17 @@ Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
 
 Route::view('/contact-us', 'pages.contact')->name('contact');
 Route::post('/contact-us', function (Request $request) {
+
+    Contactus::create([
+        'name'    => $request->name,
+        'email'   => $request->email,
+        'message' => $request->message,
+    ]);
+
     return redirect()
         ->route('contact')
         ->with('submitted', true);
+
 })->name('contact.submit');
 Route::post('/login',[AuthController::class,'authlogin'])->name('login');
 Route::post('/singout',[AuthController::class,'singout'])->name('singout');
