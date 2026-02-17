@@ -15,6 +15,7 @@ use App\Models\NoticeComment;
 use App\Models\Pollsurvey;
 use App\Models\Visitor;
 use App\Models\preapproval;
+use App\Models\Contactus;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 class AuthController extends Controller
@@ -323,5 +324,33 @@ public function import(Request $request)
             'message' => 'User not found',
             'statusCode' => 404
         ], 404);
+    }
+
+    public function contactus(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'message' => 'required',
+        ]);
+
+        $contact = Contactus::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'message' => $request->message,
+        ]);
+
+        if ($contact) {
+            return response([
+                'message' => 'Message sent successfully',
+                'data' => $contact,
+                'statusCode' => 200
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Unable to send message..!',
+            'statusCode' => 400
+        ], 400);
     }
 }
