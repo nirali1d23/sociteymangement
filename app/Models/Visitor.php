@@ -10,4 +10,14 @@ class Visitor extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute()
+    {
+        if ($this->image) {
+            return asset('image/' . $this->image);
+        }
+        return null;
+    }
 }

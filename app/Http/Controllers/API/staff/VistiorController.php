@@ -3,19 +3,30 @@
 namespace App\Http\Controllers\API\staff;
 use App\Models\Visitor;
 use App\Models\User;
+use App\Traits\ImageUpload;
+
 use App\Models\preapproval;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 class VistiorController extends Controller
 {
+
+    use ImageUpload;
     public function visitorentry(Request $request)
     {
+        if ($request->hasFile('image')) {
+            $image_1 = $request->file('image');
+            $image = $this->uploadImage($image_1, 'image');
+        }
+
         $data = Visitor::create([
             'visitor_name' => $request->visitor_name,
             'date' => $request->visitor_date,
             'check_in' => $request->check_in,
             'flat_no' => $request->flat_no,
             'purpose' => $request->purpose,
+            'contact_number' => $request->contact_number,
+            'image' => $image ?? null,
             'status' => 0
         ]);
         return response([
