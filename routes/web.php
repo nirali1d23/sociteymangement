@@ -29,9 +29,9 @@ Route::view('/contact-us', 'pages.contact')->name('contact');
 Route::post('/contact-us', function (Request $request) {
 
     Contactus::create([
-        'name'    => $request->name,
-        'email'   => $request->email,
-        'message' => $request->message,
+        'name'    => $request->input('name'),
+        'email'   => $request->input('email'),
+        'message' => $request->input('message'),
     ]);
 
     return redirect()
