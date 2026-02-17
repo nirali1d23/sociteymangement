@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\API\Admin\AuthController as apicontroller;
+
 use App\Http\Controllers\AdminPanel\AuthController;
 use App\Http\Controllers\AdminPanel\ResidenetController;
 use App\Http\Controllers\AdminPanel\FlatController;
@@ -27,7 +29,7 @@ Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
 
 Route::view('/contact-us', 'pages.contact')->name('contact');
 
-Route::post('/contact-us', [AuthController::class, 'submitcontactus'])
+Route::post('/contact-us', [apicontroller::class, 'submitcontactus'])
      ->name('contact.submit');
 Route::post('/login',[AuthController::class,'authlogin'])->name('login');
 Route::post('/singout',[AuthController::class,'singout'])->name('singout');
