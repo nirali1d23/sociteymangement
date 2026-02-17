@@ -26,19 +26,9 @@ Route::view('/terms-and-conditions', 'pages.terms')->name('terms');
 Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
 
 Route::view('/contact-us', 'pages.contact')->name('contact');
-Route::post('/contact-us', function (Request $request) {
 
-    Contactus::create([
-        'name'    => $request->input('name'),
-        'email'   => $request->input('email'),
-        'message' => $request->input('message'),
-    ]);
-
-    return redirect()
-        ->route('contact')
-        ->with('submitted', true);
-
-})->name('contact.submit');
+Route::post('/contact-us', [AuthController::class, 'submitcontactus'])
+     ->name('contact.submit');
 Route::post('/login',[AuthController::class,'authlogin'])->name('login');
 Route::post('/singout',[AuthController::class,'singout'])->name('singout');
 Route::get('/add-residene',[ResidenetController::class,'index'])->name('add-residenet');

@@ -127,28 +127,28 @@ class AuthController extends Controller
         ], 400);
     }
     //import the resisent and allotment
-public function import(Request $request)
-{
-    $request->validate([
-        'file' => 'required|file|mimes:xlsx,xls,csv',
-    ]);
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv',
+        ]);
 
-    $import = new UsersImport();
-    Excel::import($import, $request->file('file'));
+        $import = new UsersImport();
+        Excel::import($import, $request->file('file'));
 
-    if (!empty($import->errors)) {
+        if (!empty($import->errors)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Import failed due to validation errors',
+                'errors' => $import->errors
+            ], 422);
+        }
+
         return response()->json([
-            'status'  => false,
-            'message' => 'Import failed due to validation errors',
-            'errors'  => $import->errors
-        ], 422);
+            'status' => true,
+            'message' => 'Users imported successfully'
+        ], 200);
     }
-
-    return response()->json([
-        'status'  => true,
-        'message' => 'Users imported successfully'
-    ], 200);
-}
 
     //change password
     public function changepassword(Request $request)
@@ -352,5 +352,24 @@ public function import(Request $request)
             'message' => 'Unable to send message..!',
             'statusCode' => 400
         ], 400);
+    }
+    public function submitcontactus(Request $request)
+    {
+        // (optional but recommended)
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'message' => 'required',
+        ]);
+
+        Contactus::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'message' => $request->input('message'),
+        ]);
+
+        return redirect()
+            ->route('contact')
+            ->with('submitted', true);
     }
 }
