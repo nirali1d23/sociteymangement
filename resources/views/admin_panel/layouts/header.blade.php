@@ -45,14 +45,16 @@
               <hr class="dropdown-divider">
             </li>
 
-            <li>
-              <form method="POST" action="{{ route('singout') }}">
-                  @csrf
-                  <button type="submit" class="dropdown-item d-flex align-items-center" style="background: none; border: none; padding: 0; width: 100%;">
-                      <span>Sign Out</span>
-                  </button>
-              </form>
-          </li>
+           <li>
+    <form method="POST" action="{{ route('singout') }}">
+        @csrf
+        <button type="submit"
+            class="dropdown-item d-flex align-items-center gap-2 text-danger">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Sign Out</span>
+        </button>
+    </form>
+</li>
           
 
           </ul><!-- End Profile Dropdown Items -->
