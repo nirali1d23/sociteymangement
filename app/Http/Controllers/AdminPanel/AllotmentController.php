@@ -11,7 +11,7 @@ use DataTables;
 
 class AllotmentController extends Controller
 {
-public function index4dsf(Request $request)
+public function index(Request $request)
 {
     if ($request->ajax()) {
 
@@ -32,25 +32,25 @@ public function index4dsf(Request $request)
 
     return view('admin_panel.admin.alltoment', compact('flats','users'));
 }
-public function index()
-{
-    $flats = House::select('id','house_number')->get();
-    $users = User::select('id','name')->get();
+// public function index()
+// {
+//     $flats = House::select('id','house_number')->get();
+//     $users = User::select('id','name')->get();
 
-    return view('admin_panel.admin.alltoment', compact('flats','users'));
-}
+//     return view('admin_panel.admin.alltoment', compact('flats','users'));
+// }
 
-public function data()
-{
-    return response()->json([
-        'data' => [
-            [
-                'user_name' => 'TEST USER',
-                'flat_number' => 'TEST HOUSE'
-            ]
-        ]
-    ]);
-}
+// public function data()
+// {
+//     return response()->json([
+//         'data' => [
+//             [
+//                 'user_name' => 'TEST USER',
+//                 'flat_number' => 'TEST HOUSE'
+//             ]
+//         ]
+//     ]);
+// }
 
 
     // 🔹 Get houses by block
