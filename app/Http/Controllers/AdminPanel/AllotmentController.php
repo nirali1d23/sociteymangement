@@ -23,10 +23,11 @@ class AllotmentController extends Controller
     public function data()
     {
         return DataTables::of(
-            Allotment::with(['users', 'flat'])
+            Allotment::with(['users', 'flat.block'])
         )
             ->addColumn('user_name', fn($row) => $row->users->name)
             ->addColumn('flat_number', fn($row) => $row->flat->house_number)
+            ->addColumn('block_number', fn($row) => $row->flat->blcok->block_no)
             ->make(true);
     }
 

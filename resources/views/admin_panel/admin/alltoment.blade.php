@@ -20,6 +20,7 @@
             <thead>
                 <tr>
                     <th>Username</th>
+                    <th>Block No</th>
                     <th>House No</th>
                 </tr>
             </thead>
