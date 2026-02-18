@@ -31,8 +31,11 @@ public function index4dsf(Request $request)
     $users = User::select('id','name')->get();
 
     return view('admin_panel.admin.alltoment', compact('flats','users'));
-}public function index(Request $request)
+}
+public function index(Request $request)
 {
+        dd($request->ajax());
+
     if ($request->ajax()) {
         return response()->json([
             'data' => [
