@@ -119,19 +119,33 @@ $(function () {
         $('#ajaxModel').modal('show');
     });
 
-    $('#saveBtn').click(function (e) {
-        e.preventDefault();
+$('#saveBtn').click(function (e) {
+    e.preventDefault();
 
-        $.ajax({
-            data: $('#productForm').serialize(),
-            url: "{{ route('allotment.store') }}",
-            type: "POST",
-            success: function () {
+    $.ajax({
+        data: $('#productForm').serialize(),
+        url: "{{ route('allotment.store') }}",
+        type: "POST",
+        dataType: "json",
+
+        success: function (data) {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: data.message,
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+
+                $('#productForm')[0].reset();
                 $('#ajaxModel').modal('hide');
                 table.draw();
             }
-        });
+        }
     });
+});
+
 
 });
 </script>
