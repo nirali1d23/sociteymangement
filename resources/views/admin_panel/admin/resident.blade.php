@@ -54,7 +54,7 @@
 						<div class="form-group">
 							<label class="col-form-label">Select User Type</label>
 							<div class="col-sm-12">
-							  <select class="form-select" aria-label="Default select example">
+							  <select class="form-select" aria-label="Default select example" name="user_type">
 								<option selected>Open this select menu</option>
 								<option value="2">Resisdent</option>
 								<option value="3">Staff</option>
