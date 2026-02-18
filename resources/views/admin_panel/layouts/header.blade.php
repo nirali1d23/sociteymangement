@@ -49,7 +49,6 @@
               <form method="POST" action="{{ route('singout') }}">
                   @csrf
                   <button type="submit" class="dropdown-item d-flex align-items-center" style="background: none; border: none; padding: 0; width: 100%;">
-                      <i class="bi bi-box-arrow-right"></i>
                       <span>Sign Out</span>
                   </button>
               </form>
