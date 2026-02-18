@@ -13,7 +13,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('admin_panel.dashboard', [
+        return view('admin_panel.admin.dashboard', [
             'totalBlocks'    => Flat::count(),
             'totalHouses'    => House::count(),
             'totalResidents' => User::where('user_type', 2)->count(),
