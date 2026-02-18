@@ -16,7 +16,7 @@ class AllotmentController extends Controller
 
 
 
-                $data = Allotment::with(['users', 'flat'])->latest();
+                $data = Allotment::with(['users', 'flat'])->get();
                 dd($data);
 
         if ($request->ajax()) {
