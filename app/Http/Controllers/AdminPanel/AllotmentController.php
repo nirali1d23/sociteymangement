@@ -28,9 +28,7 @@ class AllotmentController extends Controller
     ->addColumn('user_name', function ($row) {
         return $row->users->name ?? '-';
     })
-    ->addColumn('block_number', function ($row) {
-        return $row->flat->block->block_no ?? '-';
-    })
+  
     ->addColumn('house_number', function ($row) {
         return $row->flat->house_number ?? '-';
     })
