@@ -32,7 +32,7 @@ class AllotmentController extends Controller
                 ->make(true);
         }
 
-        $blocks = Flat::select('id', 'block_no')->get();
+        $flats = Flat::select('id', 'block_no')->get();
         $users = User::select('id', 'name')->get();
 
         return view('admin_panel.admin.alltoment', compact('flats', 'users'));
