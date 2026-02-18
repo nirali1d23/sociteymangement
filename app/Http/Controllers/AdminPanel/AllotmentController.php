@@ -26,8 +26,9 @@ class AllotmentController extends Controller
             Allotment::with(['users', 'flat.block'])
         )
             ->addColumn('user_name', fn($row) => $row->users->name)
-            ->addColumn('flat_number', fn($row) => $row->flat->house_number)
             ->addColumn('block_number', fn($row) => $row->flat->block->block_no)
+                        ->addColumn('flat_number', fn($row) => $row->flat->house_number)
+
             ->make(true);
     }
 
