@@ -17,12 +17,12 @@
         </a>
       </li>
 
-      <li class="nav-item"> 
+      {{-- <li class="nav-item"> 
         <a class="nav-link  @if(Request::segment(1) != 'flate') collapsed @endif " href="{{route('flate')}}">
           <i class="bi bi-shop"></i>
           <span>Flat</span>
         </a>
-      </li>
+      </li> --}}
 
       <li class="nav-item">
    
