@@ -10,7 +10,9 @@
     <div class="card-body">
         <br>
 
-        <a class="btn btn-primary float-end" href="javascript:void(0)" id="createNewPoll">
+        <a class="btn btn-primary float-end"
+           href="javascript:void(0)"
+           id="createNewPoll">
             Create New
         </a>
 
@@ -22,46 +24,81 @@
                     <th>Question</th>
                     <th>Options</th>
                     <th>Votes</th>
-                    <th>Action</th>
+                    <th width="150px">Action</th>
                 </tr>
             </thead>
+            <tbody></tbody>
         </table>
     </div>
 
-    <!-- MODAL -->
-    <div class="modal fade" id="ajaxModel">
+    <!-- ================= MODAL ================= -->
+    <div class="modal fade" id="ajaxModel" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
 
+                <!-- Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Create Poll</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h4 class="modal-title">Create New Poll</h4>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"></button>
                 </div>
 
+                <!-- Body -->
                 <div class="modal-body">
+
+                    <button type="button"
+                            class="btn btn-success float-end mb-2"
+                            id="addOption">
+                        Add Option
+                    </button>
+
                     <form id="pollForm">
 
+                        <!-- Question -->
                         <div class="mb-3">
-                            <label>Question</label>
-                            <input type="text" class="form-control" name="question" required>
+                            <label class="form-label">Question</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="question"
+                                   placeholder="Enter Question"
+                                   required>
                         </div>
 
+                        <!-- Options -->
                         <div id="options">
-                            <div class="mb-2">
-                                <input type="text" class="form-control" name="option[]" placeholder="Option 1" required>
+
+                            <div class="mb-3 option-row">
+                                <label class="form-label">Option 1</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="option[]"
+                                       placeholder="Enter Option 1"
+                                       required>
                             </div>
-                            <div class="mb-2">
-                                <input type="text" class="form-control" name="option[]" placeholder="Option 2" required>
+
+                            <div class="mb-3 option-row">
+                                <label class="form-label">Option 2</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="option[]"
+                                       placeholder="Enter Option 2"
+                                       required>
                             </div>
+
                         </div>
 
-                        <button type="button" class="btn btn-success btn-sm" id="addOption">
-                            Add Option
-                        </button>
-
-                        <br><br>
-
-                        <button class="btn btn-primary" id="savePoll">Save</button>
+                        <!-- Buttons -->
+                        <div class="mt-3">
+                            <button class="btn btn-primary" id="savePoll">
+                                Save Poll
+                            </button>
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
 
                     </form>
                 </div>
@@ -71,44 +108,74 @@
     </div>
 </div>
 
-{{-- ✅ INLINE SCRIPT (JUST LIKE ALLOTMENT) --}}
+{{-- ================= INLINE SCRIPT ================= --}}
 <script type="text/javascript">
 $(function () {
 
+    // CSRF
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
 
-    // DataTable
+    // DATATABLE
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
         ajax: "{{ route('poll.data') }}",
         columns: [
-            { data: 'question' },
-            { data: 'options_count' },
-            { data: 'votes_count' },
+            { data: 'question', name: 'question' },
+            { data: 'options_count', name: 'options_count' },
+            { data: 'votes_count', name: 'votes_count' },
             { data: 'action', orderable: false, searchable: false }
         ]
     });
 
-    // OPEN MODAL (THIS IS THE FIX)
+    let optionCount = 2;
+
+    // OPEN MODAL
     $('#createNewPoll').click(function () {
+        optionCount = 2;
         $('#pollForm')[0].reset();
+
         $('#options').html(`
-            <input type="text" class="form-control mb-2" name="option[]" required>
-            <input type="text" class="form-control mb-2" name="option[]" required>
+            <div class="mb-3 option-row">
+                <label class="form-label">Option 1</label>
+                <input type="text"
+                       class="form-control"
+                       name="option[]"
+                       placeholder="Enter Option 1"
+                       required>
+            </div>
+
+            <div class="mb-3 option-row">
+                <label class="form-label">Option 2</label>
+                <input type="text"
+                       class="form-control"
+                       name="option[]"
+                       placeholder="Enter Option 2"
+                       required>
+            </div>
         `);
+
         $('#ajaxModel').modal('show');
     });
 
     // ADD OPTION
     $('#addOption').click(function () {
-        $('#options').append(
-            `<input type="text" class="form-control mb-2" name="option[]" required>`
-        );
+        optionCount++;
+
+        $('#options').append(`
+            <div class="mb-3 option-row">
+                <label class="form-label">Option ${optionCount}</label>
+                <input type="text"
+                       class="form-control"
+                       name="option[]"
+                       placeholder="Enter Option ${optionCount}"
+                       required>
+            </div>
+        `);
     });
 
     // SAVE POLL
@@ -123,7 +190,7 @@ $(function () {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
-                    text: data.message,
+                    text: 'Poll created successfully',
                     timer: 2000,
                     showConfirmButton: false
                 });
@@ -134,7 +201,7 @@ $(function () {
         });
     });
 
-    // DELETE
+    // DELETE POLL
     $('body').on('click', '.deletePoll', function () {
         let id = $(this).data('id');
 
