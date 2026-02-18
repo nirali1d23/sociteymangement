@@ -28,7 +28,7 @@
     </div>
 
     <!-- MODAL -->
-    <div class="modal fade" id="ajaxModel" tabindex="-1">
+    <div class="modal fade" id="ajaxModel">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -39,11 +39,9 @@
 
                 <div class="modal-body">
                     <form id="productForm">
-
                         <div class="mb-3">
                             <label>User</label>
-                            <select class="form-select" name="user_id" required>
-                                <option value="">Select User</option>
+                            <select class="form-select" name="user_id">
                                 @foreach($users as $user)
                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                                 @endforeach
@@ -52,21 +50,14 @@
 
                         <div class="mb-3">
                             <label>House</label>
-                            <select class="form-select" name="flat_id" required>
-                                <option value="">Select House</option>
+                            <select class="form-select" name="flat_id">
                                 @foreach($flats as $flat)
                                     <option value="{{ $flat->id }}">{{ $flat->house_number }}</option>
                                 @endforeach
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-primary" id="saveBtn">
-                            Save
-                        </button>
-
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Close
-                        </button>
+                        <button class="btn btn-primary" id="saveBtn">Save</button>
                     </form>
                 </div>
 
@@ -75,10 +66,8 @@
     </div>
 </div>
 
-@endsection
-
-@section('scripts')
-<script>
+{{-- ✅ INLINE SCRIPT (IMPORTANT) --}}
+<script type="text/javascript">
 $(function () {
 
     $.ajaxSetup({
@@ -86,34 +75,37 @@ $(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-console.log('DATATABLE SCRIPT RUNNING');
 
-    // 🔹 DataTable (NO serverSide)
-  var table = $('.data-table').DataTable({
-    processing: true,
-    ajax: "{{ route('alltoment.data') }}",
-    columns: [
-        { data: 'user_name' },
-        { data: 'flat_number' }
-    ]
-});
+    var table = $('.data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('alltoment.data') }}",
+        columns: [
+            { data: 'user_name', name: 'user_name' },
+            { data: 'flat_number', name: 'flat_number' }
+        ]
+    });
 
-    // Open modal
     $('#createNewProduct').click(function () {
         $('#productForm')[0].reset();
         $('#ajaxModel').modal('show');
     });
 
-    // Save allotment
     $('#saveBtn').click(function (e) {
         e.preventDefault();
 
-        $.post("{{ route('allotment.store') }}", $('#productForm').serialize(), function () {
-            $('#ajaxModel').modal('hide');
-            table.ajax.reload();
+        $.ajax({
+            data: $('#productForm').serialize(),
+            url: "{{ route('allotment.store') }}",
+            type: "POST",
+            success: function () {
+                $('#ajaxModel').modal('hide');
+                table.draw();
+            }
         });
     });
 
 });
 </script>
+
 @endsection
