@@ -9,57 +9,62 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 class FlatController extends Controller
 {
-    public function create(Request $request)
-    {  
+  public function create(Request $request)
+{
+    // ==============================
+    // CASE 1: Apartment / Block-wise
+    // ==============================
+    if ($request->residency_type == 0) {
 
-       
+        if ($request->has('block')) {
+            foreach ($request->block as $blockData) {
 
-        if ($request->has('block')) 
-        {
-            foreach ($request->block as $blockData) 
-            {
-                // Calculate the number of floors and houses per floor
-                // $no_of_floors = $blockData['Floor_number_To'] - $blockData['Floor_number_from'];
-                // $no_of_house_per_floor = $blockData['no_of_house_per_floor_to'] - $blockData['no_of_house_per_floor'];
+                $no_of_floors = $blockData['Floor_number_To'] - $blockData['Floor_number_from'] + 1;
+                $no_of_house_per_floor = $blockData['no_of_house_per_floor_to'] - $blockData['no_of_house_per_floor'] + 1;
 
-                $no_of_floors = 5;
-                $no_of_house_per_floor =4;
-        
-                // Create a new block (flat)
                 $block = Flat::create([
                     'block_no' => $blockData['block_no'],
                 ]);
-    
-                // Loop through the floors from 'Floor_number_from' to 'Floor_number_To'
-                for ($i =1; $i <=$no_of_floors; $i++) {
-                    // Loop through the house range from 'no_of_house_per_floor' to 'no_of_house_per_floor_to'
-                    for ($j = 1; $j <= $no_of_house_per_floor; $j++) {
-                        // Construct the house number by combining floor number and house number
+
+                for ($i = $blockData['Floor_number_from']; $i <= $blockData['Floor_number_To']; $i++) {
+                    for ($j = $blockData['no_of_house_per_floor']; $j <= $blockData['no_of_house_per_floor_to']; $j++) {
+
                         $house_number = $i . '0' . $j;
-        
-                        // Debug: Check the house number and flat_id before creation
-                        // You can also log or output the $block->id for each house here
-                        Log::info("House Created: " . $house_number . " with flat_id: " . $block->id);
-        
-                        // Create a new house with the correct block ID
+
                         House::create([
                             'house_number' => $house_number,
-                            'flat_id' => $block->id,  // This ensures that each house is associated with the correct flat ID
+                            'flat_id' => $block->id,
                         ]);
                     }
                 }
             }
         }
-        
-        
-        
+    }
 
-                return response( [
-                    'message' => 'Flat stored.',
-                    'statusCode' => 200
-                ],200 );
+    // ==============================
+    // CASE 2: Society
+    // ==============================
+    if ($request->residency_type == 1) {
 
+        // Create society as one flat/block
+        $block = Flat::create([
+            'block_no' => $request->block_no,
+        ]);
+
+        for ($i = 1; $i <= $request->total_houses; $i++) {
+            House::create([
+                'house_number' => 'H-' . $i,
+                'flat_id' => $block->id,
+            ]);
         }
+    }
+
+    return response([
+        'message' => 'Residency stored successfully.',
+        'statusCode' => 200
+    ], 200);
+}
+
 
    
         //   for($i=1;$i<=$no_of_floor;$i++)
