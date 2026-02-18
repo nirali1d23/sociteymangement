@@ -16,7 +16,7 @@ class ResidenetController extends Controller
 
   
 
-            $data = User::where('user_type','!=',1)->latest()->get();
+            $data = User::where('user_type','!=',0)->latest()->get();
 
   
 
