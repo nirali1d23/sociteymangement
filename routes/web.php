@@ -70,9 +70,9 @@ Route::post('/update-amenity-status', [BookedamenitiesController::class,'updates
 
 Route::prefix('admin')->group(function () {
 
-    Route::get('/polls', [PollController::class, 'index'])->name('admin.polls.index');
-    Route::get('/polls/list', [PollController::class, 'list'])->name('admin.polls.list');
-    Route::post('/polls/store', [PollController::class, 'store'])->name('admin.polls.store');
-    Route::delete('/polls/{id}', [PollController::class, 'destroy'])->name('admin.polls.delete');
+    Route::get('/polls', [PollController::class, 'index'])->name('poll.index');
+    Route::get('/polls/data', [PollController::class, 'data'])->name('poll.data');
+    Route::post('/polls/store', [PollController::class, 'store'])->name('poll.store');
+    Route::delete('/polls/{id}', [PollController::class, 'delete'])->name('poll.delete');
 
 });

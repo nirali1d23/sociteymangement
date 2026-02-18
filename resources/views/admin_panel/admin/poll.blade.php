@@ -9,101 +9,141 @@
 <div class="card">
     <div class="card-body">
         <br>
-        <button class="btn btn-primary float-end" id="createPoll">Create New</button>
 
-        <table class="table table-bordered data-table mt-3">
+        <a class="btn btn-primary float-end" href="javascript:void(0)" id="createNewPoll">
+            Create New
+        </a>
+
+        <h5 class="card-title">Poll List</h5>
+
+        <table class="table table-bordered border-primary data-table">
             <thead>
                 <tr>
                     <th>Question</th>
                     <th>Options</th>
                     <th>Votes</th>
-                    <th width="120px">Action</th>
+                    <th>Action</th>
                 </tr>
             </thead>
         </table>
     </div>
-</div>
 
-{{-- MODAL --}}
-<div class="modal fade" id="pollModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5>Create New Poll</h5>
-                <button class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
+    <!-- MODAL -->
+    <div class="modal fade" id="ajaxModel">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-            <form id="pollForm">
-                @csrf
+                <div class="modal-header">
+                    <h4 class="modal-title">Create Poll</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
                 <div class="modal-body">
+                    <form id="pollForm">
 
-                    <label>Question</label>
-                    <input type="text" name="question" class="form-control mb-2" required>
+                        <div class="mb-3">
+                            <label>Question</label>
+                            <input type="text" class="form-control" name="question" required>
+                        </div>
 
-                    <div id="options">
-                        <input type="text" name="option[]" class="form-control mb-2" placeholder="Option 1" required>
-                        <input type="text" name="option[]" class="form-control mb-2" placeholder="Option 2" required>
-                    </div>
+                        <div id="options">
+                            <div class="mb-2">
+                                <input type="text" class="form-control" name="option[]" placeholder="Option 1" required>
+                            </div>
+                            <div class="mb-2">
+                                <input type="text" class="form-control" name="option[]" placeholder="Option 2" required>
+                            </div>
+                        </div>
 
-                    <button type="button" class="btn btn-success btn-sm" id="addOption">
-                        Add Option
-                    </button>
+                        <button type="button" class="btn btn-success btn-sm" id="addOption">
+                            Add Option
+                        </button>
 
+                        <br><br>
+
+                        <button class="btn btn-primary" id="savePoll">Save</button>
+
+                    </form>
                 </div>
 
-                <div class="modal-footer">
-                    <button class="btn btn-primary">Save Poll</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
-@endsection
-@push('scripts')
-<script>
+{{-- ✅ INLINE SCRIPT (JUST LIKE ALLOTMENT) --}}
+<script type="text/javascript">
 $(function () {
 
-    let table = $('.data-table').DataTable({
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    // DataTable
+    var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('admin.polls.list') }}",
+        ajax: "{{ route('poll.data') }}",
         columns: [
             { data: 'question' },
             { data: 'options_count' },
             { data: 'votes_count' },
-            { data: 'action', orderable: false, searchable: false },
+            { data: 'action', orderable: false, searchable: false }
         ]
     });
 
-    $('#createPoll').click(() => {
+    // OPEN MODAL (THIS IS THE FIX)
+    $('#createNewPoll').click(function () {
         $('#pollForm')[0].reset();
-        $('#pollModal').modal('show');
+        $('#options').html(`
+            <input type="text" class="form-control mb-2" name="option[]" required>
+            <input type="text" class="form-control mb-2" name="option[]" required>
+        `);
+        $('#ajaxModel').modal('show');
     });
 
-    $('#addOption').click(() => {
+    // ADD OPTION
+    $('#addOption').click(function () {
         $('#options').append(
-            `<input type="text" name="option[]" class="form-control mb-2" required>`
+            `<input type="text" class="form-control mb-2" name="option[]" required>`
         );
     });
 
-    $('#pollForm').submit(function(e){
+    // SAVE POLL
+    $('#savePoll').click(function (e) {
         e.preventDefault();
 
-        $.post("{{ route('admin.polls.store') }}", $(this).serialize(), () => {
-            $('#pollModal').modal('hide');
-            table.draw();
+        $.ajax({
+            url: "{{ route('poll.store') }}",
+            type: "POST",
+            data: $('#pollForm').serialize(),
+            success: function (data) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: data.message,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                $('#ajaxModel').modal('hide');
+                table.draw();
+            }
         });
     });
 
-    $('body').on('click', '.deletePoll', function(){
-        if(!confirm('Delete this poll?')) return;
+    // DELETE
+    $('body').on('click', '.deletePoll', function () {
+        let id = $(this).data('id');
+
+        if (!confirm('Delete this poll?')) return;
 
         $.ajax({
-            url: "{{ url('admin/polls') }}/" + $(this).data('id'),
+            url: '/admin/polls/' + id,
             type: 'DELETE',
-            data: {_token: "{{ csrf_token() }}"},
-            success: function(){
+            success: function () {
                 table.draw();
             }
         });
@@ -111,4 +151,5 @@ $(function () {
 
 });
 </script>
-@endpush
+
+@endsection
