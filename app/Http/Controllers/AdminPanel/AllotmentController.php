@@ -16,8 +16,7 @@ class AllotmentController extends Controller
 
         if ($request->ajax()) {
 
-            $data = Allotment::with(['users','flat'])->latest();
-            dd($data);
+            $data = Allotment::with(['users', 'flat'])->latest();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -33,10 +32,10 @@ class AllotmentController extends Controller
                 ->make(true);
         }
 
-        $blocks = Flat::select('id','block_no')->get();
-        $users  = User::select('id','name')->get();
+        $blocks = Flat::select('id', 'block_no')->get();
+        $users = User::select('id', 'name')->get();
 
-        return view('admin_panel.admin.alltoment', compact('blocks','users'));
+        return view('admin_panel.admin.alltoment', compact('blocks', 'users'));
     }
 
     // 🔹 Get houses by block
