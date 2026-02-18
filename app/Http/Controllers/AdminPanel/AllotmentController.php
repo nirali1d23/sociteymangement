@@ -4,52 +4,46 @@ namespace App\Http\Controllers\AdminPanel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Allotment;
-use App\Models\User;
 use App\Models\Flat;
+use App\Models\House;
+use App\Models\User;
 use DataTables;
 
 class AllotmentController extends Controller
 {
-  public function index(Request $request)
+    public function index(Request $request)
     {
         if ($request->ajax()) {
 
-            $data = Flat::latest()->get();
+            $data = Allotment::with(['users','flat'])->latest();
 
             return DataTables::of($data)
                 ->addIndexColumn()
 
+                ->addColumn('user_name', function ($row) {
+                    return $row->users->name ?? 'N/A';
+                })
+
                 ->addColumn('flat_number', function ($row) {
-                    return $row->flat_number ?? 'N/A';
+                    return $row->flat->house_number ?? 'N/A';
                 })
 
-                ->addColumn('floor_number', function ($row) {
-                    return $row->floor_number ?? 'N/A';
-                })
-
-                ->addColumn('block_number', function ($row) {
-                    return $row->block_no ?? 'N/A';
-                })
-
-                ->addColumn('action', function ($row) {
-                    return '
-                        <a href="javascript:void(0)" 
-                           data-id="'.$row->id.'" 
-                           class="btn btn-sm btn-primary editFlat">Edit</a>
-
-                        <a href="javascript:void(0)" 
-                           data-id="'.$row->id.'" 
-                           class="btn btn-sm btn-danger deleteFlat">Delete</a>
-                    ';
-                })
-
-                ->rawColumns(['action'])
                 ->make(true);
         }
 
-        return view('admin_panel.admin.flat');
+        $blocks = Flat::select('id','block_no')->get();
+        $users  = User::select('id','name')->get();
+
+        return view('admin_panel.admin.alltoment', compact('blocks','users'));
     }
 
+    // 🔹 Get houses by block
+    public function getHouses($block_id)
+    {
+        return House::where('flat_id', $block_id)->get();
+    }
+
+    // 🔹 Store allotment (CREATE ONLY)
     public function store(Request $request)
     {
         $request->validate([
@@ -57,25 +51,11 @@ class AllotmentController extends Controller
             'flat_id' => 'required'
         ]);
 
-        Allotment::updateOrCreate(
-            ['id' => $request->product_id],
-            [
-                'user_id' => $request->user_id,
-                'flat_id' => $request->flat_id,
-            ]
-        );
+        $allotment = new Allotment;
+        $allotment->user_id = $request->user_id;
+        $allotment->flat_id = $request->flat_id;
+        $allotment->save();
 
-        return response()->json(['success' => true]);
-    }
-
-    public function edit($id)
-    {
-        return response()->json(Allotment::find($id));
-    }
-
-    public function destroy($id)
-    {
-        Allotment::find($id)->delete();
         return response()->json(['success' => true]);
     }
 }

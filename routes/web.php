@@ -39,10 +39,10 @@ Route::get('/products-ajax-crud/{id}/edit',[ResidenetController::class,'edit'])-
 Route::delete('/userdelete/{id}',[ResidenetController::class,'delete'])->name('userdelete');
 Route::get('/flate',[FlatController::class,'index'])->name('flate');
 Route::post('/flatstore',[FlatController::class,'store'])->name('flatstore');
-Route::get('alltoment',[AllotmentController::class,'index'])->name('alltoment');
-Route::post('alltoment/store',[AllotmentController::class,'store'])->name('allotment.store');
-Route::get('alltoment/edit/{id}',[AllotmentController::class,'edit'])->name('allotment.edit');
-Route::delete('alltoment/delete/{id}',[AllotmentController::class,'destroy'])->name('allotment.delete');
+Route::get('alltoment', [AllotmentController::class,'index'])->name('alltoment');
+Route::post('alltoment/store', [AllotmentController::class,'store'])->name('allotment.store');
+Route::get('admin/get-houses/{block_id}', [AllotmentController::class,'getHouses']);
+
 
 Route::get('/event',[EventController::class,'index'])->name('event');
 Route::get('/notice',[NoticeController::class,'index'])->name('notice');
