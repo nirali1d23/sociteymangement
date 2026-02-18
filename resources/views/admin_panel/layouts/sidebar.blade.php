@@ -43,7 +43,7 @@
       </li>
         <li class="nav-item">
       </li>
-        <a class="nav-link collapsed" href="{{route('poll')}}">
+        <a class="nav-link collapsed" href="{{route('admin.polls.index')}}">
           <i class="ri-bar-chart-fill"></i>
           <span>Poll</span>
         </a>
