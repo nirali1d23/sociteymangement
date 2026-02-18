@@ -15,6 +15,7 @@ use App\Http\Controllers\AdminPanel\PrevisitorController;
 use App\Http\Controllers\AdminPanel\MaintanceController;
 use App\Http\Controllers\AdminPanel\AmenitiesController;
 use App\Http\Controllers\AdminPanel\BookedamenitiesController;
+use App\Http\Controllers\AdminPanel\DashboardController;
 use App\Models\Contactus;
 Route::get('/', function ()
 {
@@ -28,7 +29,8 @@ Route::view('/terms-and-conditions', 'pages.terms')->name('terms');
 Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
 
 Route::view('/contact-us', 'pages.contact')->name('contact');
-
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])
+    ->name('admin.dashboard');
 Route::post('/contact-us', [apicontroller::class, 'submitcontactus'])
      ->name('contact.submit');
 Route::post('/login',[AuthController::class,'authlogin'])->name('login');
