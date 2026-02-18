@@ -13,6 +13,8 @@ class AllotmentController extends Controller
 {
     public function index(Request $request)
     {
+
+    dd("test");
         if ($request->ajax()) {
 
             $data = Allotment::with(['users','flat'])->latest();
