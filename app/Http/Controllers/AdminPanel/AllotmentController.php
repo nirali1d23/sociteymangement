@@ -10,29 +10,36 @@ use DataTables;
 
 class AllotmentController extends Controller
 {
-    public function index(Request $request)
+  public function index(Request $request)
     {
         if ($request->ajax()) {
 
-            $data = Allotment::with(['users', 'flat'])->latest();
+            $data = Flat::latest()->get();
 
-            return Datatables::of($data)
+            return DataTables::of($data)
                 ->addIndexColumn()
 
-                ->addColumn('user_name', function ($row) {
-                    return $row->users->name ?? 'N/A';
+                ->addColumn('flat_number', function ($row) {
+                    return $row->flat_number ?? 'N/A';
                 })
 
-                ->addColumn('flat_number', function ($row) {
-                    return $row->flat->block_no ?? 'N/A';
+                ->addColumn('floor_number', function ($row) {
+                    return $row->floor_number ?? 'N/A';
+                })
+
+                ->addColumn('block_number', function ($row) {
+                    return $row->block_no ?? 'N/A';
                 })
 
                 ->addColumn('action', function ($row) {
                     return '
-                        <div class="d-flex">
-                            <button data-id="' . $row->id . '" class="btn btn-primary btn-sm editProduct me-2">Edit</button>
-                            <button data-id="' . $row->id . '" class="btn btn-danger btn-sm deleteProduct">Delete</button>
-                        </div>
+                        <a href="javascript:void(0)" 
+                           data-id="'.$row->id.'" 
+                           class="btn btn-sm btn-primary editFlat">Edit</a>
+
+                        <a href="javascript:void(0)" 
+                           data-id="'.$row->id.'" 
+                           class="btn btn-sm btn-danger deleteFlat">Delete</a>
                     ';
                 })
 
@@ -40,10 +47,7 @@ class AllotmentController extends Controller
                 ->make(true);
         }
 
-        $users = User::select('id', 'name')->get();
-        $flats = Flat::select('id', 'block_no')->get();
-
-        return view('admin_panel.admin.alltoment', compact('users', 'flats'));
+        return view('admin_panel.admin.flat');
     }
 
     public function store(Request $request)
