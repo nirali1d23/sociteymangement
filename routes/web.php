@@ -21,15 +21,13 @@ Route::get('/', function ()
 {
     return view('Auth.login');
 });
-// Route::get('/dashboard', function () {
-//     return view('admin_panel.admin.dashbord');
-// });
+
 Route::view('/terms-and-conditions', 'pages.terms')->name('terms');
 
 Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
 
 Route::view('/contact-us', 'pages.contact')->name('contact');
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])
+Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('admin.dashboard');
 Route::post('/contact-us', [apicontroller::class, 'submitcontactus'])
      ->name('contact.submit');
