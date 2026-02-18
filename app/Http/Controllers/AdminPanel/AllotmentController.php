@@ -35,7 +35,7 @@ class AllotmentController extends Controller
         $blocks = Flat::select('id', 'block_no')->get();
         $users = User::select('id', 'name')->get();
 
-        return view('admin_panel.admin.alltoment', compact('blocks', 'users'));
+        return view('admin_panel.admin.alltoment', compact('flats', 'users'));
     }
 
     // 🔹 Get houses by block
