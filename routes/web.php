@@ -53,6 +53,8 @@ Route::get('admin/get-houses/{block_id}', [AllotmentController::class,'getHouses
 
 Route::get('/event',[EventController::class,'index'])->name('event');
 Route::get('/notice',[NoticeController::class,'index'])->name('notice');
+Route::get('/noticecreate',[NoticeController::class,'create'])->name('noticecreate');
+Route::post('/noticestore',[NoticeController::class,'store'])->name('noticestore');
 Route::get('/visitor',[VisitorController::class,'index'])->name('visitor');
 Route::get('/previsitor',[PrevisitorController::class,'index'])->name('previsitor');
 Route::get('/maintance',[MaintanceController::class,'index'])->name('maintance');

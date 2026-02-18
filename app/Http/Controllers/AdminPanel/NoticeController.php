@@ -44,4 +44,14 @@ class NoticeController extends Controller
         return view('admin_panel.admin.notice');
 
     }
+
+    public function store(Request $request)
+    {
+        $notice = new Notice();
+        $notice->title = $request->input('title');
+        $notice->description = $request->input('description');
+        $notice->save();
+
+        return redirect()->route('notice')->with('success', 'Notice created successfully.');
+    }
 }
