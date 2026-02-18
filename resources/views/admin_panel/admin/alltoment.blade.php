@@ -20,7 +20,7 @@
             <thead>
                 <tr>
                     <th>Username</th>
-                    <th>Flat No</th>
+                    <th>House No</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -51,11 +51,11 @@
                         </div>
 
                         <div class="mb-3">
-                            <label>Flat</label>
+                            <label>House</label>
                             <select class="form-select" name="flat_id" required>
-                                <option value="">Select Flat</option>
+                                <option value="">Select House</option>
                                 @foreach($flats as $flat)
-                                    <option value="{{ $flat->id }}">{{ $flat->flat_number }}</option>
+                                    <option value="{{ $flat->id }}">{{ $flat->house_number }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -87,30 +87,29 @@ $(function () {
         }
     });
 
-    // DATATABLE (NO ACTION COLUMN)
+    // 🔹 DataTable (NO serverSide)
     var table = $('.data-table').DataTable({
         processing: true,
-        serverSide: true,
         ajax: "{{ route('alltoment') }}",
         columns: [
-            { data: 'user_name', name: 'user_name' },
-            { data: 'flat_number', name: 'flat_number' }
+            { data: 'user_name' },
+            { data: 'flat_number' }
         ]
     });
 
-    // OPEN MODAL
+    // Open modal
     $('#createNewProduct').click(function () {
         $('#productForm')[0].reset();
         $('#ajaxModel').modal('show');
     });
 
-    // SAVE (CREATE ONLY)
+    // Save allotment
     $('#saveBtn').click(function (e) {
         e.preventDefault();
 
         $.post("{{ route('allotment.store') }}", $('#productForm').serialize(), function () {
             $('#ajaxModel').modal('hide');
-            table.draw();
+            table.ajax.reload();
         });
     });
 

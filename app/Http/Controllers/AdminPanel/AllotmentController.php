@@ -11,35 +11,27 @@ use DataTables;
 
 class AllotmentController extends Controller
 {
-    public function index(Request $request)
-    {
+public function index(Request $request)
+{
+    if ($request->ajax()) {
 
+        $data = Allotment::with(['users','flat'])->get();
 
-
-                $data = Allotment::with(['users', 'flat'])->get();
-                dd($data);
-
-        if ($request->ajax()) {
-
-            $data = Allotment::with(['users', 'flat'])->latest();
-
-            return DataTables::of($data)
-                ->addIndexColumn()
-
-                ->addColumn('user_name', function ($row) {
-                    return $row->users->name ?? 'N/A';
-                })
-
-                ->addColumn('flat_number', function ($row) {
-                    return $row->flat->house_number ?? 'N/A';
-                })
-                ->make(true);
-        }
-        $flats = Flat::select('id', 'block_no')->get();
-        $users = User::select('id', 'name')->get();
-
-        return view('admin_panel.admin.alltoment', compact('flats', 'users'));
+        return DataTables::of($data)
+            ->addColumn('user_name', function ($row) {
+                return $row->users->name ?? 'N/A';
+            })
+            ->addColumn('flat_number', function ($row) {
+                return $row->flat->house_number ?? 'N/A';
+            })
+            ->make(true);
     }
+
+    $flats = Flat::select('id','house_number')->get();
+    $users = User::select('id','name')->get();
+
+    return view('admin_panel.admin.alltoment', compact('flats','users'));
+}
 
     // 🔹 Get houses by block
     public function getHouses($block_id)
