@@ -171,7 +171,7 @@
 
           data: $('#productForm').serialize(),
 
-          url: "{{ route('userstore') }}",
+          url: "{{ route('noticestore') }}",
 
           type: "POST",
 
