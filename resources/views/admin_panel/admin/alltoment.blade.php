@@ -47,15 +47,23 @@
                                 @endforeach
                             </select>
                         </div>
+                    <div class="mb-3">
+                        <label>Block</label>
+                        <select class="form-select" id="flat_id">
+                            <option value="">-- Select Block --</option>
+                            @foreach($flats as $flat)
+                                <option value="{{ $flat->id }}">{{ $flat->house_number }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                        <div class="mb-3">
-                            <label>House</label>
-                            <select class="form-select" name="flat_id">
-                                @foreach($flats as $flat)
-                                    <option value="{{ $flat->id }}">{{ $flat->house_number }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                <div class="mb-3">
+    <label>House</label>
+    <select class="form-select" name="house_id" id="house_id">
+        <option value="">-- Select House --</option>
+    </select>
+</div>
+
 
                         <button class="btn btn-primary" id="saveBtn">Save</button>
                     </form>
@@ -85,6 +93,24 @@ $(function () {
             { data: 'flat_number', name: 'flat_number' }
         ]
     });
+
+    $('#flat_id').change(function () {
+    let flatId = $(this).val();
+    $('#house_id').html('<option value="">Loading...</option>');
+
+    if (flatId) {
+        $.get('/admin/get-houses/' + flatId, function (data) {
+            let options = '<option value="">-- Select House --</option>';
+            data.forEach(function (house) {
+                options += `<option value="${house.id}">${house.house_number}</option>`;
+            });
+            $('#house_id').html(options);
+        });
+    } else {
+        $('#house_id').html('<option value="">-- Select House --</option>');
+    }
+});
+
 
     $('#createNewProduct').click(function () {
         $('#productForm')[0].reset();

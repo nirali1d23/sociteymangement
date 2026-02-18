@@ -41,7 +41,9 @@ Route::get('/flate',[FlatController::class,'index'])->name('flate');
 Route::post('/flatstore',[FlatController::class,'store'])->name('flatstore');
 Route::get('/alltoment', [AllotmentController::class, 'index'])
     ->name('alltoment');
-
+Route::get('/get-houses/{flat_id}', 
+    [AllotmentController::class, 'getHouses']
+);
 Route::get('/alltoment/data', [AllotmentController::class, 'data'])
     ->name('alltoment.data');Route::post('alltoment/store', [AllotmentController::class,'store'])->name('allotment.store');
 Route::get('admin/get-houses/{block_id}', [AllotmentController::class,'getHouses']);
