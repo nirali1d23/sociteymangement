@@ -86,6 +86,7 @@ $(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+console.log('DATATABLE SCRIPT RUNNING');
 
     // 🔹 DataTable (NO serverSide)
   var table = $('.data-table').DataTable({
