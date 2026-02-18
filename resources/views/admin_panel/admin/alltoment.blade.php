@@ -1,143 +1,53 @@
-	@extends('admin_panel.layouts.app')
+@extends('admin_panel.layouts.app')
 
-	@section('content')
+@section('content')
 
-	<div class="pagetitle">
-		<h1>Allotment</h1>
-		
-	</div><!-- End Page Title -->
-	<div class="card">
-		<div class="card-body">
-			<br>
-			<a class="btn btn-primary float-end" href="javascript:void(0)" id="createNewProduct"> Create New </a>
-			<h5 class="card-title">Bordered Table</h5>
-			<table class="table table-bordered border-primary data-table">
-			<thead>
-			<tr>
-				<th scope="col">Username</th>
-				<th scope="col">Flatno</th>
-				<th width="280px">Action</th>
-			</tr>
-			</thead>
-			<tbody>
-			
-			</tbody>
-		</table>
-		</div>
+<div class="pagetitle">
+    <h1>Flat</h1>
+</div>
 
-		<div class="modal fade" id="ajaxModel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="modelHeading"></h4>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<form id="productForm" name="productForm" class="form-horizontal">
-						<input type="hidden" name="product_id" id="product_id">
-							<div class="form-group">
-								<label for="name" class="col-sm-2 control-label">Name</label>
-								<div class="col-sm-12">
-									<input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" maxlength="50" required="">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="name" class="col-sm-2 control-label">Email</label>
-								<div class="col-sm-12">
-									<input type="text" class="form-control" id="name" name="name" placeholder="Enter Email" value=""  required="">
-								</div>
-							</div>
-			
-							<div class="form-group">
-								<label class="col-form-label">Select User Type</label>
-								<div class="col-sm-12">
-								<select class="form-select" aria-label="Default select example">
-									<option selected>Open this select menu</option>
-									<option value="1">One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
-								</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="name" class="col-md-2 control-label">asdf</label>
-								<div class="col-sm-12">
-									<input type="text" class="form-control" id="name" name="name" placeholder="Enter Mobileno" value=""  required="">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="name" class="col-md-2 control-label">pa</label>
-								<div class="col-sm-12">
-									<input type="password" class="form-control" id="name" name="name" placeholder="Enter password" value=""  required="">
-								</div>
-							</div>
-							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save User</button>
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>							
-							</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="card">
+<div class="card-body mt-4">
+
+<table class="table table-bordered data-table">
+<thead>
+<tr>
+    <th>FlatNumber</th>
+    <th>FloorNumber</th>
+    <th>BlockNumber</th>
+    <th>Action</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+</div>
+</div>
+
+@endsection
+
+@push('scripts')
 <script>
 $(function () {
 
     $.ajaxSetup({
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
     });
 
-    var table = $('.data-table').DataTable({
+    $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('alltoment') }}",
+        ajax: "{{ route('flat.index') }}",
         columns: [
-            {data: 'user_name'},
-            {data: 'flat_number'},
-            {data: 'action', orderable:false, searchable:false}
+            { data: 'flat_number', name: 'flat_number' },
+            { data: 'floor_number', name: 'floor_number' },
+            { data: 'block_number', name: 'block_number' },
+            { data: 'action', orderable: false, searchable: false }
         ]
-    });
-
-    $('#createNewProduct').click(function () {
-        $('#productForm')[0].reset();
-        $('#product_id').val('');
-        $('#ajaxModel').modal('show');
-    });
-
-    $('body').on('click','.editProduct',function(){
-        let id = $(this).data('id');
-        $.get("{{ route('allotment.edit', ':id') }}".replace(':id',id), function(data){
-            $('#product_id').val(data.id);
-            $('select[name="user_id"]').val(data.user_id);
-            $('select[name="flat_id"]').val(data.flat_id);
-            $('#ajaxModel').modal('show');
-        });
-    });
-
-    $('#saveBtn').click(function(e){
-        e.preventDefault();
-        $.post("{{ route('allotment.store') }}", $('#productForm').serialize(), function(){
-            $('#ajaxModel').modal('hide');
-            table.draw();
-        });
-    });
-
-    $('body').on('click','.deleteProduct',function(){
-        if(!confirm('Are you sure?')) return;
-        let id = $(this).data('id');
-        $.ajax({
-            type:'DELETE',
-            url:"{{ route('allotment.delete', ':id') }}".replace(':id',id),
-            success:function(){
-                table.draw();
-            }
-        });
     });
 
 });
 </script>
-
-
-	@endsection
+@endpush
