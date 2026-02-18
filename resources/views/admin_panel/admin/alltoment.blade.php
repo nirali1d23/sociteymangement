@@ -52,7 +52,7 @@
                         <select class="form-select" id="flat_id">
                             <option value="">-- Select Block --</option>
                             @foreach($flats as $flat)
-                                <option value="{{ $flat->id }}">{{ $flat->house_number }}</option>
+                                <option value="{{ $flat->id }}">{{ $flat->block_no }}</option>
                             @endforeach
                         </select>
                     </div>
