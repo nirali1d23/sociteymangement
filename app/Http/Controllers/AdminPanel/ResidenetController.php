@@ -53,7 +53,7 @@ class ResidenetController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' =>Hash::make($request->password),
-            'mobile_no' => $request->mobile_number,
+            'mobile_no' => $request->mobile_no,
             'user_type' => $request->user_type,
         ]);        
         return response()->json(['success' => true, 'message' => 'User saved successfully.']);

@@ -64,7 +64,7 @@
 						<div class="form-group">
 							<label for="name" class="col-form-label">Mobiel Number</label>
 							<div class="col-sm-12">
-								<input type="text" class="form-control" id="mobile_number" name="mobile_number" placeholder="Enter Mobileno" value=""  required="">
+								<input type="text" class="form-control" id="mobile_no" name="mobile_no" placeholder="Enter Mobileno" value=""  required="">
 							</div>
 						</div>
 						<div class="form-group">
@@ -112,7 +112,7 @@
 			
 			  {data: 'name', name: 'name'},
 			  {data: 'email', name: 'email'},
-			  {data: 'mobile_number', name: 'mobile_number'},
+			  {data: 'mobile_no', name: 'mobile_no'},
 			  {data: 'action', name: 'action', orderable: false, searchable: false},
 			
 		  ]
