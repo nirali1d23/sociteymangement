@@ -32,27 +32,26 @@ public function index4dsf(Request $request)
 
     return view('admin_panel.admin.alltoment', compact('flats','users'));
 }
-public function index(Request $request)
+public function index()
 {
-    // If request wants JSON → DataTable
-    if ($request->wantsJson()) {
-
-        return response()->json([
-            'data' => [
-                [
-                    'user_name' => 'TEST USER',
-                    'flat_number' => 'TEST HOUSE'
-                ]
-            ]
-        ]);
-    }
-
-    // Normal page load
     $flats = House::select('id','house_number')->get();
     $users = User::select('id','name')->get();
 
     return view('admin_panel.admin.alltoment', compact('flats','users'));
 }
+
+public function data()
+{
+    return response()->json([
+        'data' => [
+            [
+                'user_name' => 'TEST USER',
+                'flat_number' => 'TEST HOUSE'
+            ]
+        ]
+    ]);
+}
+
 
     // 🔹 Get houses by block
     public function getHouses($block_id)

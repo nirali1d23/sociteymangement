@@ -88,14 +88,14 @@ $(function () {
     });
 
     // 🔹 DataTable (NO serverSide)
-    var table = $('.data-table').DataTable({
-        processing: true,
-        ajax: "{{ route('alltoment') }}",
-        columns: [
-            { data: 'user_name' },
-            { data: 'flat_number' }
-        ]
-    });
+  var table = $('.data-table').DataTable({
+    processing: true,
+    ajax: "{{ route('alltoment.data') }}",
+    columns: [
+        { data: 'user_name' },
+        { data: 'flat_number' }
+    ]
+});
 
     // Open modal
     $('#createNewProduct').click(function () {
