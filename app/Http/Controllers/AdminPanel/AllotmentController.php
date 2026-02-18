@@ -33,12 +33,17 @@ class AllotmentController extends Controller
 
 
     // 🔹 Get houses by block
-    public function getHouses($flat_id)
-    {
-        return House::where('flat_id', $flat_id)
-            ->select('id', 'house_number')
-            ->get();
-    }
+public function getHouses($flat_id)
+{
+    return House::where('flat_id', $flat_id)
+        ->whereNotIn('id', function ($query) {
+            $query->select('flat_id')
+                  ->from('allotments');
+        })
+        ->select('id', 'house_number')
+        ->get();
+}
+
     // 🔹 Store allotment (CREATE ONLY)
    public function store(Request $request)
 {
