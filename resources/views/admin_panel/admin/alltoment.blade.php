@@ -109,16 +109,16 @@ $(function () {
     });
 
     // EDIT
-    $('body').on('click', '.editProduct', function () {
-        let id = $(this).data('id');
+    // $('body').on('click', '.editProduct', function () {
+    //     let id = $(this).data('id');
 
-        $.get("{{ route('allotment.edit', ':id') }}".replace(':id', id), function (data) {
-            $('#product_id').val(data.id);
-            $('select[name="user_id"]').val(data.user_id);
-            $('select[name="flat_id"]').val(data.flat_id);
-            $('#ajaxModel').modal('show');
-        });
-    });
+    //     $.get("{{ route('allotment.edit', ':id') }}".replace(':id', id), function (data) {
+    //         $('#product_id').val(data.id);
+    //         $('select[name="user_id"]').val(data.user_id);
+    //         $('select[name="flat_id"]').val(data.flat_id);
+    //         $('#ajaxModel').modal('show');
+    //     });
+    // });
 
     // SAVE
     $('#saveBtn').click(function (e) {
