@@ -11,46 +11,24 @@ use DataTables;
 
 class AllotmentController extends Controller
 {
-public function index(Request $request)
+
+public function index()
 {
-    if ($request->ajax()) {
-
-        $data = Allotment::with(['users','flat'])->get();
-
-        return DataTables::of($data)
-            ->addColumn('user_name', function ($row) {
-                return $row->users->name ?? 'N/A';
-            })
-            ->addColumn('flat_number', function ($row) {
-                return $row->flat->house_number ?? 'N/A';
-            })
-            ->make(true);
-    }
-
     $flats = House::select('id','house_number')->get();
     $users = User::select('id','name')->get();
 
     return view('admin_panel.admin.alltoment', compact('flats','users'));
 }
-// public function index()
-// {
-//     $flats = House::select('id','house_number')->get();
-//     $users = User::select('id','name')->get();
 
-//     return view('admin_panel.admin.alltoment', compact('flats','users'));
-// }
-
-// public function data()
-// {
-//     return response()->json([
-//         'data' => [
-//             [
-//                 'user_name' => 'TEST USER',
-//                 'flat_number' => 'TEST HOUSE'
-//             ]
-//         ]
-//     ]);
-// }
+public function data()
+{
+    return DataTables::of(
+        Allotment::with(['users','flat'])
+    )
+    ->addColumn('user_name', fn($row) => $row->users->name)
+    ->addColumn('flat_number', fn($row) => $row->flat->house_number)
+    ->make(true);
+}
 
 
     // 🔹 Get houses by block
