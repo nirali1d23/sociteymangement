@@ -16,6 +16,7 @@ use App\Http\Controllers\AdminPanel\MaintanceController;
 use App\Http\Controllers\AdminPanel\AmenitiesController;
 use App\Http\Controllers\AdminPanel\BookedamenitiesController;
 use App\Http\Controllers\AdminPanel\DashboardController;
+use App\Http\Controllers\AdminPanel\PollController;
 use App\Models\Contactus;
 Route::get('/', function ()
 {
@@ -61,9 +62,17 @@ Route::post('/amenitiesstore',[AmenitiesController::class,'store'])->name('ameni
 Route::get('/bookamenities',[BookedamenitiesController::class,'index'])->name('bookamenities');
 Route::post('/update-amenity-status', [BookedamenitiesController::class,'updatestatus'])->name('updateAmenityStatus');
 
-Route::get('/poll', function () 
-{
-    return view('admin_panel.admin.poll');
-})->name('poll');
+// Route::get('/poll', function () 
+// {
+//     return view('admin_panel.admin.poll');
+// })->name('poll');
 
 
+Route::prefix('admin')->group(function () {
+
+    Route::get('/polls', [PollController::class, 'index'])->name('poll');
+    Route::get('/polls/list', [PollController::class, 'list'])->name('admin.polls.list');
+    Route::post('/polls/store', [PollController::class, 'store'])->name('admin.polls.store');
+    Route::delete('/polls/{id}', [PollController::class, 'destroy'])->name('admin.polls.delete');
+
+});
