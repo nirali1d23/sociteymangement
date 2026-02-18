@@ -16,7 +16,7 @@ class PollController extends Controller
     // PAGE
     public function index()
     {
-        return view('admin_panel.poll.index');
+        return view('admin_panel.admin.poll');
     }
 
     // DATATABLE LIST
