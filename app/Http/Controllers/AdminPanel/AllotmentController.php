@@ -14,6 +14,11 @@ class AllotmentController extends Controller
     public function index(Request $request)
     {
 
+
+
+                $data = Allotment::with(['users', 'flat'])->latest();
+                dd($data);
+
         if ($request->ajax()) {
 
             $data = Allotment::with(['users', 'flat'])->latest();
@@ -28,10 +33,8 @@ class AllotmentController extends Controller
                 ->addColumn('flat_number', function ($row) {
                     return $row->flat->house_number ?? 'N/A';
                 })
-
                 ->make(true);
         }
-
         $flats = Flat::select('id', 'block_no')->get();
         $users = User::select('id', 'name')->get();
 
