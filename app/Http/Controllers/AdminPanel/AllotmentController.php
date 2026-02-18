@@ -34,9 +34,9 @@ public function index4dsf(Request $request)
 }
 public function index(Request $request)
 {
-        dd($request->ajax());
+    // If request wants JSON → DataTable
+    if ($request->wantsJson()) {
 
-    if ($request->ajax()) {
         return response()->json([
             'data' => [
                 [
@@ -47,10 +47,11 @@ public function index(Request $request)
         ]);
     }
 
+    // Normal page load
     $flats = House::select('id','house_number')->get();
     $users = User::select('id','name')->get();
-    // normal page load
-    return view('admin_panel.admin.alltoment',compact('flats','users'));
+
+    return view('admin_panel.admin.alltoment', compact('flats','users'));
 }
 
     // 🔹 Get houses by block
