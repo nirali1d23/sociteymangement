@@ -14,12 +14,7 @@ class AllotmentController extends Controller
 
     public function index()
     {
-        $flats = House::whereNotIn('id', function ($query) {
-            $query->select('flat_id')
-                ->from('allotments');
-        })
-            ->select('id', 'house_number')
-            ->get();
+        $flats = Flat::all();
         $users = User::select('id', 'name')->where('user_type', 2)->get();
 
         return view('admin_panel.admin.alltoment', compact('flats', 'users'));
