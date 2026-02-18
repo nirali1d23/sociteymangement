@@ -111,8 +111,8 @@
 		  [
 			
 			  {data: 'name', name: 'name'},
-			  {data: 'name', name: 'name'},
-			  {data: 'name', name: 'name'},
+			  {data: 'email', name: 'email'},
+			  {data: 'mobile_number', name: 'mobile_number'},
 			  {data: 'action', name: 'action', orderable: false, searchable: false},
 			
 		  ]

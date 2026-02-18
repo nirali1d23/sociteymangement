@@ -27,13 +27,12 @@ class ResidenetController extends Controller
                     ->addColumn('action', function($row)
                     {
                         $btn = '<div class="d-flex justify-content-center">';
-                        $btn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary editProduct me-2">Edit</a>';
                         $btn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger  deleteProduct">Delete</a>';
                         $btn .= '</div>';
 
-                                                    return $btn;
+                        return $btn;
 
-                                            })
+                    })
 
                     ->rawColumns(['action'])
 
@@ -59,11 +58,11 @@ class ResidenetController extends Controller
         ]);        
         return response()->json(['success' => true, 'message' => 'User saved successfully.']);
     }
-    public function edit($id)
-    {
-        $product = User::find($id);
-        return response()->json($product);
-    }
+    // public function edit($id)
+    // {
+    //     $product = User::find($id);
+    //     return response()->json($product);
+    // }
     public function delete($id)
     {
                 User::find($id)->delete();
