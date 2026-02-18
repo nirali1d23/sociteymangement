@@ -20,7 +20,8 @@
             <thead>
                 <tr>
                     <th>Username</th>
-                    <th>HouseNo</th>
+                    <th>Block No</th>
+                    <th>House No</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -90,7 +91,8 @@ $(function () {
         ajax: "{{ route('alltoment.data') }}",
         columns: [
             { data: 'user_name', name: 'user_name' },
-            { data: 'flat_number', name: 'flat_number' }
+            { data: 'block_number', name: 'block_number' },
+            { data: 'house_number', name: 'house_number' }
         ]
     });
 

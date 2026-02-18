@@ -20,21 +20,16 @@ class AllotmentController extends Controller
         return view('admin_panel.admin.alltoment', compact('flats', 'users'));
     }
 
-   public function data()
-{
-    return DataTables::of(
-        Allotment::with(['flat.block', 'users'])
-    )
-    ->addColumn('user_name', function ($row) {
-        return $row->users->name ?? '-';
-    })
-  
-    ->addColumn('house_number', function ($row) {
-        return $row->flat->house_number ?? '-';
-    })
-    ->make(true);
-}
-
+    public function data()
+    {
+        return DataTables::of(
+            Allotment::with(['users', 'flat.block'])
+        )
+            ->addColumn('user_name', fn($row) => $row->users->name)
+            ->addColumn('block_number', fn($row) => $row->flat->block->block_no)
+            ->addColumn('flat_number', fn($row) => $row->flat->house_number)
+            ->make(true);
+    }
 
 
     // 🔹 Get houses by block
