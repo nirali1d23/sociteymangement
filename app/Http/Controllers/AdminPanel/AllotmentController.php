@@ -27,7 +27,7 @@ public function index(Request $request)
             ->make(true);
     }
 
-    $flats = Flat::select('id','house_number')->get();
+    $flats = House::select('id','house_number')->get();
     $users = User::select('id','name')->get();
 
     return view('admin_panel.admin.alltoment', compact('flats','users'));
