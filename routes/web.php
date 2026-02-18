@@ -21,9 +21,9 @@ Route::get('/', function ()
 {
     return view('Auth.login');
 });
-Route::get('/dashboard', function () {
-    return view('admin_panel.admin.dashbord');
-});
+// Route::get('/dashboard', function () {
+//     return view('admin_panel.admin.dashbord');
+// });
 Route::view('/terms-and-conditions', 'pages.terms')->name('terms');
 
 Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
