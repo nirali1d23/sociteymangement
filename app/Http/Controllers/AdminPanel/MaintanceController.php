@@ -20,7 +20,7 @@ class MaintanceController extends Controller
 
             $data = maintance::with([
                 'user.allotment.flat.block',
-                'process.staff'
+                'maintenance_process.staff'
             ])->latest();
 
             return DataTables::of($data)
@@ -47,8 +47,8 @@ class MaintanceController extends Controller
 
                 ->addColumn('assigned_to', function ($row) {
 
-                    return $row->process && $row->process->staff
-                        ? $row->process->staff->name
+                    return $row->maintenance_process && $row->maintenance_process->staff
+                        ? $row->maintenance_process->staff->name
                         : '<span class="text-muted">Not Assigned</span>';
                 })
 
