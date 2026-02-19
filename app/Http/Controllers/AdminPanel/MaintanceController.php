@@ -12,14 +12,15 @@ use App\Models\User;
 
 class MaintanceController extends Controller
 {
-        use FirebaseNotificationTrait;
+    use FirebaseNotificationTrait;
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
 
             $data = maintance::with([
-                'user.allotment.flat.block'
+                'user.allotment.flat.block',
+                'process.staff'
             ])->latest();
 
             return DataTables::of($data)
@@ -39,13 +40,19 @@ class MaintanceController extends Controller
                     $house = $allotment->flat;
                     $block = $house->block ?? null;
 
-                    if (!$block) {
-                        return $house->house_number;
-                    }
-
-                    return $block->block_no . '-' . $house->house_number;
+                    return $block
+                        ? $block->block_number . '-' . $house->house_number
+                        : $house->house_number;
                 })
 
+                ->addColumn('assigned_to', function ($row) {
+
+                    return $row->process && $row->process->staff
+                        ? $row->process->staff->name
+                        : '<span class="text-muted">Not Assigned</span>';
+                })
+
+                ->rawColumns(['assigned_to'])
                 ->make(true);
         }
 
@@ -76,9 +83,9 @@ class MaintanceController extends Controller
             ]
         );
 
-        $user = User::where('id',$request->staff_id)
-                    ->where('user_type',3)
-                    ->first();
+        $user = User::where('id', $request->staff_id)
+            ->where('user_type', 3)
+            ->first();
 
         if ($user && $user->fcm_token) {
             $this->sendFirebaseStaffNotification(

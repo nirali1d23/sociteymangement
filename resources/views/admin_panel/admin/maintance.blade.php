@@ -18,6 +18,8 @@
                     <th>User Name</th>
                     <th>Flat No</th>
                     <th>Description</th>
+					        <th>Assigned To</th>
+
                     <th>Status</th>
                 </tr>
             </thead>
@@ -71,6 +73,8 @@ $(function () {
             { data: 'user_name', name: 'user_name' },
             { data: 'flat_no', name: 'flat_no' },
             { data: 'description', name: 'description' },
+			    { data: 'assigned_to', name: 'assigned_to', orderable: false },
+
             {
                 data: 'status',
                 orderable: false,
