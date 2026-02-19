@@ -46,45 +46,45 @@
 						<div class="form-group">
 							<label for="name" class="col-sm-12 control-label">EventTitle</label>
 							<div class="col-sm-12">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Enter EvenTitle" value="" maxlength="50" required="">
+								<input type="text" class="form-control" id="event_name" name="event_name" placeholder="Enter EvenTitle" value="" maxlength="50" required="">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="name" class="col-sm-12 control-label">Area</label>							<div class="col-sm-12">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Enter Area" value=""  required="">
+								<input type="text" class="form-control" id="area" name="area" placeholder="Enter Area" value=""  required="">
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label for="name" class="col-sm-12 control-label">Date</label>							<div class="col-sm-12">
-								<input type="date" class="form-control" id="name" name="name" placeholder="Enter Date" value=""  required="">
+								<input type="date" class="form-control" id="date" name="date" placeholder="Enter Date" value=""  required="">
 							</div>
 						</div>
 						
 						
 						<div class="form-group">
 							<label for="name" class="col-sm-12 control-label">Time</label>							<div class="col-sm-12">
-								<input type="time" class="form-control" id="name" name="name" placeholder="Enter Time" value=""  required="">
+								<input type="time" class="form-control" id="time" name="time" placeholder="Enter Time" value=""  required="">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="name" class="col-sm-12 control-label">Day</label>							<div class="col-sm-12">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Enter Day" value=""  required="">
+								<input type="text" class="form-control" id="day" name="day" placeholder="Enter Day" value=""  required="">
 							</div>
 						</div>
 					
 						<div class="form-group">
 							<label for="name" class="col-sm-12 control-label">Instruction</label>							<div class="col-sm-12">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Enter Instruction" value=""  required="">
+								<input type="text" class="form-control" id="instruction" name="instruction" placeholder="Enter Instruction" value=""  required="">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="name" class="col-sm-12 control-label">Image</label>							<div class="col-sm-12">
-								<input type="file" class="form-control" id="name" name="name" placeholder="Enter Instruction" value=""  required="">
+								<input type="file" class="form-control" id="image" name="image" placeholder="Enter Instruction" value=""  required="">
 							</div>
 						</div>
 						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save User</button>
+							<button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save Event</button>
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>							
 						 </button>
 						</div>
