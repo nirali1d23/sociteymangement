@@ -48,7 +48,9 @@ public function changePassword(Request $request)
         'new_password' => 'required|min:6|confirmed',
     ]);
 
-    $user = Auth::user();
+    $user = Auth::user(); // ✅ Works ONLY with web + auth middleware
+
+    dd($user);
 
     if (!Hash::check($request->current_password, $user->password)) {
         return response()->json([
