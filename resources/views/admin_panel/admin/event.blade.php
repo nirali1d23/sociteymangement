@@ -91,6 +91,34 @@
             </div>
         </div>
     </div>
+    <!-- Feedback Modal -->
+<div class="modal fade" id="feedbackModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Event Feedback</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Feedback</th>
+                            <th>Rating</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feedbackTable"></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 </div>
 
 {{-- ✅ INLINE SCRIPT --}}
@@ -213,7 +241,39 @@ $(function () {
 
 });
 </script>
+<script>
+$(document).on('click', '.viewFeedback', function () {
 
+    let eventId = $(this).data('id');
+    $('#feedbackTable').html('<tr><td colspan="4">Loading...</td></tr>');
+
+    $.get("{{ route('event.feedback', ':id') }}".replace(':id', eventId), function (res) {
+
+        if (res.length === 0) {
+            $('#feedbackTable').html(
+                '<tr><td colspan="4" class="text-center">No feedback found</td></tr>'
+            );
+            $('#feedbackModal').modal('show');
+            return;
+        }
+
+        let html = '';
+        res.forEach(row => {
+            html += `
+                <tr>
+                    <td>${row.user_name}</td>
+                    <td>${row.feedback}</td>
+                    <td>${row.rating}</td>
+                    <td>${row.date}</td>
+                </tr>
+            `;
+        });
+
+        $('#feedbackTable').html(html);
+        $('#feedbackModal').modal('show');
+    });
+});
+</script>
 
 
 @endsection
