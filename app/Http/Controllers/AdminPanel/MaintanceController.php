@@ -15,17 +15,40 @@ class MaintanceController extends Controller
     {
         if ($request->ajax()) {
 
-            $data = maintance::with('user')->latest();
+            $data = maintance::with([
+                'user.allotment.flat.block'
+            ])->latest();
 
             return DataTables::of($data)
+
                 ->addColumn('user_name', function ($row) {
                     return $row->user->name ?? '-';
                 })
+
+                ->addColumn('flat_no', function ($row) {
+
+                    $allotment = $row->user->allotment ?? null;
+
+                    if (!$allotment || !$allotment->flat) {
+                        return '-';
+                    }
+
+                    $house = $allotment->flat;
+                    $block = $house->block ?? null;
+
+                    if (!$block) {
+                        return $house->house_number;
+                    }
+
+                    return $block->block_number . '-' . $house->house_number;
+                })
+
                 ->make(true);
         }
 
         return view('admin_panel.admin.maintance');
     }
+
 
     public function staffList()
     {

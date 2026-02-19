@@ -16,6 +16,7 @@
             <thead>
                 <tr>
                     <th>User Name</th>
+                    <th>Flat No</th>
                     <th>Description</th>
                     <th>Status</th>
                 </tr>
@@ -62,13 +63,13 @@ $(function () {
         }
     });
 
-    /* ================= DataTable ================= */
     let table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
         ajax: "{{ route('maintance') }}",
         columns: [
             { data: 'user_name', name: 'user_name' },
+            { data: 'flat_no', name: 'flat_no' },
             { data: 'description', name: 'description' },
             {
                 data: 'status',
@@ -91,11 +92,10 @@ $(function () {
         ]
     });
 
-    /* ================= OPEN ASSIGN MODAL ================= */
+    /* Open Assign Modal */
     $(document).on('click', '.assignStaff', function () {
 
-        let maintanceId = $(this).data('id');
-        $('#maintance_id').val(maintanceId);
+        $('#maintance_id').val($(this).data('id'));
         $('#staff_id').html('<option>Loading...</option>');
 
         $.get("{{ route('staff.list') }}", function (res) {
@@ -110,7 +110,7 @@ $(function () {
         });
     });
 
-    /* ================= ASSIGN STAFF ================= */
+    /* Assign Staff */
     $('#assignBtn').click(function () {
 
         let staffId = $('#staff_id').val();
