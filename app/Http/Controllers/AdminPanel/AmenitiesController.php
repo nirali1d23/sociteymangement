@@ -6,9 +6,12 @@ use DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Amenities;
+use App\Traits\ImageUpload;
 
 class AmenitiesController extends Controller
 {
+           use ImageUpload;
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -36,12 +39,21 @@ class AmenitiesController extends Controller
 
     public function store(Request $request)
     {
+
+
+            if ($request->hasFile('image')) 
+        {
+            $image_1 = $request->file('image');
+            $image = $this->uploadImage($image_1, 'image'); // Pass both the file and directory
+        }
+   
         Amenities::updateOrCreate(
             ['id' => $request->product_id],
             [
                 'amenities_name' => $request->amenities,
                 'rule' => $request->rule,
-                // image upload can be added later
+                'image' => $image ?? null, // Handle image upload if provided
+               
             ]
         );
 
