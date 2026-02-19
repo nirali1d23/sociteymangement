@@ -57,8 +57,11 @@ Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.ed
 Route::post('/previsitor/update-status', [PrevisitorController::class, 'updateStatus'])
     ->name('previsitor.updateStatus');
 Route::delete('/event/delete/{id}',[EventController::class,'destroy'])->name('event.delete');
-Route::get('/notice',[NoticeController::class,'index'])->name('notice');
-Route::get('/noticecreate',[NoticeController::class,'create'])->name('noticecreate');
+Route::get('/notice', [NoticeController::class, 'index'])->name('notice');
+Route::post('/notice/store', [NoticeController::class, 'store'])->name('noticestore');
+Route::get('/notice/edit/{id}', [NoticeController::class, 'edit'])->name('notice.edit');
+Route::delete('/notice/delete/{id}', [NoticeController::class, 'destroy'])->name('notice.delete');
+
 Route::post('/noticestore',[NoticeController::class,'store'])->name('noticestore');
 Route::get('/visitor',[VisitorController::class,'index'])->name('visitor');
 Route::get('/previsitor',[PrevisitorController::class,'index'])->name('previsitor');

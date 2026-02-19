@@ -3,286 +3,201 @@
 @section('content')
 
 <style>
-	
-        .hidden-fields {
-            display: none;
-        }
-   
+.hidden-fields {
+    display: none;
+}
 </style>
 
 <div class="pagetitle">
-	<h1>Notice</h1>
-	
-  </div><!-- End Page Title -->
-  <div class="card">
-	<div class="card-body">
-		<br>
-		<a class="btn btn-primary float-end" href="javascript:void(0)" id="createNewProduct"> Create New </a>
-		<h5 class="card-title">Bordered Table</h5>
-		
+    <h1>Notice</h1>
+</div>
 
-	 	  <table class="table table-bordered border-primary data-table">
-		<thead>
-		  <tr>
-			
-			<th scope="col">Title</th>
-			<th scope="col">Description</th>
-			<th width="280px">Action</th>
-		  </tr>
-		</thead>
-		<tbody>
-		  
-		</tbody>
-	  </table>
-	</div>
+<div class="card">
+    <div class="card-body">
+        <br>
 
-	<div class="modal fade" id="ajaxModel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title" id="modelHeading"></h4>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
+        <a class="btn btn-primary float-end" href="javascript:void(0)" id="createNewProduct">
+            Create New
+        </a>
 
-					<div class="d-flex justify-content-between align-items-center mb-3">
-						<label class="form-check-label" for="toggle">Schedule Notice</label>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" id="toggle">
-						</div>
-					</div>
-					
-					<form id="productForm" name="productForm" class="form-horizontal">
-					   <input type="hidden" name="product_id" id="product_id">
-						<div class="form-group">
-							<label for="name" class="col-sm-2 control-label">Title</label>
-							<div class="col-sm-12">
-								<input type="text" class="form-control" id="name" name="title" placeholder="Enter Notice Title" value="" maxlength="50" required="">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-12 control-label">Description</label>
-							<div class="col-sm-12">
-								<input type="text" class="form-control" id="name" name="description" placeholder="Enter Description" value=""  required="">
-							</div>
-						</div>
-        
+        <h5 class="card-title">Notice List</h5>
 
-	<div class="form-group">
-						<div id="moreFields" class="hidden-fields">
-							<label for="start_date" class="col-sm-12 control-label">StartDate</label>
-							<div class="col-sm-12">
-								<input type="date" class="form-control" id="start_date" name="start_date" placeholder="Enter Date" value="" maxlength="50" required="">
-							</div>
-				
-							<label for="time" class="col-sm-12 control-label">Time</label>
-							<div class="col-sm-12">
-								<input type="time" class="form-control" id="time" name="time" placeholder="Enter time" value="" maxlength="50" required="">
-							</div>
-						</div>
-					</div>				
-				    <div class="col-sm-offset-2 col-sm-10">
-							
-							<button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save Notice</button>
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <table class="table table-bordered border-primary data-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th width="200px">Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
 
-							
-						 </button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+<!-- MODAL -->
+<div class="modal fade" id="ajaxModel">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-  </div>
-  <script>
-	document.getElementById('toggle').addEventListener('change', function() {
-		var moreFields = document.getElementById('moreFields');
-		if (this.checked) {
-			moreFields.style.display = 'block';
-		} else {
-			moreFields.style.display = 'none';
-		}
-	});
-</script>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modelHeading"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
 
+            <div class="modal-body">
 
-  <script type="text/javascript">
-	$(function () {
-		
-	  /*------------------------------------------
-	   --------------------------------------------
-	   Pass Header Token
-	   --------------------------------------------
-	   --------------------------------------------*/ 
-	  $.ajaxSetup({
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			}
-	  });
-		
-	  /*------------------------------------------
-	  --------------------------------------------
-	  Render DataTable
-	  --------------------------------------------
-	  --------------------------------------------*/
-	  var table = $('.data-table').DataTable({
-		  processing: true,
-		  serverSide: true,
-		  ajax: "{{ route('notice') }}",
-		  columns: [
-			
-			  {data: 'title', name: 'title'},
-			  {data: 'description', name: 'description'},
-			  
-			  {data: 'action', name: 'action', orderable: false, searchable: false},
-			
-		  ]
-	  });
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <label>Schedule Notice</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="toggle">
+                    </div>
+                </div>
 
-	  $('#createNewProduct').click(function () {
-        $('#saveBtn').val("create-product");
-        $('#product_id').val('');
-        $('#productForm').trigger("reset");
-        $('#modelHeading').html("Create New Notice");
+                <form id="productForm">
+                    @csrf
+                    <input type="hidden" name="notice_id" id="notice_id">
+
+                    <div class="mb-3">
+                        <label>Title</label>
+                        <input type="text" class="form-control" name="title" id="title" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Description</label>
+                        <input type="text" class="form-control" name="description" id="description" required>
+                    </div>
+
+                    <div id="moreFields" class="hidden-fields">
+                        <div class="mb-3">
+                            <label>Start Date</label>
+                            <input type="date" class="form-control" name="start_date" id="start_date">
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Time</label>
+                            <input type="time" class="form-control" name="time" id="time">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="saveBtn">
+                        Save Notice
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- JS --}}
+<script type="text/javascript">
+$(function () {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    // Toggle schedule fields
+    $('#toggle').change(function () {
+        $('#moreFields').toggle(this.checked);
+    });
+
+    // Datatable
+    let table = $('.data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('notice') }}",
+        columns: [
+            { data: 'title', name: 'title' },
+            { data: 'description', name: 'description' },
+            { data: 'action', orderable: false, searchable: false }
+        ]
+    });
+
+    // CREATE
+    $('#createNewProduct').click(function () {
+        $('#productForm')[0].reset();
+        $('#notice_id').val('');
+        $('#toggle').prop('checked', false);
+        $('#moreFields').hide();
+        $('#modelHeading').html('Create Notice');
         $('#ajaxModel').modal('show');
     });
 
+    // EDIT
+    $('body').on('click', '.editProduct', function () {
+        let id = $(this).data('id');
 
-	$('body').on('click', '.editProduct', function () {
-      var product_id = $(this).data('id');
-	  $.get("{{ route('products-ajax-crud.edit', ':id') }}".replace(':id', product_id), function (data) {
-          $('#saveBtn').val("edit-user");
-          $('#ajaxModel').modal('show');
-          $('#product_id').val(data.id);
-          $('#name').val(data.name);
-          $('#name').val(data.name);
-          $('#name').val(data.name);
-      })
+        $.get("{{ route('notice.edit', ':id') }}".replace(':id', id), function (data) {
+            $('#modelHeading').html('Edit Notice');
+            $('#notice_id').val(data.id);
+            $('#title').val(data.title);
+            $('#description').val(data.description);
+            $('#start_date').val(data.start_date);
+            $('#time').val(data.time);
+
+            if (data.start_date || data.time) {
+                $('#toggle').prop('checked', true);
+                $('#moreFields').show();
+            }
+
+            $('#ajaxModel').modal('show');
+        });
     });
 
-
-	$('#saveBtn').click(function (e) 
-    {
+    // SAVE (CREATE + UPDATE)
+    $('#productForm').submit(function (e) {
         e.preventDefault();
-        $(this).html('Sending..');
+
         $.ajax({
+            url: "{{ route('noticestore') }}",
+            type: "POST",
+            data: $(this).serialize(),
 
-          data: $('#productForm').serialize(),
+            success: function (res) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: res.message,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
 
-          url: "{{ route('noticestore') }}",
-
-          type: "POST",
-
-          dataType: 'json',
-
-          success: function (data) 
-          {
-              $('#productForm').trigger("reset");
-
-              $('#ajaxModel').modal('hide');
-
-              table.draw();
-
-           
-
-          },
-
-          error: function (data) {
-
-              console.log('Error:', data);
-
-              $('#saveBtn').html('Save Changes');
-
-          }
-
-      });
-
+                $('#ajaxModel').modal('hide');
+                table.draw();
+            }
+        });
     });
 
-	$('body').on('click', '.deleteProduct', function () {
+    // DELETE
+    $('body').on('click', '.deleteProduct', function () {
+        let id = $(this).data('id');
 
-     
-
-var product_id = $(this).data("id");
-
-confirm("Are You sure want to delete !");
-
-
-
-$.ajax({
-
-	type: "DELETE",
-
-	url:  "{{ route('userdelete', ':id') }}".replace(':id', product_id),
-
-	success: function (data) {
-
-		table.draw();
-
-	},
-
-	error: function (data) {
-
-		console.log('Error:', data);
-
-	}
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This notice will be deleted!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "{{ route('notice.delete', ':id') }}".replace(':id', id),
+                    success: function () {
+                        Swal.fire('Deleted!', 'Notice removed', 'success');
+                        table.draw();
+                    }
+                });
+            }
+        });
+    });
 
 });
-
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	});
-	</script>
+</script>
 
 @endsection
