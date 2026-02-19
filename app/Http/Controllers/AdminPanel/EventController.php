@@ -56,11 +56,11 @@ class EventController extends Controller
          
         //     'image' => 'required|image|mimes:jpeg,png,jpg,gif', // Image validation
         // ]);
-        if ($request->hasFile('image')) 
-        {
-            $image_1 = $request->file('image');
-            $image = $this->uploadImage($image_1, 'image'); // Pass both the file and directory
-        }
+        // if ($request->hasFile('image')) 
+        // {
+        //     $image_1 = $request->file('image');
+        //     $image = $this->uploadImage($image_1, 'image'); // Pass both the file and directory
+        // }
         $create = new Event;
         $create->event_name = $request->event_name;
         $create->date = $request->date;
@@ -68,7 +68,7 @@ class EventController extends Controller
         $create->time = $request->time;
         $create->day = $request->day;
         $create->instruction= $request->instruction;
-        $create->image= $image;
+        // $create->image= $image;
         $create->save();
         $data = User::where('user_type',2)->get();
         foreach($data as  $token)

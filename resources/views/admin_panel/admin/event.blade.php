@@ -114,6 +114,7 @@
 			  {data: 'area', name: 'area'},
 			  {data: 'time', name: 'time'},
 			  {data: 'day', name: 'day'},
+			  {data: 'instruction', name: 'instruction'},
 			  {data: 'action', name: 'action', orderable: false, searchable: false},
 			
 		  ]
@@ -155,17 +156,29 @@
 
           dataType: 'json',
 
-          success: function (data) 
-          {
-              $('#productForm').trigger("reset");
+              success: function (data) {
+            if (data.success) {
+                // Display SweetAlert message
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: data.message,
+                    timer: 3000,
+                    showConfirmButton: false
+                });
 
-              $('#ajaxModel').modal('hide');
+                // Reset the form
+                $('#productForm').trigger("reset");
 
-              table.draw();
+                // Hide the modal
+                $('#ajaxModel').modal('hide');
 
-           
+                // Redraw the table
+                table.draw();
+            }
 
-          },
+            $('#saveBtn').html('Save Changes');
+        },
 
           error: function (data) {
 
