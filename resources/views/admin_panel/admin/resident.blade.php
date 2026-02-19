@@ -62,13 +62,13 @@
 							</div>
 						  </div>
 						<div class="form-group">
-							<label for="name" class="col-form-label">Mobiel Number</label>
+							<label for="name" class="col-sm-2 control-label">Mobiel Number</label>
 							<div class="col-sm-12">
 								<input type="text" class="form-control" id="mobile_no" name="mobile_no" placeholder="Enter Mobileno" value=""  required="">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="name" class="col-form-labe">password</label>
+							<label for="name" class="col-sm-2 control-label">password</label>
 							<div class="col-sm-12">
 								<input type="password" class="form-control" id="password" name="password" placeholder="Enter password" value=""  required="">
 							</div>
