@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\AdminPanel;
 use Auth;
 use App\Http\Model\User;
-use Hash;
+    use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 class AuthController extends Controller
@@ -38,4 +38,29 @@ class AuthController extends Controller
             return redirect('/');
           
     }
+
+
+
+public function changePassword(Request $request)
+{
+    $request->validate([
+        'current_password' => 'required',
+        'new_password' => 'required|min:6|confirmed',
+    ]);
+
+    $user = Auth::user();
+
+    if (!Hash::check($request->current_password, $user->password)) {
+        return response()->json([
+            'message' => 'Current password is incorrect'
+        ], 422);
+    }
+
+    $user->password = Hash::make($request->new_password);
+    $user->save();
+
+    return response()->json([
+        'message' => 'Password updated successfully'
+    ]);
+}
 }
