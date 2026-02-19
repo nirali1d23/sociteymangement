@@ -114,6 +114,7 @@ $(document).on('click', '.toggle-status', function () {
     });
 });
 
+});
 </script>
 
 @endsection
