@@ -14,37 +14,48 @@ class PrevisitorController extends Controller
     public function index(Request $request)
     {
 
-        if ($request->ajax()) 
-        {
+        if ($request->ajax()) {
 
-  
+
 
             $data = preapproval::latest()->get();
 
-  
+
 
             return Datatables::of($data)
 
-                    ->addIndexColumn()
+                ->addIndexColumn()
 
-                    ->addColumn('action', function($row)
-                    {
-                        $btn = '<div class="d-flex justify-content-center">';
-                        $btn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary editProduct me-2">Edit</a>';
-                        $btn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger  deleteProduct">Delete</a>';
-                        $btn .= '</div>';
+                ->addColumn('action', function ($row) {
+                    $btn = '<div class="d-flex justify-content-center">';
+                    $btn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary editProduct me-2">Edit</a>';
+                    $btn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger  deleteProduct">Delete</a>';
+                    $btn .= '</div>';
 
-                                                    return $btn;
-                      })
+                    return $btn;
+                })
 
-                    ->rawColumns(['action'])
+                ->rawColumns(['action'])
 
-                    ->make(true);
+                ->make(true);
 
         }
 
 
         return view('admin_panel.admin.previsitor');
 
+    }
+    public function updateStatus(Request $request)
+    {
+        $visitor = preapproval::find($request->id);
+
+        if ($visitor) {
+            $visitor->status = $request->status;
+            $visitor->save();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['error' => 'Visitor not found'], 404);
     }
 }

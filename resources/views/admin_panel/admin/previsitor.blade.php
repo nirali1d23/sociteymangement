@@ -1,166 +1,118 @@
 @extends('admin_panel.layouts.app')
 @section('content')
+
 <div class="pagetitle">
-	<h1>Previsitor</h1>
-	
-  </div><!-- End Page Title -->
-  <div class="card">
-	<div class="card-body">
-		<br>
-		<h5 class="card-title">Bordered Table</h5>
-	 	  <table class="table table-bordered border-primary data-table">
-		<thead>
-		  <tr>
-			<th scope="col">Visitor_name</th>
-			<th scope="col">Date</th>
-			<th scope="col">FlatNo</th>
-			<th scope="col">No of Person</th>
-			<th scope="col">Status</th>
-		  </tr>
-		</thead>
-		<tbody>
-		</tbody>
-	  </table>
-	</div>
-  </div>
+    <h1>Pre Visitor</h1>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <br>
+
+        <h5 class="card-title">Pre Visitor List</h5>
+
+        <table class="table table-bordered border-primary data-table">
+            <thead>
+                <tr>
+                    <th>Visitor Name</th>
+                    <th>Date</th>
+                    <th>Flat No</th>
+                    <th>No of Person</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
 
 <script type="text/javascript">
-	
-    $(function () 
-    {
-		
-	
-	  $.ajaxSetup({
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			}
-	  });
-	  var table = $('.data-table').DataTable({
-		  processing: true,
-		  serverSide: true,
-		  ajax: "{{ route('previsitor') }}",
-		  columns: 
-          [
-			
-			  {data: 'visitor_name', name: 'visitor_name'},
-			  {data: 'date', name: 'date'},
-			  {data: 'flat_no', name: 'flat_no'},
-			  {data: 'contact_number', name: 'contact_number'},
-              {
+$(function () {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    let table = $('.data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('previsitor') }}",
+        columns: [
+            { data: 'visitor_name', name: 'visitor_name' },
+            { data: 'date', name: 'date' },
+            { data: 'flat_no', name: 'flat_no' },
+            { data: 'contact_number', name: 'contact_number' },
+            {
                 data: 'status',
-                name: 'status',
-                render: function(data, type, row) 
-                {
-                    if (data == 0) 
-                    {
-                    return '<button class="btn btn-danger">notapproved</button>';
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                    if (data == 0) {
+                        return `<button class="btn btn-danger btn-sm toggle-status"
+                                data-id="${row.id}" data-status="0">
+                                Not Approved
+                                </button>`;
+                    } else {
+                        return `<button class="btn btn-success btn-sm toggle-status"
+                                data-id="${row.id}" data-status="1">
+                                Approved
+                                </button>`;
                     }
-                    else if (data == 1) 
-                    {
-                    return '<button class="btn btn-success">Approved</button>';
-                    }
-                    return data; 
                 }
-              }
-
-		   ]
-	  });
-
-	  $('#createNewProduct').click(function () 
-      {
-        $('#saveBtn').val("create-product");
-        $('#product_id').val('');
-        $('#productForm').trigger("reset");
-        $('#modelHeading').html("Create New User");
-        $('#ajaxModel').modal('show');
-      });
-
-
-	$('body').on('click', '.editProduct', function () {
-      var product_id = $(this).data('id');
-	  $.get("{{ route('products-ajax-crud.edit', ':id') }}".replace(':id', product_id), function (data) {
-          $('#saveBtn').val("edit-user");
-          $('#ajaxModel').modal('show');
-          $('#product_id').val(data.id);
-          $('#name').val(data.name);
-          $('#name').val(data.name);
-          $('#name').val(data.name);
-      })
+            }
+        ]
     });
 
+    // ✅ STATUS TOGGLE WITH SWEETALERT
+    $(document).on('click', '.toggle-status', function () {
 
-	$('#saveBtn').click(function (e) 
-    {
-        e.preventDefault();
-        $(this).html('Sending..');
-        $.ajax({
+        let id = $(this).data('id');
+        let status = $(this).data('status');
+        let newStatus = status == 0 ? 1 : 0;
 
-          data: $('#productForm').serialize(),
+        let actionText = status == 0 ? 'approve' : 'disapprove';
+        let btnColor = status == 0 ? '#28a745' : '#d33';
 
-          url: "{{ route('userstore') }}",
+        Swal.fire({
+            title: 'Are you sure?',
+            text: `Do you want to ${actionText} this visitor?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: btnColor,
+            confirmButtonText: `Yes, ${actionText}!`,
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
 
-          type: "POST",
-
-          dataType: 'json',
-
-          success: function (data) 
-          {
-              $('#productForm').trigger("reset");
-
-              $('#ajaxModel').modal('hide');
-
-              table.draw();
-
-           
-
-          },
-
-          error: function (data) {
-
-              console.log('Error:', data);
-
-              $('#saveBtn').html('Save Changes');
-
-          }
-
-      });
-
-    });
-
-	$('body').on('click', '.deleteProduct', function () 
-    {
-
-     
-
-            var product_id = $(this).data("id");
-
-            confirm("Are You sure want to delete !");
-
-
-
+            if (result.isConfirmed) {
                 $.ajax({
-
-                    type: "DELETE",
-
-                    url:  "{{ route('userdelete', ':id') }}".replace(':id', product_id),
-
-                    success: function (data) {
-
-                        table.draw();
-
+                    url: "{{ route('previsitor.updateStatus') }}",
+                    type: "POST",
+                    data: {
+                        id: id,
+                        status: newStatus
                     },
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Updated!',
+                            text: `Visitor ${actionText}ed successfully`,
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
 
-                    error: function (data) {
-
-                        console.log('Error:', data);
-
+                        table.ajax.reload(null, false);
+                    },
+                    error: function () {
+                        Swal.fire('Error', 'Status update failed', 'error');
                     }
-
                 });
-
+            }
+        });
     });
 
-	});
+});
 </script>
 
 @endsection

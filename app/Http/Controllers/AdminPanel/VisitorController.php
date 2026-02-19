@@ -11,32 +11,31 @@ class VisitorController extends Controller
 {
     public function index(Request $request)
     {
-       
+
         if ($request->ajax()) {
 
-  
-            $data = Visitor::latest()->where('status',1)->get();
 
-  
+            $data = Visitor::latest()->where('status', 1)->get();
+
+
 
             return Datatables::of($data)
 
-                    ->addIndexColumn()
+                ->addIndexColumn()
 
-                    ->addColumn('action', function($row)
-                    {
-                        $btn = '<div class="d-flex justify-content-center">';
-                        $btn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary editProduct me-2">Edit</a>';
-                        $btn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger  deleteProduct">Delete</a>';
-                        $btn .= '</div>';
+                ->addColumn('action', function ($row) {
+                    $btn = '<div class="d-flex justify-content-center">';
+                    $btn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary editProduct me-2">Edit</a>';
+                    $btn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger  deleteProduct">Delete</a>';
+                    $btn .= '</div>';
 
-                                                    return $btn;
+                    return $btn;
 
-                                            })
+                })
 
-                    ->rawColumns(['action'])
+                ->rawColumns(['action'])
 
-                    ->make(true);
+                ->make(true);
 
         }
 
@@ -44,4 +43,5 @@ class VisitorController extends Controller
         return view('admin_panel.admin.visitor');
 
     }
+ 
 }
