@@ -15,7 +15,7 @@ class VisitorController extends Controller
         if ($request->ajax()) {
 
   
-            $data = Visitor::latest()->get();
+            $data = Visitor::latest()->where('status',1)->get();
 
   
 
