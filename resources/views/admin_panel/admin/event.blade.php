@@ -107,7 +107,6 @@
                         <tr>
                             <th>User</th>
                             <th>Feedback</th>
-                            <th>Rating</th>
                             <th>Date</th>
                         </tr>
                     </thead>
