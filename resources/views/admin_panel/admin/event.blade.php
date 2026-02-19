@@ -94,6 +94,7 @@
 </div>
 
 {{-- ✅ INLINE SCRIPT --}}
+
 <script type="text/javascript">
 $(function () {
 
@@ -153,7 +154,7 @@ $(function () {
         let formData = new FormData($('#productForm')[0]);
 
         $.ajax({
-            url: "{{ route('eventstore') }}", // SAME ROUTE
+            url: "{{ route('eventstore') }}",
             type: "POST",
             data: formData,
             processData: false,
@@ -176,49 +177,43 @@ $(function () {
     });
 
     // DELETE
-$('body').on('click', '.deleteProduct', function () {
+    $('body').on('click', '.deleteProduct', function () {
 
-    let id = $(this).data('id');
+        let id = $(this).data('id');
 
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "This event will be deleted!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This event will be deleted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
 
-            $.ajax({
-                type: "DELETE",
-                url: "{{ route('event.delete', ':id') }}".replace(':id', id),
+                $.ajax({
+                    type: "DELETE",
+                    url: "{{ route('event.delete', ':id') }}".replace(':id', id),
 
-                success: function (res) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Deleted!',
-                        text: res.message,
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
+                    success: function (res) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: res.message,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
 
-                    table.draw();
-                },
-
-                error: function (xhr) {
-                    console.log(xhr.responseText);
-                    alert('Delete failed');
-                }
-            });
-
-        }
-    });
-});
-
+                        table.draw();
+                    }
+                });
+            }
+        });
     });
 
 });
 </script>
+
+
 
 @endsection
