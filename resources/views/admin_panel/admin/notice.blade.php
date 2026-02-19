@@ -27,6 +27,7 @@
                 <tr>
                     <th>Title</th>
                     <th>Description</th>
+                    <th>Image</th>
                     <th width="200px">Action</th>
                 </tr>
             </thead>
@@ -54,7 +55,7 @@
                     </div>
                 </div>
 
-                <form id="productForm">
+                <form id="productForm" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="notice_id" id="notice_id">
 
@@ -66,6 +67,11 @@
                     <div class="mb-3">
                         <label>Description</label>
                         <input type="text" class="form-control" name="description" id="description" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Image</label>
+                        <input type="file" class="form-control" name="image" id="image">
                     </div>
 
                     <div id="moreFields" class="hidden-fields">
@@ -113,6 +119,16 @@ $(function () {
         columns: [
             { data: 'title', name: 'title' },
             { data: 'description', name: 'description' },
+            {
+                data: 'image',
+                name: 'image',
+                render: function (data) {
+                    if (data) {
+                        return `<img src="/${data}" width="60" class="rounded">`;
+                    }
+                    return '-';
+                }
+            },
             { data: 'action', orderable: false, searchable: false }
         ]
     });
@@ -148,14 +164,18 @@ $(function () {
         });
     });
 
-    // SAVE (CREATE + UPDATE)
+    // SAVE (CREATE + UPDATE) ✅ FormData for image
     $('#productForm').submit(function (e) {
         e.preventDefault();
+
+        let formData = new FormData(this);
 
         $.ajax({
             url: "{{ route('noticestore') }}",
             type: "POST",
-            data: $(this).serialize(),
+            data: formData,
+            processData: false,
+            contentType: false,
 
             success: function (res) {
                 Swal.fire({
@@ -168,6 +188,10 @@ $(function () {
 
                 $('#ajaxModel').modal('hide');
                 table.draw();
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                Swal.fire('Error', 'Something went wrong', 'error');
             }
         });
     });
