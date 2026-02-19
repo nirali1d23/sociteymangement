@@ -9,6 +9,7 @@
 <div class="card">
     <div class="card-body">
         <br>
+
         <h5 class="card-title">Maintenance Requests</h5>
 
         <table class="table table-bordered border-primary data-table">
@@ -17,7 +18,6 @@
                     <th>User Name</th>
                     <th>Description</th>
                     <th>Status</th>
-                    <th width="200px">Action</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -38,7 +38,7 @@
       <div class="modal-body">
         <input type="hidden" id="maintance_id">
 
-        <label class="form-label">Select Staff</label>
+        <label>Select Staff</label>
         <select id="staff_id" class="form-control">
             <option value="">Select Staff</option>
         </select>
@@ -53,9 +53,6 @@
   </div>
 </div>
 
-@endsection
-
-@push('scripts')
 <script>
 $(function () {
 
@@ -65,23 +62,40 @@ $(function () {
         }
     });
 
-    /* DataTable */
-    var table = $('.data-table').DataTable({
+    /* ================= DataTable ================= */
+    let table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
         ajax: "{{ route('maintance') }}",
         columns: [
             { data: 'user_name', name: 'user_name' },
             { data: 'description', name: 'description' },
-            { data: 'status_text', name: 'status' },
-            { data: 'action', name: 'action', orderable: false, searchable: false }
+            {
+                data: 'status',
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+
+                    if (data == 0) {
+                        return `<button class="btn btn-danger btn-sm assignStaff"
+                                data-id="${row.id}">
+                                Not Assigned
+                                </button>`;
+                    } else {
+                        return `<button class="btn btn-success btn-sm" disabled>
+                                Assigned
+                                </button>`;
+                    }
+                }
+            }
         ]
     });
 
-    /* Open Assign Modal */
-    $('body').on('click', '.assignStaff', function () {
+    /* ================= OPEN ASSIGN MODAL ================= */
+    $(document).on('click', '.assignStaff', function () {
 
-        $('#maintance_id').val($(this).data('id'));
+        let maintanceId = $(this).data('id');
+        $('#maintance_id').val(maintanceId);
         $('#staff_id').html('<option>Loading...</option>');
 
         $.get("{{ route('staff.list') }}", function (res) {
@@ -96,7 +110,7 @@ $(function () {
         });
     });
 
-    /* Assign */
+    /* ================= ASSIGN STAFF ================= */
     $('#assignBtn').click(function () {
 
         let staffId = $('#staff_id').val();
@@ -106,16 +120,22 @@ $(function () {
             return;
         }
 
-        $.post("{{ route('maintance.assign') }}", {
-            maintance_id: $('#maintance_id').val(),
-            staff_id: staffId,
-            status: 1
-        }, function () {
-            $('#assignModal').modal('hide');
-            table.draw(false);
+        $.ajax({
+            url: "{{ route('maintance.assign') }}",
+            type: "POST",
+            data: {
+                maintance_id: $('#maintance_id').val(),
+                staff_id: staffId,
+                status: 1
+            },
+            success: function () {
+                $('#assignModal').modal('hide');
+                table.ajax.reload(null, false);
+            }
         });
     });
 
 });
 </script>
-@endpush
+
+@endsection

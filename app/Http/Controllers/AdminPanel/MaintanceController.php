@@ -15,58 +15,18 @@ class MaintanceController extends Controller
     {
         if ($request->ajax()) {
 
-            $data = maintance::with('user')->latest()->get();
+            $data = maintance::with('user')->latest();
 
             return DataTables::of($data)
-                ->addIndexColumn()
-->addColumn('action', function ($row) {
-
-    if ($row->status == 0) {
-        return '<button class="btn btn-sm btn-primary assignStaff" 
-                    data-id="'.$row->id.'">
-                    Assign
-                </button>';
-    }
-
-    return '<button class="btn btn-sm btn-success" disabled>
-                Assigned
-            </button>';
-})
                 ->addColumn('user_name', function ($row) {
                     return $row->user->name ?? '-';
                 })
-
-                ->addColumn('status_text', function ($row) {
-                    return $row->status == 0
-                        ? '<span class="badge bg-warning">Not Assigned</span>'
-                        : '<span class="badge bg-success">Assigned</span>';
-                })
-
-                ->addColumn('action', function ($row) {
-                    $btn = '<div class="d-flex gap-2">';
-
-                    if ($row->status == 0) {
-                        $btn .= '<button class="btn btn-sm btn-primary assignStaff"
-                                data-id="' . $row->id . '">
-                                Assign
-                             </button>';
-                    }
-
-                    $btn .= '<button class="btn btn-sm btn-danger deleteProduct"
-                            data-id="' . $row->id . '">
-                            Delete
-                         </button>';
-
-                    $btn .= '</div>';
-                    return $btn;
-                })
-
-                ->rawColumns(['status_text', 'action'])
                 ->make(true);
         }
 
         return view('admin_panel.admin.maintance');
     }
+
     public function staffList()
     {
         return User::where('user_type', 3)->select('id', 'name')->get();
