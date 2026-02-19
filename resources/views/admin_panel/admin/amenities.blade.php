@@ -3,237 +3,181 @@
 @section('content')
 
 <div class="pagetitle">
-	<h1>Amenities</h1>
-	
-  </div><!-- End Page Title -->
-  <div class="card">
-	<div class="card-body">
-		<br>
-		<a class="btn btn-primary float-end" href="javascript:void(0)" id="createNewProduct"> Create New </a>
-		<h5 class="card-title">Bordered Table</h5>
-		
+    <h1>Amenities</h1>
+</div>
 
-	 	  <table class="table table-bordered border-primary data-table">
-		<thead>
-		  <tr>  
-			
-			<th scope="col">Id</th>
-			<th scope="col">Amenities</th>
-			<th scope="col">Rule</th>
-			
-		
+<div class="card">
+    <div class="card-body">
+        <br>
 
-			<th width="280px">Action</th>
-		  </tr>
-		</thead>
-		<tbody>
-		  
-		</tbody>
-	  </table>
-	</div>
+        <a class="btn btn-primary float-end" href="javascript:void(0)" id="createNewProduct">
+            Create New
+        </a>
 
-	<div class="modal fade" id="ajaxModel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title" id="modelHeading"></h4>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form id="productForm" name="productForm" class="form-horizontal">
-					   <input type="hidden" name="product_id" id="product_id">
-						<div class="form-group">
-							<label for="amenities" class="col-sm-12 control-label">AmenitiesName</label>
-							<div class="col-sm-12">
-								<input type="text" class="form-control" id="amenities" name="amenities" placeholder="Enter EvenTitle" value="" maxlength="50" required="">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="rule" class="col-sm-12 control-label">Rules</label>							<div class="col-sm-12">
-								<input type="text" class="form-control" id="rule" name="rule" placeholder="Enter Area" value=""  required="">
-							</div>
-						</div>
+        <h5 class="card-title">Amenities List</h5>
 
-						<div class="form-group">
-							<label for="image" class="col-sm-12 control-label">Image</label>							<div class="col-sm-12">
-								<input type="file" class="form-control" id="image" name="image" placeholder="Enter Date" value=""  required="">
-							</div>
-						</div>
-						
-						
-							<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save Amenities</button>
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>							
-						 </button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-  </div>
-  <script type="text/javascript">
-	$(function () {
-	  $.ajaxSetup({
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			}
-	  });
-	  var table = $('.data-table').DataTable({
-		  processing: true,
-		  serverSide: true,
-		  ajax: "{{ route('amenities') }}",
-		  columns: [
-			  {data: 'id', name: 'id'},
-			  {data: 'amenities_name', name: 'amenities_name'},
-			  {data: 'rule', name: 'rule'},
-			  {data: 'action', name: 'action', orderable: false, searchable: false},
-			
-		  ]
-	  });
+        <table class="table table-bordered border-primary data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Amenities</th>
+                    <th>Rule</th>
+                    <th width="200px">Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 
-	  $('#createNewProduct').click(function () {
-        $('#saveBtn').val("create-product");
+    <!-- MODAL -->
+    <div class="modal fade" id="ajaxModel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modelHeading">Create Amenities</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="productForm" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="product_id" id="product_id">
+
+                        <div class="mb-3">
+                            <label>Amenities Name</label>
+                            <input type="text" name="amenities" id="amenities" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Rule</label>
+                            <input type="text" name="rule" id="rule" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Image</label>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+
+                        <button class="btn btn-primary" id="saveBtn">
+                            Save Amenities
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- ✅ INLINE SCRIPT --}}
+<script type="text/javascript">
+$(function () {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    // DATATABLE
+    var table = $('.data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('amenities') }}",
+        columns: [
+            { data: 'id', name: 'id' },
+            { data: 'amenities_name', name: 'amenities_name' },
+            { data: 'rule', name: 'rule' },
+            { data: 'action', name: 'action', orderable: false, searchable: false }
+        ]
+    });
+
+    // CREATE
+    $('#createNewProduct').click(function () {
+        $('#productForm')[0].reset();
         $('#product_id').val('');
-        $('#productForm').trigger("reset");
-        $('#modelHeading').html("Create New Amenities");
+        $('#modelHeading').html('Create Amenities');
         $('#ajaxModel').modal('show');
     });
 
+    // EDIT
+    $('body').on('click', '.editProduct', function () {
+        let id = $(this).data('id');
 
-	$('body').on('click', '.editProduct', function () {
-      var product_id = $(this).data('id');
-	  $.get("{{ route('products-ajax-crud.edit', ':id') }}".replace(':id', product_id), function (data) {
-          $('#saveBtn').val("edit-user");
-          $('#ajaxModel').modal('show');
-          $('#product_id').val(data.id);
-          $('#name').val(data.name);
-          $('#name').val(data.name);
-          $('#name').val(data.name);
-      })
+        $.get("{{ route('amenities.edit', ':id') }}".replace(':id', id), function (data) {
+            $('#modelHeading').html('Edit Amenities');
+            $('#product_id').val(data.id);
+            $('#amenities').val(data.amenities_name);
+            $('#rule').val(data.rule);
+            $('#ajaxModel').modal('show');
+        });
     });
 
-
-	$('#saveBtn').click(function (e) 
-    {
+    // SAVE (CREATE + UPDATE)
+    $('#saveBtn').click(function (e) {
         e.preventDefault();
-        $(this).html('Sending..');
+
+        let formData = new FormData($('#productForm')[0]);
+
         $.ajax({
+            url: "{{ route('amenities.store') }}",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
 
-          data: $('#productForm').serialize(),
+            success: function (res) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: res.message,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
 
-          url: "{{ route('amenitiesstore') }}",
-
-          type: "POST",
-
-          dataType: 'json',
-
-          success: function (data) 
-          {
-              $('#productForm').trigger("reset");
-
-              $('#ajaxModel').modal('hide');
-
-              table.draw();
-
-           
-
-          },
-
-          error: function (data) {
-
-              console.log('Error:', data);
-
-              $('#saveBtn').html('Save Changes');
-
-          }
-
-      });
-
+                $('#ajaxModel').modal('hide');
+                table.draw();
+            }
+        });
     });
 
-	$('body').on('click', '.deleteProduct', function () {
+    // DELETE
+    $('body').on('click', '.deleteProduct', function () {
 
-     
+        let id = $(this).data('id');
 
-var product_id = $(this).data("id");
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This amenities will be deleted!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
 
-confirm("Are You sure want to delete !");
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "{{ route('amenities.delete', ':id') }}".replace(':id', id),
 
-
-
-$.ajax({
-
-	type: "DELETE",
-
-	url:  "{{ route('userdelete', ':id') }}".replace(':id', product_id),
-
-	success: function (data) {
-
-		table.draw();
-
-	},
-
-	error: function (data) {
-
-		console.log('Error:', data);
-
-	}
+                    success: function (res) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: res.message,
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                        table.draw();
+                    }
+                });
+            }
+        });
+    });
 
 });
-
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	});
-	</script>
+</script>
 
 @endsection

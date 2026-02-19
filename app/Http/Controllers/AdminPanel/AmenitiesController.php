@@ -11,68 +11,55 @@ class AmenitiesController extends Controller
 {
     public function index(Request $request)
     {
-       
         if ($request->ajax()) {
 
-  
             $data = Amenities::latest()->get();
 
-  
-
-            return Datatables::of($data)
-
-                    ->addIndexColumn()
-
-                    ->addColumn('action', function($row)
-                    {
-                        $btn = '<div class="d-flex justify-content-center">';
-                        $btn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary editProduct me-2">Edit</a>';
-                        $btn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger  deleteProduct">Delete</a>';
-                        $btn .= '</div>';
-
-                                                    return $btn;
-
-                                            })
-
-                    ->rawColumns(['action'])
-
-                    ->make(true);
-
+            return DataTables::of($data)
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="javascript:void(0)" data-id="'.$row->id.'" class="btn btn-primary btn-sm editProduct me-1">Edit</a>
+                        <a href="javascript:void(0)" data-id="'.$row->id.'" class="btn btn-danger btn-sm deleteProduct">Delete</a>
+                    ';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
 
-
         return view('admin_panel.admin.amenities');
-
     }
 
-
+    public function edit($id)
+    {
+        return Amenities::findOrFail($id);
+    }
 
     public function store(Request $request)
     {
+        Amenities::updateOrCreate(
+            ['id' => $request->product_id],
+            [
+                'amenities_name' => $request->amenities,
+                'rule' => $request->rule,
+                // image upload can be added later
+            ]
+        );
 
-       
-        Amenities::updateOrCreate([
-            'id' => $request->product_id
-        ],
-        [
-            'amenities_name' => $request->amenities,
-            'rule' => $request->rule,
-            'image' => $request->image,
-           
-        ]);        
-        return response()->json(['success' => true, 'message' => 'Amenities saved successfully.']);
+        return response()->json([
+            'success' => true,
+            'message' => $request->product_id
+                ? 'Amenities updated successfully!'
+                : 'Amenities created successfully!'
+        ]);
     }
 
+    public function destroy($id)
+    {
+        Amenities::findOrFail($id)->delete();
 
- 
-
-
-
-
-
-
-
-
-
-
+        return response()->json([
+            'success' => true,
+            'message' => 'Amenities deleted successfully!'
+        ]);
+    }
 }

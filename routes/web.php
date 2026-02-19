@@ -62,8 +62,9 @@ Route::get('/visitor',[VisitorController::class,'index'])->name('visitor');
 Route::get('/previsitor',[PrevisitorController::class,'index'])->name('previsitor');
 Route::get('/maintance',[MaintanceController::class,'index'])->name('maintance');
 Route::get('/amenities',[AmenitiesController::class,'index'])->name('amenities');
-Route::post('/amenitiesstore',[AmenitiesController::class,'store'])->name('amenitiesstore');
-Route::get('/bookamenities',[BookedamenitiesController::class,'index'])->name('bookamenities');
+Route::post('/amenities/store', [AmenitiesController::class, 'store'])->name('amenities.store');
+Route::get('/amenities/edit/{id}', [AmenitiesController::class, 'edit'])->name('amenities.edit');
+Route::delete('/amenities/delete/{id}', [AmenitiesController::class, 'destroy'])->name('amenities.delete');Route::get('/bookamenities',[BookedamenitiesController::class,'index'])->name('bookamenities');
 Route::post('/update-amenity-status', [BookedamenitiesController::class,'updatestatus'])->name('updateAmenityStatus');
 
 // Route::get('/poll', function () 
