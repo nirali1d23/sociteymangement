@@ -27,7 +27,6 @@
                 <tr>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>Image</th>
                     <th width="200px">Action</th>
                 </tr>
             </thead>
@@ -119,16 +118,7 @@ $(function () {
         columns: [
             { data: 'title', name: 'title' },
             { data: 'description', name: 'description' },
-            {
-                data: 'image',
-                name: 'image',
-                render: function (data) {
-                    if (data) {
-                        return `<img src="/${data}" width="60" class="rounded">`;
-                    }
-                    return '-';
-                }
-            },
+    
             { data: 'action', orderable: false, searchable: false }
         ]
     });
