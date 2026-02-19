@@ -33,7 +33,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::post('/contact-us', [apicontroller::class, 'submitcontactus'])
      ->name('contact.submit');
 Route::post('/login',[AuthController::class,'authlogin'])->name('login');
-Route::post('/admin/change-password', [AuthController::class, 'changePassword'])
+Route::post('/admin/change-password',
+    [AuthController::class, 'changePassword'])
+    ->middleware('auth')
     ->name('admin.changePassword');
 Route::post('/singout',[AuthController::class,'singout'])->name('singout');
 Route::get('/add-residene',[ResidenetController::class,'index'])->name('add-residenet');
