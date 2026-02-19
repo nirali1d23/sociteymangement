@@ -11,27 +11,27 @@ use Illuminate\Support\Facades\DB;
 
 class BookedamenitiesController extends Controller
 {
-    public function index(Request $request)
-    {
-        if ($request->ajax()) {
+  public function index(Request $request)
+{
+    if ($request->ajax()) {
 
-            $data = Bookamenities::select(
+        $data = Bookamenities::select(
                 'bookamenities.id',
                 'bookamenities.date',
                 'bookamenities.status',
                 'users.name as user_name',
                 'amenities.amenities_name'
             )
-                ->join('users', 'users.id', '=', DB::raw('CAST(bookamenities.user_id AS UNSIGNED)'))
-                ->join('amenities', 'amenities.id', '=', DB::raw('CAST(bookamenities.amenities_id AS UNSIGNED)'))
-                ->latest()
-                ->get();
+            ->join('users', 'users.id', '=', DB::raw('CAST(bookamenities.user_id AS UNSIGNED)'))
+            ->join('amenities', 'amenities.id', '=', DB::raw('CAST(bookamenities.amenities_id AS UNSIGNED)'))
+            ->orderBy('bookamenities.created_at', 'desc') // ✅ FIX HERE
+            ->get();
 
-            return DataTables::of($data)->make(true);
-        }
-
-        return view('admin_panel.admin.bookamenities');
+        return DataTables::of($data)->make(true);
     }
+
+    return view('admin_panel.admin.bookamenities');
+}
 
     public function updatestatus(Request $request)
     {
