@@ -6,11 +6,14 @@ use DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\preapproval;
+use App\Traits\FirebaseNotificationTrait;
 
 
 
 class PrevisitorController extends Controller
 {
+        use FirebaseNotificationTrait;
+
     public function index(Request $request)
     {
 
@@ -53,6 +56,29 @@ class PrevisitorController extends Controller
             $visitor->status = $request->status;
             $visitor->save();
 
+
+
+              $user = User::find($visitor->user_id);
+     
+             $fcmToken = $user->fcm_token;
+             if($fcmToken)
+             {
+               
+                 if($request->status == '1')
+                 {
+ 
+                  $title = "Your Pre-Visitor Booking is Confirmed!✅";
+                  $body = "Good news! Your pre-visitor booking for  visitor has been approved by our admin team. We're excited to welcome your visitor!";
+                 }
+ 
+                  else
+                  {
+                     $title = "Update on Your Pre-Visitor Booking Request 🚫";
+                      $body = "We regret to inform you that your pre-visitor booking for visitor on could not be approved. For further assistance, please reach out to our support team. We're here to help!";
+                  }
+         
+                 $this->sendFirebaseStaffNotification($fcmToken, $title, $body);
+             }
             return response()->json(['success' => true]);
         }
 

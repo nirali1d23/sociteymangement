@@ -74,6 +74,22 @@ Route::get('/amenities/edit/{id}', [AmenitiesController::class, 'edit'])->name('
 Route::delete('/amenities/delete/{id}', [AmenitiesController::class, 'destroy'])->name('amenities.delete');Route::get('/bookamenities',[BookedamenitiesController::class,'index'])->name('bookamenities');
 Route::post('/update-amenity-status', [BookedamenitiesController::class,'updatestatus'])->name('updateAmenityStatus');
 
+
+
+  Route::post('/maintance/assign', [MaintanceController::class, 'assigntostaff'])
+        ->name('maintance.assign');
+
+    // Staff list (user_type = 3)
+    Route::get('/staff/list', [MaintanceController::class, 'staffList'])
+        ->name('staff.list');
+
+    // Delete maintenance request
+    Route::delete('/maintance/delete/{id}', [MaintanceController::class, 'destroy'])
+        ->name('userdelete');
+
+
+
+        
 // Route::get('/poll', function () 
 // {
 //     return view('admin_panel.admin.poll');

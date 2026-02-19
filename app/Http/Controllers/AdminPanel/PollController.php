@@ -6,10 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pollquestion;
 use App\Models\Polloptions;
+use App\Models\User;
 use DataTables;
+use App\Traits\FirebaseNotificationTrait;
 
 class PollController extends Controller
 {
+        use FirebaseNotificationTrait;
+
     public function index()
     {
         return view('admin_panel.admin.poll');
@@ -49,6 +53,19 @@ class PollController extends Controller
                 'option' => $opt
             ]);
         }
+
+
+         $data = User::where('user_type',2)->get();
+      foreach($data as  $token)
+      {
+          if($token->fcm_token !=null)
+          {
+              $fcmToken = $token->fcm_token;
+              $title = "🗳️ New Poll Created!";
+              $body = "📢 Have your say! A new poll is now live. Cast your vote and let your opinion be heard. 🌟";
+               $this->sendFirebaseStaffNotification($fcmToken, $title, $body);
+          }
+      }
 
         return response()->json([
             'success' => true,
