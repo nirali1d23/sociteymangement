@@ -3,277 +3,189 @@
 @section('content')
 
 <div class="pagetitle">
-	<h1>Event</h1>
-	
-  </div><!-- End Page Title -->
-  <div class="card">
-	<div class="card-body">
-		<br>
-		<a class="btn btn-primary float-end" href="javascript:void(0)" id="createNewProduct"> Create New </a>
-		<h5 class="card-title">Bordered Table</h5>
-		
+    <h1>Event</h1>
+</div>
 
-	 	  <table class="table table-bordered border-primary data-table">
-		<thead>
-		  <tr>  
-			
-			<th scope="col">Eventtitle</th>
-			<th scope="col">Date</th>
-			<th scope="col">Area</th>
-			<th scope="col">time</th>
-			<th scope="col">Day</th>
-		
+<div class="card">
+    <div class="card-body">
+        <br>
 
-			<th width="280px">Action</th>
-		  </tr>
-		</thead>
-		<tbody>
-		  
-		</tbody>
-	  </table>
-	</div>
+        <a class="btn btn-primary float-end" href="javascript:void(0)" id="createNewProduct">
+            Create New
+        </a>
 
-	<div class="modal fade" id="ajaxModel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title" id="modelHeading"></h4>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form id="productForm" name="productForm" class="form-horizontal">
-					   <input type="hidden" name="product_id" id="product_id">
-						<div class="form-group">
-							<label for="name" class="col-sm-12 control-label">EventTitle</label>
-							<div class="col-sm-12">
-								<input type="text" class="form-control" id="event_name" name="event_name" placeholder="Enter EvenTitle" value="" maxlength="50" required="">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-12 control-label">Area</label>							<div class="col-sm-12">
-								<input type="text" class="form-control" id="area" name="area" placeholder="Enter Area" value=""  required="">
-							</div>
-						</div>
+        <h5 class="card-title">Event List</h5>
 
-						<div class="form-group">
-							<label for="name" class="col-sm-12 control-label">Date</label>							<div class="col-sm-12">
-								<input type="date" class="form-control" id="date" name="date" placeholder="Enter Date" value=""  required="">
-							</div>
-						</div>
-						
-						
-						<div class="form-group">
-							<label for="name" class="col-sm-12 control-label">Time</label>							<div class="col-sm-12">
-								<input type="time" class="form-control" id="time" name="time" placeholder="Enter Time" value=""  required="">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-12 control-label">Day</label>							<div class="col-sm-12">
-								<input type="text" class="form-control" id="day" name="day" placeholder="Enter Day" value=""  required="">
-							</div>
-						</div>
-					
-						<div class="form-group">
-							<label for="name" class="col-sm-12 control-label">Instruction</label>							<div class="col-sm-12">
-								<input type="text" class="form-control" id="instruction" name="instruction" placeholder="Enter Instruction" value=""  required="">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="name" class="col-sm-12 control-label">Image</label>							<div class="col-sm-12">
-								<input type="file" class="form-control" id="image" name="image" placeholder="Enter Instruction" value=""  required="">
-							</div>
-						</div>
-						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save Event</button>
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>							
-						 </button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-  </div>
-  <script type="text/javascript">
-	$(function () {
-		
-	
-	  $.ajaxSetup({
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			}
-	  });
-	  var table = $('.data-table').DataTable({
-		  processing: true,
-		  serverSide: true,
-		  ajax: "{{ route('event') }}",
-		  columns: [
-			
-			  {data: 'event_name', name: 'event_name'},
-			  {data: 'date', name: 'date'},
-			  {data: 'area', name: 'area'},
-			  {data: 'time', name: 'time'},
-			  {data: 'day', name: 'day'},
-			  {data: 'instruction', name: 'instruction'},
-			  {data: 'action', name: 'action', orderable: false, searchable: false},
-			
-		  ]
-	  });
+        <table class="table table-bordered border-primary data-table">
+            <thead>
+                <tr>
+                    <th>Event Title</th>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>Time</th>
+                    <th>Day</th>
+                    <th>Instruction</th>
+                    <th width="200px">Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
 
-	  $('#createNewProduct').click(function () {
-        $('#saveBtn').val("create-product");
+<!-- Modal -->
+<div class="modal fade" id="ajaxModel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title" id="modelHeading"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="productForm" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="product_id" id="product_id">
+
+                    <div class="mb-3">
+                        <label>Event Title</label>
+                        <input type="text" name="event_name" id="event_name" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Area</label>
+                        <input type="text" name="area" id="area" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Date</label>
+                        <input type="date" name="date" id="date" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Time</label>
+                        <input type="time" name="time" id="time" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Day</label>
+                        <input type="text" name="day" id="day" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Instruction</label>
+                        <input type="text" name="instruction" id="instruction" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Image</label>
+                        <input type="file" name="image" id="image" class="form-control">
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary" id="saveBtn">
+                            Save Event
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@endsection
+
+@push('scripts')
+<script>
+$(function () {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    // Datatable
+    var table = $('.data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('event') }}",
+        columns: [
+            { data: 'event_name', name: 'event_name' },
+            { data: 'date', name: 'date' },
+            { data: 'area', name: 'area' },
+            { data: 'time', name: 'time' },
+            { data: 'day', name: 'day' },
+            { data: 'instruction', name: 'instruction' },
+            { data: 'action', name: 'action', orderable: false, searchable: false }
+        ]
+    });
+
+    // Open modal
+    $('#createNewProduct').click(function () {
+        $('#productForm')[0].reset();
         $('#product_id').val('');
-        $('#productForm').trigger("reset");
         $('#modelHeading').html("Create New Event");
         $('#ajaxModel').modal('show');
     });
 
-
-	$('body').on('click', '.editProduct', function () {
-      var product_id = $(this).data('id');
-	  $.get("{{ route('products-ajax-crud.edit', ':id') }}".replace(':id', product_id), function (data) {
-          $('#saveBtn').val("edit-user");
-          $('#ajaxModel').modal('show');
-          $('#product_id').val(data.id);
-          $('#name').val(data.name);
-          $('#name').val(data.name);
-          $('#name').val(data.name);
-      })
-    });
-
-
-	$('#saveBtn').click(function (e) 
-    {
+    // Store event (FIXED)
+    $('#productForm').submit(function (e) {
         e.preventDefault();
-        $(this).html('Sending..');
+
+        $('#saveBtn').html('Saving...');
+
+        let formData = new FormData(this);
+
         $.ajax({
+            url: "{{ route('eventstore') }}",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
 
-          data: $('#productForm').serialize(),
-
-          url: "{{ route('eventstore') }}",
-
-          type: "POST",
-
-          dataType: 'json',
-
-              success: function (data) {
-            if (data.success) {
-                // Display SweetAlert message
+            success: function (res) {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
-                    text: data.message,
-                    timer: 3000,
+                    text: res.message,
+                    timer: 2000,
                     showConfirmButton: false
                 });
 
-                // Reset the form
-                $('#productForm').trigger("reset");
-
-                // Hide the modal
                 $('#ajaxModel').modal('hide');
-
-                // Redraw the table
                 table.draw();
+                $('#saveBtn').html('Save Event');
+            },
+
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                alert('Something went wrong');
+                $('#saveBtn').html('Save Event');
             }
-
-            $('#saveBtn').html('Save Changes');
-        },
-
-          error: function (data) {
-
-              console.log('Error:', data);
-
-              $('#saveBtn').html('Save Changes');
-
-          }
-
-      });
-
+        });
     });
 
-	$('body').on('click', '.deleteProduct', function () {
+    // Delete
+    $('body').on('click', '.deleteProduct', function () {
+        let id = $(this).data('id');
 
-     
+        if (!confirm("Are you sure?")) return;
 
-var product_id = $(this).data("id");
-
-confirm("Are You sure want to delete !");
-
-
-
-$.ajax({
-
-	type: "DELETE",
-
-	url:  "{{ route('userdelete', ':id') }}".replace(':id', product_id),
-
-	success: function (data) {
-
-		table.draw();
-
-	},
-
-	error: function (data) {
-
-		console.log('Error:', data);
-
-	}
+        $.ajax({
+            type: "DELETE",
+            url: "{{ route('userdelete', ':id') }}".replace(':id', id),
+            success: function () {
+                table.draw();
+            }
+        });
+    });
 
 });
-
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	});
-	</script>
-
-@endsection
+</script>
+@endpush

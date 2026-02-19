@@ -52,7 +52,8 @@ class EventController extends Controller
  
       public function store(Request $request)
     {
-        // $validated = $request->validate([
+
+    // $validated = $request->validate([
          
         //     'image' => 'required|image|mimes:jpeg,png,jpg,gif', // Image validation
         // ]);
