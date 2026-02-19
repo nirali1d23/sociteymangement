@@ -12,13 +12,9 @@ class ResidenetController extends Controller
     public function index(Request $request)
     {
 
-        if ($request->ajax()) {
-
-  
-
+        if ($request->ajax()) 
+        {
             $data = User::where('user_type','!=',0)->latest()->get();
-
-  
 
             return Datatables::of($data)
 
@@ -39,7 +35,6 @@ class ResidenetController extends Controller
                     ->make(true);
 
         }
-
 
         return view('admin_panel.admin.resident');
 

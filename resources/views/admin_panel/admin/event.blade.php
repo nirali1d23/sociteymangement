@@ -149,7 +149,7 @@
 
           data: $('#productForm').serialize(),
 
-          url: "{{ route('userstore') }}",
+          url: "{{ route('eventstore') }}",
 
           type: "POST",
 
