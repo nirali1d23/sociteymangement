@@ -47,7 +47,6 @@ public function changePassword(Request $request)
         'current_password' => 'required',
         'new_password' => 'required|min:6|confirmed',
     ]);
-dd(Auth::guard('admin')->user());
 
     $user = Auth::user(); // ✅ Works ONLY with web + auth middleware
 
