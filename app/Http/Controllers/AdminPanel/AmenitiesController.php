@@ -74,4 +74,5 @@ class AmenitiesController extends Controller
             'message' => 'Amenities deleted successfully!'
         ]);
     }
+    
 }
