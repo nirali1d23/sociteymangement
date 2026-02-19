@@ -40,7 +40,7 @@ class MaintanceController extends Controller
                         return $house->house_number;
                     }
 
-                    return $block->block_number . '-' . $house->house_number;
+                    return $block->block_no . '-' . $house->house_number;
                 })
 
                 ->make(true);
