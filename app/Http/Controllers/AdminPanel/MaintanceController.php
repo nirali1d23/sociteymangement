@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminPanel;
 use DataTables;
+use App\Traits\FirebaseNotificationTrait;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,6 +12,8 @@ use App\Models\User;
 
 class MaintanceController extends Controller
 {
+        use FirebaseNotificationTrait;
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -73,17 +76,17 @@ class MaintanceController extends Controller
             ]
         );
 
-        // $user = User::where('id',$request->staff_id)
-        //             ->where('user_type',3)
-        //             ->first();
+        $user = User::where('id',$request->staff_id)
+                    ->where('user_type',3)
+                    ->first();
 
-        // if ($user && $user->fcm_token) {
-        //     $this->sendFirebaseStaffNotification(
-        //         $user->fcm_token,
-        //         "New Maintenance Task 🚀",
-        //         "A new maintenance request has been assigned to you."
-        //     );
-        // }
+        if ($user && $user->fcm_token) {
+            $this->sendFirebaseStaffNotification(
+                $user->fcm_token,
+                "New Maintenance Task 🚀",
+                "A new maintenance request has been assigned to you."
+            );
+        }
 
         return response()->json([
             'message' => 'Maintenance Assigned Successfully',
