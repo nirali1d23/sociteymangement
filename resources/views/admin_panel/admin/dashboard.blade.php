@@ -30,7 +30,7 @@
 
     <!-- TOTAL RESIDENTS (redirect to users) -->
     <div class="col-md-3">
-        <a href="{{ route('user') }}" class="text-decoration-none text-dark">
+        <a href="{{ route('add-residene') }}" class="text-decoration-none text-dark">
             <div class="card info-card">
                 <div class="card-body">
                     <h5 class="card-title">Total Residents</h5>
@@ -42,7 +42,7 @@
 
     <!-- TOTAL STAFF (redirect to users) -->
     <div class="col-md-3">
-        <a href="{{ route('user') }}" class="text-decoration-none text-dark">
+        <a href="{{ route('add-residene') }}" class="text-decoration-none text-dark">
             <div class="card info-card">
                 <div class="card-body">
                     <h5 class="card-title">Total Staff</h5>
