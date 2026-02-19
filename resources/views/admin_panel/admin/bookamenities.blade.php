@@ -67,25 +67,53 @@ $(function () {
     });
 
     // STATUS TOGGLE
-    $(document).on('click', '.toggle-status', function () {
-        let id = $(this).data('id');
-        let status = $(this).data('status');
-        let newStatus = status == 0 ? 1 : 0;
+$(document).on('click', '.toggle-status', function () {
 
-        $.ajax({
-            url: "{{ route('updateAmenityStatus') }}",
-            type: "POST",
-            data: {
-                id: id,
-                status: newStatus
-            },
-            success: function () {
-                table.ajax.reload(null, false);
-            }
-        });
+    let id = $(this).data('id');
+    let status = $(this).data('status');
+    let newStatus = status == 0 ? 1 : 0;
+
+    let actionText = status == 0 ? 'approve' : 'disapprove';
+    let buttonColor = status == 0 ? '#28a745' : '#d33';
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: `Do you want to ${actionText} this booking?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: buttonColor,
+        confirmButtonText: `Yes, ${actionText}!`,
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                url: "{{ route('updateAmenityStatus') }}",
+                type: "POST",
+                data: {
+                    id: id,
+                    status: newStatus
+                },
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Updated!',
+                        text: `Booking ${actionText}ed successfully`,
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+
+                    table.ajax.reload(null, false);
+                },
+                error: function () {
+                    Swal.fire('Error', 'Status update failed', 'error');
+                }
+            });
+        }
     });
-
 });
+
 </script>
 
 @endsection
