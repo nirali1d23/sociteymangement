@@ -14,14 +14,14 @@ class BookedamenitiesController extends Controller
         if ($request->ajax()) {
 
             $data = Bookamenities::select(
-                    'bookamenities.id',
-                    'bookamenities.date',
-                    'bookamenities.status',
-                    'users.name as user_name',
-                    'amenities.amenities_name as amenities_name'
-                )
-                ->join('users', 'users.id', '=', 'bookamenities.user_id')
-                ->join('amenities', 'amenities.id', '=', 'bookamenities.amenities_id')
+                'bookamenities.id',
+                'bookamenities.date',
+                'bookamenities.status',
+                'users.name as user_name',
+                'amenities.amenities_name'
+            )
+                ->join('users', 'users.id', '=', DB::raw('CAST(bookamenities.user_id AS UNSIGNED)'))
+                ->join('amenities', 'amenities.id', '=', DB::raw('CAST(bookamenities.amenities_id AS UNSIGNED)'))
                 ->latest()
                 ->get();
 
