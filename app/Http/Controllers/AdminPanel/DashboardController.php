@@ -8,6 +8,7 @@ use App\Models\Flat;
 use App\Models\User;
 use App\Models\Notice;
 use App\Models\House;
+use App\Models\Amenities;
 
 class DashboardController extends Controller
 {
@@ -19,6 +20,7 @@ class DashboardController extends Controller
             'totalResidents' => User::where('user_type', 2)->count(),
             'totalStaff'     => User::where('user_type', 3)->count(),
             'totalNotices'   => Notice::count(),
+            'totalAmenities' => Amenities::count(),
         ]);
     }
 }
