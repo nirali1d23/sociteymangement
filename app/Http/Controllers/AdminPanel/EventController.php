@@ -57,20 +57,28 @@ class EventController extends Controller
          
         //     'image' => 'required|image|mimes:jpeg,png,jpg,gif', // Image validation
         // ]);
-        // if ($request->hasFile('image')) 
-        // {
-        //     $image_1 = $request->file('image');
-        //     $image = $this->uploadImage($image_1, 'image'); // Pass both the file and directory
-        // }
-        $create = new Event;
-        $create->event_name = $request->event_name;
-        $create->date = $request->date;
-        $create->area = $request->area;
-        $create->time = $request->time;
-        $create->day = $request->day;
-        $create->instruction= $request->instruction;
-        // $create->image= $image;
-        $create->save();
+        if ($request->hasFile('image')) 
+        {
+            $image_1 = $request->file('image');
+            $image = $this->uploadImage($image_1, 'image'); // Pass both the file and directory
+        }
+   
+
+
+            $event = Event::updateOrCreate(
+        ['id' => $request->event_id],
+        [
+            'event_name' => $request->event_name,
+            'area' => $request->area,
+            'date' => $request->date,
+            'time' => $request->time,
+            'day' => $request->day,
+            'instruction' => $request->instruction,
+            'image' => $image,
+        ]
+    );
+
+
         $data = User::where('user_type',2)->get();
         foreach($data as  $token)
         {
@@ -87,4 +95,26 @@ class EventController extends Controller
             'statusCode' => 200
         ],200 );
     }
+    public function edit($id)
+{
+    return Event::findOrFail($id);
+}
+public function destroy($id)
+{
+    $event = Event::findOrFail($id);
+
+    // If you later store image, you can unlink here
+    // if ($event->image && file_exists(public_path($event->image))) {
+    //     unlink(public_path($event->image));
+    // }
+
+    $event->delete();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Event deleted successfully!'
+    ]);
+}
+
+
 }

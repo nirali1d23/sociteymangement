@@ -45,35 +45,36 @@
                 <div class="modal-body">
                     <form id="productForm" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="event_id" id="event_id">
 
                         <div class="mb-3">
                             <label>Event Title</label>
-                            <input type="text" name="event_name" class="form-control" required>
+                            <input type="text" name="event_name" id="event_name" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
                             <label>Area</label>
-                            <input type="text" name="area" class="form-control" required>
+                            <input type="text" name="area" id="area" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
                             <label>Date</label>
-                            <input type="date" name="date" class="form-control" required>
+                            <input type="date" name="date" id="date" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
                             <label>Time</label>
-                            <input type="time" name="time" class="form-control" required>
+                            <input type="time" name="time" id="time" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
                             <label>Day</label>
-                            <input type="text" name="day" class="form-control" required>
+                            <input type="text" name="day" id="day" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
                             <label>Instruction</label>
-                            <input type="text" name="instruction" class="form-control" required>
+                            <input type="text" name="instruction" id="instruction" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
@@ -92,7 +93,7 @@
     </div>
 </div>
 
-{{-- ✅ INLINE SCRIPT (SAME AS WORKING BLADE) --}}
+{{-- ✅ INLINE SCRIPT --}}
 <script type="text/javascript">
 $(function () {
 
@@ -102,7 +103,7 @@ $(function () {
         }
     });
 
-    // Datatable
+    // DATATABLE
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
@@ -118,20 +119,41 @@ $(function () {
         ]
     });
 
-    // ✅ CREATE BUTTON
+    // CREATE
     $('#createNewProduct').click(function () {
         $('#productForm')[0].reset();
+        $('#event_id').val('');
+        $('#modelHeading').html('Create Event');
         $('#ajaxModel').modal('show');
     });
 
-    // ✅ SAVE EVENT
+    // EDIT
+    $('body').on('click', '.editProduct', function () {
+        let id = $(this).data('id');
+
+        $.get("{{ route('event.edit', ':id') }}".replace(':id', id), function (data) {
+
+            $('#modelHeading').html('Edit Event');
+            $('#event_id').val(data.id);
+            $('#event_name').val(data.event_name);
+            $('#area').val(data.area);
+            $('#date').val(data.date);
+            $('#time').val(data.time);
+            $('#day').val(data.day);
+            $('#instruction').val(data.instruction);
+
+            $('#ajaxModel').modal('show');
+        });
+    });
+
+    // SAVE (CREATE + UPDATE)
     $('#saveBtn').click(function (e) {
         e.preventDefault();
 
         let formData = new FormData($('#productForm')[0]);
 
         $.ajax({
-            url: "{{ route('eventstore') }}",
+            url: "{{ route('eventstore') }}", // SAME ROUTE
             type: "POST",
             data: formData,
             processData: false,
@@ -147,16 +169,53 @@ $(function () {
                     showConfirmButton: false
                 });
 
-                $('#productForm')[0].reset();
                 $('#ajaxModel').modal('hide');
                 table.draw();
-            },
-
-            error: function (xhr) {
-                console.log(xhr.responseText);
-                alert('Something went wrong');
             }
         });
+    });
+
+    // DELETE
+$('body').on('click', '.deleteProduct', function () {
+
+    let id = $(this).data('id');
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "This event will be deleted!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            $.ajax({
+                type: "DELETE",
+                url: "{{ route('event.delete', ':id') }}".replace(':id', id),
+
+                success: function (res) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted!',
+                        text: res.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+
+                    table.draw();
+                },
+
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                    alert('Delete failed');
+                }
+            });
+
+        }
+    });
+});
+
     });
 
 });
