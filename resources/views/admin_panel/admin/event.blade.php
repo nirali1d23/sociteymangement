@@ -31,77 +31,69 @@
             <tbody></tbody>
         </table>
     </div>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="ajaxModel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <!-- MODAL -->
+    <div class="modal fade" id="ajaxModel">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-            <div class="modal-header">
-                <h4 class="modal-title" id="modelHeading"></h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modelHeading">Create Event</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
 
-            <div class="modal-body">
-                <form id="productForm" enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" name="product_id" id="product_id">
+                <div class="modal-body">
+                    <form id="productForm" enctype="multipart/form-data">
+                        @csrf
 
-                    <div class="mb-3">
-                        <label>Event Title</label>
-                        <input type="text" name="event_name" id="event_name" class="form-control" required>
-                    </div>
+                        <div class="mb-3">
+                            <label>Event Title</label>
+                            <input type="text" name="event_name" class="form-control" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label>Area</label>
-                        <input type="text" name="area" id="area" class="form-control" required>
-                    </div>
+                        <div class="mb-3">
+                            <label>Area</label>
+                            <input type="text" name="area" class="form-control" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label>Date</label>
-                        <input type="date" name="date" id="date" class="form-control" required>
-                    </div>
+                        <div class="mb-3">
+                            <label>Date</label>
+                            <input type="date" name="date" class="form-control" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label>Time</label>
-                        <input type="time" name="time" id="time" class="form-control" required>
-                    </div>
+                        <div class="mb-3">
+                            <label>Time</label>
+                            <input type="time" name="time" class="form-control" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label>Day</label>
-                        <input type="text" name="day" id="day" class="form-control" required>
-                    </div>
+                        <div class="mb-3">
+                            <label>Day</label>
+                            <input type="text" name="day" class="form-control" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label>Instruction</label>
-                        <input type="text" name="instruction" id="instruction" class="form-control" required>
-                    </div>
+                        <div class="mb-3">
+                            <label>Instruction</label>
+                            <input type="text" name="instruction" class="form-control" required>
+                        </div>
 
-                    <div class="mb-3">
-                        <label>Image</label>
-                        <input type="file" name="image" id="image" class="form-control">
-                    </div>
+                        <div class="mb-3">
+                            <label>Image</label>
+                            <input type="file" name="image" class="form-control">
+                        </div>
 
-                    <div class="text-end">
-                        <button type="submit" class="btn btn-primary" id="saveBtn">
+                        <button class="btn btn-primary" id="saveBtn">
                             Save Event
                         </button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
 
+            </div>
         </div>
     </div>
 </div>
 
-@endsection
-
-@push('scripts')
-<script>
+{{-- ✅ INLINE SCRIPT (SAME AS WORKING BLADE) --}}
+<script type="text/javascript">
 $(function () {
 
     $.ajaxSetup({
@@ -126,21 +118,17 @@ $(function () {
         ]
     });
 
-    // Open modal
+    // ✅ CREATE BUTTON
     $('#createNewProduct').click(function () {
         $('#productForm')[0].reset();
-        $('#product_id').val('');
-        $('#modelHeading').html("Create New Event");
         $('#ajaxModel').modal('show');
     });
 
-    // Store event (FIXED)
-    $('#productForm').submit(function (e) {
+    // ✅ SAVE EVENT
+    $('#saveBtn').click(function (e) {
         e.preventDefault();
 
-        $('#saveBtn').html('Saving...');
-
-        let formData = new FormData(this);
+        let formData = new FormData($('#productForm')[0]);
 
         $.ajax({
             url: "{{ route('eventstore') }}",
@@ -148,44 +136,30 @@ $(function () {
             data: formData,
             processData: false,
             contentType: false,
+            dataType: "json",
 
-            success: function (res) {
+            success: function (data) {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
-                    text: res.message,
-                    timer: 2000,
+                    text: data.message,
+                    timer: 3000,
                     showConfirmButton: false
                 });
 
+                $('#productForm')[0].reset();
                 $('#ajaxModel').modal('hide');
                 table.draw();
-                $('#saveBtn').html('Save Event');
             },
 
             error: function (xhr) {
                 console.log(xhr.responseText);
                 alert('Something went wrong');
-                $('#saveBtn').html('Save Event');
-            }
-        });
-    });
-
-    // Delete
-    $('body').on('click', '.deleteProduct', function () {
-        let id = $(this).data('id');
-
-        if (!confirm("Are you sure?")) return;
-
-        $.ajax({
-            type: "DELETE",
-            url: "{{ route('userdelete', ':id') }}".replace(':id', id),
-            success: function () {
-                table.draw();
             }
         });
     });
 
 });
 </script>
-@endpush
+
+@endsection
