@@ -19,7 +19,19 @@ class MaintanceController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
+->addColumn('action', function ($row) {
 
+    if ($row->status == 0) {
+        return '<button class="btn btn-sm btn-primary assignStaff" 
+                    data-id="'.$row->id.'">
+                    Assign
+                </button>';
+    }
+
+    return '<button class="btn btn-sm btn-success" disabled>
+                Assigned
+            </button>';
+})
                 ->addColumn('user_name', function ($row) {
                     return $row->user->name ?? '-';
                 })
