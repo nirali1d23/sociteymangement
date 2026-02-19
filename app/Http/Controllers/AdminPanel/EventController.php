@@ -145,7 +145,6 @@ class EventController extends Controller
             return [
                 'user_name' => $fb->user->name ?? '-',
                 'feedback' => $fb->feedback ?? '-',
-                'rating' => $fb->rating ?? '-',
                 'date' => $fb->created_at->format('d-m-Y')
             ];
         });

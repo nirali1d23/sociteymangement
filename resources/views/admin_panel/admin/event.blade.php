@@ -263,7 +263,6 @@ $(document).on('click', '.viewFeedback', function () {
                 <tr>
                     <td>${row.user_name}</td>
                     <td>${row.feedback}</td>
-                    <td>${row.rating}</td>
                     <td>${row.date}</td>
                 </tr>
             `;
