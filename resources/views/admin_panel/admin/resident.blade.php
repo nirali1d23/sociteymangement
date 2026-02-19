@@ -1,5 +1,4 @@
 @extends('admin_panel.layouts.app')
-
 @section('content')
 
 <div class="pagetitle">
