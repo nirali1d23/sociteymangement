@@ -6,6 +6,8 @@ use DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Bookamenities;
+use Illuminate\Support\Facades\DB;
+
 
 class BookedamenitiesController extends Controller
 {
