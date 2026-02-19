@@ -18,8 +18,7 @@ use App\Http\Controllers\AdminPanel\BookedamenitiesController;
 use App\Http\Controllers\AdminPanel\DashboardController;
 use App\Http\Controllers\AdminPanel\PollController;
 use App\Models\Contactus;
-Route::get('/', function ()
-{
+Route::get('/', function () {
     return view('Auth.login');
 });
 
@@ -31,49 +30,53 @@ Route::view('/contact-us', 'pages.contact')->name('contact');
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('admin.dashboard');
 Route::post('/contact-us', [apicontroller::class, 'submitcontactus'])
-     ->name('contact.submit');
-Route::post('/login',[AuthController::class,'authlogin'])->name('login');
-Route::post('/admin/change-password', 
+    ->name('contact.submit');
+Route::post('/login', [AuthController::class, 'authlogin'])->name('login');
+Route::post(
+    '/admin/change-password',
     [AuthController::class, 'changePassword']
 )->middleware('auth')->name('admin.changePassword');
-Route::post('/singout',[AuthController::class,'singout'])->name('singout');
-Route::get('/add-residene',[ResidenetController::class,'index'])->name('add-residenet');
-Route::post('/userstore',[ResidenetController::class,'store'])->name('userstore');
-Route::get('/products-ajax-crud/{id}/edit',[ResidenetController::class,'edit'])->name('products-ajax-crud.edit');
-Route::delete('/userdelete/{id}',[ResidenetController::class,'delete'])->name('userdelete');
-Route::get('/flate',[FlatController::class,'index'])->name('flate');
-Route::post('/flatstore',[FlatController::class,'store'])->name('flatstore');
+Route::post('/singout', [AuthController::class, 'singout'])->name('singout');
+Route::get('/add-residene', [ResidenetController::class, 'index'])->name('add-residenet');
+Route::post('/userstore', [ResidenetController::class, 'store'])->name('userstore');
+Route::get('/products-ajax-crud/{id}/edit', [ResidenetController::class, 'edit'])->name('products-ajax-crud.edit');
+Route::delete('/userdelete/{id}', [ResidenetController::class, 'delete'])->name('userdelete');
+Route::get('/flate', [FlatController::class, 'index'])->name('flate');
+Route::post('/flatstore', [FlatController::class, 'store'])->name('flatstore');
 Route::get('/alltoment', [AllotmentController::class, 'index'])
     ->name('alltoment');
-Route::get('/get-houses/{flat_id}', 
+Route::get(
+    '/get-houses/{flat_id}',
     [AllotmentController::class, 'getHouses']
 );
 Route::get('/alltoment/data', [AllotmentController::class, 'data'])
-    ->name('alltoment.data');Route::post('alltoment/store', [AllotmentController::class,'store'])->name('allotment.store');
-Route::get('admin/get-houses/{block_id}', [AllotmentController::class,'getHouses']);
+    ->name('alltoment.data');
+Route::post('alltoment/store', [AllotmentController::class, 'store'])->name('allotment.store');
+Route::get('admin/get-houses/{block_id}', [AllotmentController::class, 'getHouses']);
 
 
-Route::get('/event',[EventController::class,'index'])->name('event');
-Route::post('/event',[EventController::class,'store'])->name('eventstore');
+Route::get('/event', [EventController::class, 'index'])->name('event');
+Route::post('/event', [EventController::class, 'store'])->name('eventstore');
 Route::get('/event/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
 
 Route::post('/previsitor/update-status', [PrevisitorController::class, 'updateStatus'])
     ->name('previsitor.updateStatus');
-Route::delete('/event/delete/{id}',[EventController::class,'destroy'])->name('event.delete');
+Route::delete('/event/delete/{id}', [EventController::class, 'destroy'])->name('event.delete');
 Route::get('/notice', [NoticeController::class, 'index'])->name('notice');
 Route::post('/notice/store', [NoticeController::class, 'store'])->name('noticestore');
 Route::get('/notice/edit/{id}', [NoticeController::class, 'edit'])->name('notice.edit');
 Route::delete('/notice/delete/{id}', [NoticeController::class, 'destroy'])->name('notice.delete');
 
-Route::post('/noticestore',[NoticeController::class,'store'])->name('noticestore');
-Route::get('/visitor',[VisitorController::class,'index'])->name('visitor');
-Route::get('/previsitor',[PrevisitorController::class,'index'])->name('previsitor');
-Route::get('/maintance',[MaintanceController::class,'index'])->name('maintance');
-Route::get('/amenities',[AmenitiesController::class,'index'])->name('amenities');
+Route::post('/noticestore', [NoticeController::class, 'store'])->name('noticestore');
+Route::get('/visitor', [VisitorController::class, 'index'])->name('visitor');
+Route::get('/previsitor', [PrevisitorController::class, 'index'])->name('previsitor');
+Route::get('/maintance', [MaintanceController::class, 'index'])->name('maintance');
+Route::get('/amenities', [AmenitiesController::class, 'index'])->name('amenities');
 Route::post('/amenities/store', [AmenitiesController::class, 'store'])->name('amenities.store');
 Route::get('/amenities/edit/{id}', [AmenitiesController::class, 'edit'])->name('amenities.edit');
-Route::delete('/amenities/delete/{id}', [AmenitiesController::class, 'destroy'])->name('amenities.delete');Route::get('/bookamenities',[BookedamenitiesController::class,'index'])->name('bookamenities');
-Route::post('/update-amenity-status', [BookedamenitiesController::class,'updatestatus'])->name('updateAmenityStatus');
+Route::delete('/amenities/delete/{id}', [AmenitiesController::class, 'destroy'])->name('amenities.delete');
+Route::get('/bookamenities', [BookedamenitiesController::class, 'index'])->name('bookamenities');
+Route::post('/update-amenity-status', [BookedamenitiesController::class, 'updatestatus'])->name('updateAmenityStatus');
 
 // Route::get('/poll', function () 
 // {
