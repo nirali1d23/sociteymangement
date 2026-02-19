@@ -41,7 +41,7 @@ class MaintanceController extends Controller
                     $block = $house->block ?? null;
 
                     return $block
-                        ? $block->block_number . '-' . $house->house_number
+                        ? $block->block_no . '-' . $house->house_number
                         : $house->house_number;
                 })
 
