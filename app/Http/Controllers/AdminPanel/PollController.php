@@ -27,24 +27,26 @@ class PollController extends Controller
                 'pollsurvey as votes_count'
             ])
         )
-            ->addColumn('action', function ($row) {
-                return '
-            <button class="btn btn-info btn-sm viewOptions"
-                data-id="' . $row->id . '">
+     ->addColumn('action', function ($row) {
+    return '
+        <div class="d-flex gap-1 justify-content-center">
+            <button class="btn btn-sm btn-outline-primary viewOptions"
+                data-id="'.$row->id.'">
                 Options
             </button>
 
-            <button class="btn btn-warning btn-sm viewSurvey"
-                data-id="' . $row->id . '">
+            <button class="btn btn-sm btn-outline-warning viewSurvey"
+                data-id="'.$row->id.'">
                 Survey
             </button>
 
-            <button class="btn btn-danger btn-sm deletePoll"
-                data-id="' . $row->id . '">
+            <button class="btn btn-sm btn-outline-danger deletePoll"
+                data-id="'.$row->id.'">
                 Delete
             </button>
-        ';
-            })
+        </div>
+    ';
+})
             ->rawColumns(['action'])
             ->make(true);
     }
