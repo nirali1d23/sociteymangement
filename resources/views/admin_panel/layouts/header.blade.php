@@ -12,10 +12,11 @@
         <ul class="d-flex align-items-center">
 
             <li class="nav-item dropdown pe-3">
-
                 <a class="nav-link nav-profile d-flex align-items-center pe-0"
                    href="#" data-bs-toggle="dropdown">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">ADMIN</span>
+                    <span class="d-none d-md-block dropdown-toggle ps-2">
+                        ADMIN
+                    </span>
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -34,6 +35,17 @@
                            data-bs-target="#changePasswordModal">
                             <i class="bi bi-key"></i>
                             <span>Change Password</span>
+                        </a>
+                    </li>
+
+                    <!-- CHANGE SECURITY PIN -->
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center gap-2"
+                           href="javascript:void(0)"
+                           data-bs-toggle="modal"
+                           data-bs-target="#changePinModal">
+                            <i class="bi bi-shield-lock"></i>
+                            <span>Change Security PIN</span>
                         </a>
                     </li>
 
@@ -56,7 +68,6 @@
 
         </ul>
     </nav>
-
 </header>
 
 <!-- ================= CHANGE PASSWORD MODAL ================= -->
@@ -105,15 +116,70 @@
                         Update Password
                     </button>
                 </div>
-
             </form>
 
         </div>
     </div>
 </div>
 
-<!-- ================= CHANGE PASSWORD JS ================= -->
+<!-- ================= CHANGE SECURITY PIN MODAL ================= -->
+<div class="modal fade" id="changePinModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Change Security PIN</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form id="changePinForm">
+                @csrf
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label>Current PIN</label>
+                        <input type="password"
+                               class="form-control"
+                               name="current_pin"
+                               maxlength="4"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>New PIN</label>
+                        <input type="password"
+                               class="form-control"
+                               name="new_pin"
+                               maxlength="4"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Confirm New PIN</label>
+                        <input type="password"
+                               class="form-control"
+                               name="new_pin_confirmation"
+                               maxlength="4"
+                               required>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">
+                        Update PIN
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- ================= JS (PASSWORD + PIN) ================= -->
 <script>
+/* CHANGE PASSWORD */
 $('#changePasswordForm').on('submit', function (e) {
     e.preventDefault();
 
@@ -139,6 +205,38 @@ $('#changePasswordForm').on('submit', function (e) {
             Swal.fire(
                 'Error',
                 xhr.responseJSON?.message ?? 'Password update failed',
+                'error'
+            );
+        }
+    });
+});
+
+/* CHANGE SECURITY PIN */
+$('#changePinForm').on('submit', function (e) {
+    e.preventDefault();
+
+    $.ajax({
+        url: "{{ route('admin.updateSecurityPin') }}",
+        type: "POST",
+        data: $(this).serialize(),
+
+        success: function (res) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: res.message,
+                timer: 2000,
+                showConfirmButton: false
+            });
+
+            $('#changePinModal').modal('hide');
+            $('#changePinForm')[0].reset();
+        },
+
+        error: function (xhr) {
+            Swal.fire(
+                'Error',
+                xhr.responseJSON?.message ?? 'PIN update failed',
                 'error'
             );
         }

@@ -97,4 +97,27 @@ public function changePassword(Request $request)
         'message' => 'Password updated successfully'
     ]);
 }
+public function updateSecurityPin(Request $request)
+{
+    $request->validate([
+        'current_pin' => 'required|digits:4',
+        'new_pin'     => 'required|digits:4|confirmed',
+    ]);
+
+    $user = Auth::user();
+
+    if ($user->security_pin !== $request->current_pin) {
+        return response()->json([
+            'message' => 'Current PIN is incorrect'
+        ], 422);
+    }
+
+    $user->security_pin = $request->new_pin;
+    $user->save();
+
+    return response()->json([
+        'message' => 'Security PIN updated successfully'
+    ]);
+}
+
 }

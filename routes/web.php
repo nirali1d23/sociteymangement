@@ -31,7 +31,10 @@ Route::post('/security-pin', [AuthController::class, 'verifyPin'])
     ->middleware('auth');
 
 Route::view('/terms-and-conditions', 'pages.terms')->name('terms');
-
+Route::post('/admin/update-security-pin', [
+  AuthController::class,
+    'updateSecurityPin'
+])->name('admin.updateSecurityPin')->middleware('auth');
 Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
 
 Route::view('/contact-us', 'pages.contact')->name('contact');
