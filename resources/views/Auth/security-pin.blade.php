@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('admin_panel.layouts.app')
 @section('content')
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
     <div class="card p-4" style="width: 350px">
