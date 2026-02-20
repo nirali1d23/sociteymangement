@@ -119,6 +119,47 @@
       </li>
 
 
+   <li class="nav-item">
+    <a class="nav-link collapsed"
+       data-bs-target="#setting-nav"
+       data-bs-toggle="collapse"
+       href="#">
+        <i class="ri-admin-line"></i>
+        <span>Setting</span>
+        <i class="bi bi-gear ms-auto"></i>
+    </a>
+
+    <ul id="setting-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+
+        <!-- CHANGE PASSWORD -->
+        <li>
+            <a href="javascript:void(0)"
+               data-bs-toggle="modal"
+               data-bs-target="#changePasswordModal">
+                <i class="bi bi-circle"></i>
+                <span>Change Password</span>
+            </a>
+        </li>
+
+        <!-- CHANGE SECURITY PIN -->
+        <li>
+            <a href="javascript:void(0)"
+               data-bs-toggle="modal"
+               data-bs-target="#changePinModal">
+                <i class="bi bi-circle"></i>
+                <span>Change Security PIN</span>
+            </a>
+        </li>
+
+    </ul>
+</li>
+         
+        </ul>
+      </li>
+
+
+
+
 
 
 
