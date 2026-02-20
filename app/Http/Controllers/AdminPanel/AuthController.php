@@ -35,6 +35,8 @@ public function verifyPin(Request $request)
     $user = Auth::user();
 
 
+    dd($user);
+
 
     if ($user->security_pin === $enteredPin) {
         session(['pin_verified' => true]);
