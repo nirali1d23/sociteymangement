@@ -22,6 +22,14 @@ Route::get('/', function () {
     return view('Auth.login');
 });
 
+Route::get('/security-pin', [AuthController::class, 'showPinForm'])
+    ->name('security.pin')
+    ->middleware('auth');
+
+Route::post('/security-pin', [AuthController::class, 'verifyPin'])
+    ->name('security.pin.verify')
+    ->middleware('auth');
+
 Route::view('/terms-and-conditions', 'pages.terms')->name('terms');
 
 Route::view('/privacy-policy', 'pages.privacy')->name('privacy');

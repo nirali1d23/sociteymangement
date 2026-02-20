@@ -58,8 +58,6 @@ class MaintanceController extends Controller
 
         return view('admin_panel.admin.maintance');
     }
-
-
     public function staffList()
     {
         return User::where('user_type', 3)->select('id', 'name')->get();
@@ -100,6 +98,6 @@ class MaintanceController extends Controller
             'statusCode' => 200
         ]);
     }
-
+              
 }
 

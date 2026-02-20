@@ -324,7 +324,8 @@ class AmenitiesController extends Controller
             'statusCode' => 400
         ], 400);
     }
-}
+ 
+    }
 
 
 

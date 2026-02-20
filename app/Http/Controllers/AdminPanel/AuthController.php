@@ -14,24 +14,55 @@ class AuthController extends Controller
     // }
 
     
-    public function authlogin(Request $request)
-    {
-     
 
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
- 
-            return redirect()->intended('dashboard');
-        }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+
+    public function showPinForm()
+{
+    return view('auth.security-pin');
+}
+
+public function verifyPin(Request $request)
+{
+    $request->validate([
+        'pin' => 'required|array|size:4',
+        'pin.*' => 'required|numeric',
+    ]);
+
+    $enteredPin = implode('', $request->pin);
+
+    $user = Auth::user();
+
+    if ($user->security_pin === $enteredPin) {
+        session(['pin_verified' => true]);
+        return redirect()->route('dashboard');
     }
+
+    return back()->withErrors([
+        'pin' => 'Invalid security PIN',
+    ]);
+}
+
+public function authlogin(Request $request)
+{
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+    ]);
+
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+
+        // mark that password step is done
+        session(['pin_verified' => false]);
+
+        return redirect()->route('security.pin');
+    }
+
+    return back()->withErrors([
+        'email' => 'The provided credentials do not match our records.',
+    ])->onlyInput('email');
+}
     public function singout(Request $request)
     {
             Auth::logout();
