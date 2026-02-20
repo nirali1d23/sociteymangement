@@ -292,7 +292,7 @@ $('body').on('click', '.viewSurvey', function () {
                 opt.pollsurvey.forEach(function (vote) {
                     html += `
                         <li class="list-group-item py-1">
-                            ${vote.user ? vote.user.first_name : 'Unknown User'}
+                            ${vote.user ? vote.user.name : 'Unknown User'}
                         </li>
                     `;
                 });
