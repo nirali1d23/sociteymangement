@@ -119,19 +119,17 @@
       </li>
 
 
-   <li class="nav-item">
+<li class="nav-item">
     <a class="nav-link collapsed"
        data-bs-target="#setting-nav"
        data-bs-toggle="collapse"
        href="#">
         <i class="ri-admin-line"></i>
         <span>Setting</span>
-        <i class="bi bi-gear ms-auto"></i>
+        <i class="bi bi-gear"></i>
     </a>
 
     <ul id="setting-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
-        <!-- CHANGE PASSWORD -->
         <li>
             <a href="javascript:void(0)"
                data-bs-toggle="modal"
@@ -141,7 +139,6 @@
             </a>
         </li>
 
-        <!-- CHANGE SECURITY PIN -->
         <li>
             <a href="javascript:void(0)"
                data-bs-toggle="modal"
@@ -150,7 +147,6 @@
                 <span>Change Security PIN</span>
             </a>
         </li>
-
     </ul>
 </li>
          
