@@ -30,7 +30,7 @@ class PollController extends Controller
      ->addColumn('action', function ($row) {
     return '
         <div class="d-flex gap-1 justify-content-center">
-            <button class="btn btn-sm btn-outline-primary viewOptions"
+            <button class="btn btn-sm btn-outline-success viewOptions"
                 data-id="'.$row->id.'">
                 Options
             </button>
