@@ -264,40 +264,42 @@ $('body').on('click', '.viewOptions', function () {
 
 // VIEW SURVEY
 $('body').on('click', '.viewSurvey', function () {
+
+    // if modal is already open → close it
+    if ($('#surveyModal').hasClass('show')) {
+        $('#surveyModal').modal('hide');
+        return;
+    }
+
     let id = $(this).data('id');
 
     $.get('/admin/polls/' + id + '/survey', function (data) {
 
-        let html = `
-            <h5 class="mb-3">${data.question}</h5>
-        `;
+        let html = `<h5 class="mb-3">${data.question}</h5>`;
 
-        data.polloption.forEach(function (opt, index) {
+        data.polloption.forEach(function (opt) {
 
             html += `
-                <div class="card mb-3">
+                <div class="card mb-2">
                     <div class="card-header d-flex justify-content-between">
                         <strong>${opt.option}</strong>
                         <span class="badge bg-success">
                             ${opt.pollsurvey.length} Votes
                         </span>
                     </div>
-
                     <div class="card-body p-2">
             `;
 
-            if (opt.pollsurvey.length > 0) {
-                html += `<ul class="list-group list-group-flush">`;
-
+            if (opt.pollsurvey.length) {
+                html += '<ul class="list-group list-group-flush">';
                 opt.pollsurvey.forEach(function (vote) {
                     html += `
                         <li class="list-group-item py-1">
-                            ${vote.user ? vote.user.name : 'Unknown User'}
+                            ${vote.user ? vote.user.first_name : 'Unknown'}
                         </li>
                     `;
                 });
-
-                html += `</ul>`;
+                html += '</ul>';
             } else {
                 html += `<p class="text-muted mb-0">No votes yet</p>`;
             }
