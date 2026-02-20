@@ -32,11 +32,13 @@ Route::post('/security-pin', [AuthController::class, 'verifyPin'])
 
 Route::view('/terms-and-conditions', 'pages.terms')->name('terms');
 Route::post('/admin/update-security-pin', [
-  AuthController::class,
+    AuthController::class,
     'updateSecurityPin'
 ])->name('admin.updateSecurityPin')->middleware('auth');
 Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
 
+Route::get('/admin/polls/{id}/options', [PollController::class, 'options']);
+Route::get('/admin/polls/{id}/survey', [PollController::class, 'survey']);
 Route::view('/contact-us', 'pages.contact')->name('contact');
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('admin.dashboard');

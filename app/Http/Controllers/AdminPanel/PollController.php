@@ -12,7 +12,7 @@ use App\Traits\FirebaseNotificationTrait;
 
 class PollController extends Controller
 {
-        use FirebaseNotificationTrait;
+    use FirebaseNotificationTrait;
 
     public function index()
     {
@@ -27,20 +27,45 @@ class PollController extends Controller
                 'pollsurvey as votes_count'
             ])
         )
-        ->addColumn('action', function ($row) {
-            return '
-                <button class="btn btn-danger btn-sm deletePoll"
-                    data-id="'.$row->id.'">Delete</button>
-            ';
-        })
-        ->make(true);
+            ->addColumn('action', function ($row) {
+                return '
+            <button class="btn btn-info btn-sm viewOptions"
+                data-id="' . $row->id . '">
+                Options
+            </button>
+
+            <button class="btn btn-warning btn-sm viewSurvey"
+                data-id="' . $row->id . '">
+                Survey
+            </button>
+
+            <button class="btn btn-danger btn-sm deletePoll"
+                data-id="' . $row->id . '">
+                Delete
+            </button>
+        ';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+    public function options($id)
+    {
+        $poll = Pollquestion::with('polloption')->findOrFail($id);
+
+        return response()->json($poll);
     }
 
+    public function survey($id)
+    {
+        $poll = Pollquestion::with(['polloption.pollsurvey'])->findOrFail($id);
+
+        return response()->json($poll);
+    }
     public function store(Request $request)
     {
         $request->validate([
             'question' => 'required',
-            'option'   => 'required|array|min:2'
+            'option' => 'required|array|min:2'
         ]);
 
         $poll = Pollquestion::create([
@@ -55,17 +80,15 @@ class PollController extends Controller
         }
 
 
-         $data = User::where('user_type',2)->get();
-      foreach($data as  $token)
-      {
-          if($token->fcm_token !=null)
-          {
-              $fcmToken = $token->fcm_token;
-              $title = "🗳️ New Poll Created!";
-              $body = "📢 Have your say! A new poll is now live. Cast your vote and let your opinion be heard. 🌟";
-               $this->sendFirebaseStaffNotification($fcmToken, $title, $body);
-          }
-      }
+        $data = User::where('user_type', 2)->get();
+        foreach ($data as $token) {
+            if ($token->fcm_token != null) {
+                $fcmToken = $token->fcm_token;
+                $title = "🗳️ New Poll Created!";
+                $body = "📢 Have your say! A new poll is now live. Cast your vote and let your opinion be heard. 🌟";
+                $this->sendFirebaseStaffNotification($fcmToken, $title, $body);
+            }
+        }
 
         return response()->json([
             'success' => true,

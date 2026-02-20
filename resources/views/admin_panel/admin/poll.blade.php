@@ -106,6 +106,41 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="optionsModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Poll Options</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <h6 id="pollQuestion"></h6>
+                <ul id="pollOptions" class="list-group mt-2"></ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="surveyModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Survey Details</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div id="surveyData"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
 </div>
 
 {{-- ================= INLINE SCRIPT ================= --}}
@@ -216,6 +251,51 @@ $(function () {
         });
     });
 
+});
+
+
+// VIEW OPTIONS
+$('body').on('click', '.viewOptions', function () {
+    let id = $(this).data('id');
+
+    $.get('/admin/polls/' + id + '/options', function (data) {
+
+        $('#pollQuestion').text(data.question);
+        $('#pollOptions').html('');
+
+        data.polloption.forEach(function (opt) {
+            $('#pollOptions').append(`
+                <li class="list-group-item">
+                    ${opt.option}
+                </li>
+            `);
+        });
+
+        $('#optionsModal').modal('show');
+    });
+});
+
+
+// VIEW SURVEY
+$('body').on('click', '.viewSurvey', function () {
+    let id = $(this).data('id');
+
+    $.get('/admin/polls/' + id + '/survey', function (data) {
+
+        let html = `<h6>${data.question}</h6><hr>`;
+
+        data.polloption.forEach(function (opt) {
+            html += `
+                <p>
+                    <strong>${opt.option}</strong> :
+                    ${opt.pollsurvey.length} votes
+                </p>
+            `;
+        });
+
+        $('#surveyData').html(html);
+        $('#surveyModal').modal('show');
+    });
 });
 </script>
 
