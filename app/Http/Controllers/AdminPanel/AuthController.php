@@ -38,7 +38,7 @@ public function verifyPin(Request $request)
 
     if ($user->security_pin === $enteredPin) {
         session(['pin_verified' => true]);
-        return redirect()->route('dashboard');
+        return redirect()->route('admin.dashboard');
     }
 
     return back()->withErrors([
