@@ -27,26 +27,26 @@ class PollController extends Controller
                 'pollsurvey as votes_count'
             ])
         )
-     ->addColumn('action', function ($row) {
-    return '
+            ->addColumn('action', function ($row) {
+                return '
         <div class="d-flex gap-1 justify-content-center">
             <button class="btn btn-sm btn-outline-success viewOptions"
-                data-id="'.$row->id.'">
+                data-id="' . $row->id . '">
                 Options
             </button>
 
             <button class="btn btn-sm btn-outline-warning viewSurvey"
-                data-id="'.$row->id.'">
+                data-id="' . $row->id . '">
                 Survey
             </button>
 
             <button class="btn btn-sm btn-outline-danger deletePoll"
-                data-id="'.$row->id.'">
+                data-id="' . $row->id . '">
                 Delete
             </button>
         </div>
     ';
-})
+            })
             ->rawColumns(['action'])
             ->make(true);
     }
@@ -59,7 +59,9 @@ class PollController extends Controller
 
     public function survey($id)
     {
-        $poll = Pollquestion::with(['polloption.pollsurvey'])->findOrFail($id);
+        $poll = Pollquestion::with([
+            'polloption.pollsurvey.user'
+        ])->findOrFail($id);
 
         return response()->json($poll);
     }

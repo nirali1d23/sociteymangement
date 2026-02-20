@@ -124,22 +124,8 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="surveyModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title">Survey Details</h5>
-                <button class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-                <div id="surveyData"></div>
-            </div>
-
-        </div>
-    </div>
+<div class="modal-body">
+    <div id="surveyData"></div>
 </div>
 </div>
 
@@ -282,14 +268,43 @@ $('body').on('click', '.viewSurvey', function () {
 
     $.get('/admin/polls/' + id + '/survey', function (data) {
 
-        let html = `<h6>${data.question}</h6><hr>`;
+        let html = `
+            <h5 class="mb-3">${data.question}</h5>
+        `;
 
-        data.polloption.forEach(function (opt) {
+        data.polloption.forEach(function (opt, index) {
+
             html += `
-                <p>
-                    <strong>${opt.option}</strong> :
-                    ${opt.pollsurvey.length} votes
-                </p>
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between">
+                        <strong>${opt.option}</strong>
+                        <span class="badge bg-success">
+                            ${opt.pollsurvey.length} Votes
+                        </span>
+                    </div>
+
+                    <div class="card-body p-2">
+            `;
+
+            if (opt.pollsurvey.length > 0) {
+                html += `<ul class="list-group list-group-flush">`;
+
+                opt.pollsurvey.forEach(function (vote) {
+                    html += `
+                        <li class="list-group-item py-1">
+                            ${vote.user ? vote.user.first_name : 'Unknown User'}
+                        </li>
+                    `;
+                });
+
+                html += `</ul>`;
+            } else {
+                html += `<p class="text-muted mb-0">No votes yet</p>`;
+            }
+
+            html += `
+                    </div>
+                </div>
             `;
         });
 
