@@ -124,9 +124,9 @@
        data-bs-target="#setting-nav"
        data-bs-toggle="collapse"
        href="#">
-        <i class="ri-admin-line"></i>
+               <i class="bi bi-gear"></i>
+
         <span>Setting</span>
-        <i class="bi bi-gear"></i>
     </a>
 
     <ul id="setting-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
