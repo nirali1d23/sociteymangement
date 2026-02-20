@@ -126,7 +126,7 @@
        href="#">
                <i class="bi bi-gear"></i>
 
-        <span>Setting</span>
+        <span>Setting</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
 
     <ul id="setting-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
