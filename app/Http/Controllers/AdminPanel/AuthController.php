@@ -25,7 +25,6 @@ class AuthController extends Controller
 public function verifyPin(Request $request)
 {
 
-dd($request->all());
     $request->validate([
         'pin' => 'required|array|size:4',
         'pin.*' => 'required|numeric',
