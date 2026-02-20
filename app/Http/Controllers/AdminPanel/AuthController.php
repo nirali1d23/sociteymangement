@@ -19,7 +19,7 @@ class AuthController extends Controller
 
     public function showPinForm()
 {
-    return view('auth.security-pin');
+    return view('Auth.security-pin');
 }
 
 public function verifyPin(Request $request)
