@@ -24,6 +24,8 @@ class AuthController extends Controller
 
 public function verifyPin(Request $request)
 {
+
+dd($request->all());
     $request->validate([
         'pin' => 'required|array|size:4',
         'pin.*' => 'required|numeric',
@@ -32,6 +34,8 @@ public function verifyPin(Request $request)
     $enteredPin = implode('', $request->pin);
 
     $user = Auth::user();
+
+
 
     if ($user->security_pin === $enteredPin) {
         session(['pin_verified' => true]);
