@@ -15,8 +15,13 @@ class AllotmentController extends Controller
     public function index()
     {
         $flats = Flat::all();
-        $users = User::select('id', 'name')->where('user_type', 2)->get();
-
+$users = User::select('id', 'name')
+    ->where('user_type', 2)
+    ->whereNotIn('id', function ($query) {
+        $query->select('user_id')
+              ->from('allotments');
+    })
+    ->get();
         return view('admin_panel.admin.alltoment', compact('flats', 'users'));
     }
 
