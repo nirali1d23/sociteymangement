@@ -53,7 +53,7 @@ class FlatController extends Controller
 
         for ($i = 1; $i <= $request->total_houses; $i++) {
             House::create([
-                'house_number' => 'H-' . $i,
+                'house_number' =>  $i,
                 'flat_id' => $block->id,
             ]);
         }
