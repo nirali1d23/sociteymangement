@@ -49,6 +49,7 @@ class FlatController extends Controller
         // Create society as one flat/block
         $block = Flat::create([
             'block_no' => $request->block_no,
+            'residency_type' => 1,
         ]);
 
         for ($i = 1; $i <= $request->total_houses; $i++) {
