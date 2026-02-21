@@ -41,24 +41,34 @@ class FlatController extends Controller
         }
     }
 
-    // ==============================
-    // CASE 2: Society
-    // ==============================
-    if ($request->residency_type == 1) {
+  
 
-        // Create society as one flat/block
-        $block = Flat::create([
-            'block_no' => $request->block_no,
-            'residency_type' => 1,
-        ]);
+    // ==============================
+// CASE 2: Society (Multiple Blocks)
+// ==============================
+if ($request->residency_type == 1) {
 
-        for ($i = 1; $i <= $request->total_houses; $i++) {
-            House::create([
-                'house_number' =>  $i,
-                'flat_id' => $block->id,
+    if ($request->has('blocks')) {
+
+        foreach ($request->blocks as $blockData) {
+
+            // Create block
+            $block = Flat::create([
+                'block_no' => $blockData['block_no'],
+                            'residency_type' => 1,
+
             ]);
+
+            // Create houses for this block
+            for ($i = 1; $i <= $blockData['total_houses']; $i++) {
+                House::create([
+                    'house_number' => $i,
+                    'flat_id' => $block->id,
+                ]);
+            }
         }
     }
+}
 
     return response([
         'message' => 'Residency stored successfully.',

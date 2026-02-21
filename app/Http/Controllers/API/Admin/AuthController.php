@@ -197,12 +197,18 @@ class AuthController extends Controller
     {
         $request->validate([
             'securitypin' => 'required',
+            'oldpin'=> 'required'
         ]);
         $securitypin = $request->securitypin;
 
         $data = User::find($request->user_id);
 
+
         if ($data) {
+
+
+        if($data->security_pin == $request->oldpin)
+            {
             $data->security_pin = $securitypin;
             $data->save();
 
@@ -214,6 +220,14 @@ class AuthController extends Controller
 
 
         }
+
+        return response([
+            'message' => 'Enter correct pin',
+            'statusCode' => 404
+        ], 404);
+
+        }
+
 
 
         return response([
