@@ -16,8 +16,8 @@ class FlatController extends Controller
     // ==============================
     if ($request->residency_type == 0) {
 
-        if ($request->has('block')) {
-            foreach ($request->block as $blockData) {
+        if ($request->has('blocks')) {
+            foreach ($request->blocks as $blockData) {
 
                 $no_of_floors = $blockData['Floor_number_To'] - $blockData['Floor_number_from'] + 1;
                 $no_of_house_per_floor = $blockData['no_of_house_per_floor_to'] - $blockData['no_of_house_per_floor'] + 1;

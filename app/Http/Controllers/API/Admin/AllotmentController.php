@@ -9,7 +9,7 @@ class AllotmentController extends Controller
 {
     public function block_list(Request $request)
     { 
-         $data = Flat::all();
+         $data = Flat::orderBy('created_at','asc')->get();
          if($data!=null)
          {
             return response( [
